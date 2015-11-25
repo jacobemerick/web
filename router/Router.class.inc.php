@@ -23,7 +23,7 @@ abstract class Router
 			return 'AJAXRouter';
 		if(URLDecode::getURI() == '/robots.txt')
 			return 'RobotRouter';
-		if(URLDecode::getURI() == '/sitemap.xml' && URLDecode::getSite() != 'about')
+		if(URLDecode::getURI() == '/sitemap.xml')
 			return 'SitemapRouter';
 		if(URLDecode::getURI() == '/rss/')
 			return 'RSSRouter';
@@ -40,12 +40,6 @@ abstract class Router
 		
 		switch(URLDecode::getSite())
 		{
-			case 'about' :
-				return 'AboutRouter';
-			break;
-			case 'admin' :
-				return 'AdminRouter';
-			break;
 			case 'ajax' :
 				return 'AjaxRouter';
 			break;
