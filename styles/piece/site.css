@@ -1,0 +1,273 @@
+body {
+	background: #eee;
+	border-top: 7px solid #333;
+	color: #333;
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 14px;}
+a,
+a:visited {
+	border-bottom: 1px dotted;
+	color: #0262a5;
+	text-decoration: none;}
+a:hover {
+	border-bottom-style: solid;
+	color: #005588;}
+
+#container {
+	background: #f0f0f0;
+	border-top: 1px solid #fff;
+	margin: 20px auto 40px;
+	outline: 1px solid #ddd;
+	padding: 10px;
+	width: 830px;}
+
+#top {
+	border-bottom: 1px solid #ddd;
+	padding: 10px 20px;}
+#top h1 {
+	font-size: 1.6em;
+	font-weight: normal;}
+#top a {
+	border: none;}
+#top span {
+	color: #ccc;}
+
+#left-side {
+	float: left;
+	padding: 30px 0 0 15px;
+	width: 140px;}
+#left-side li {
+	margin-bottom: 10px;
+	font-size: 1.2em;}
+#left-side a {
+	background: #e9e9e9;
+	border: none;
+	border-right: 5px solid #e3e3e3;
+	display: block;
+	padding: 7px 10px;}
+#left-side a.active,
+#left-side a:hover {
+	background: #e9e9e9;
+	border-right: 7px solid #ccc;}
+
+#content {
+	line-height: 1.5em;
+	padding: 20px 0 5px 185px;
+	width: 640px;}
+#content h2 {
+	border-bottom: 1px solid #ddd;
+	font-size: 2.3em;
+	font-weight: normal;
+	line-height: 1.2em;
+	margin-bottom: 20px;
+	padding: 0 20px 15px 0;}
+#content p {
+	margin-bottom: 1.4em;}
+#content li {
+	margin-bottom: 10px;}
+#content .date {
+	display: block;
+	float: left;
+	font-size: 1.1em;
+	height: 20px;
+	width: 75px;}
+#content .message {
+	display: block;
+	margin-left: 75px;}
+
+#content .success-message {
+	font-size: 1.2em;
+	padding: 5px 0 10px;}
+#content form li {
+	margin: 0 0 15px;}
+#content form label {
+	clear: right;
+	display: block;
+	font-size: 1.1em;
+	padding: 15px 0 3px 3px;
+	width: 250px;}
+#content form input,
+#content form textarea {
+	border : 1px solid #ccc;
+	font-size: 1.3em;
+	padding: 6px 8px;}
+#content form input {
+	width: 250px;}
+#content form input[type="submit"] {
+	background: #e9e9e9;
+	border: 2px solid #0262a5;
+	color: #0262a5;
+	cursor: pointer;
+	width: 150px;}
+#content form input[type="submit"]:hover,
+#content form input[type="submit"]:focus {
+	background: #e0e0e0;}
+#content form input[type="submit"]:active {
+	background: #ffffcc;}
+#content form textarea {
+	height: 100px;
+	width: 350px;}
+#content form input:focus,
+#content form textarea:focus {
+	background-color: #ffffcc;
+	border: 1px solid #c8e67a;}
+#content form .error-message {
+	background: #fcc;
+	border: 1px solid #ffb8b8;
+	border-right-width: 3px;
+	float: right;
+	margin-top: 5px;
+	padding: 4px 10px 3px;}
+
+#bottom {
+	border-top: 1px solid #ddd;
+	clear: both;
+	padding: 0 15px;}
+#site-links {
+	float: left;
+	width: 45%;}
+#activity-feed {
+	margin: 0 0 50px 55%;}
+#site-links h4,
+#activity-feed h4 {
+	color: #222;
+	font-size: 1.2em;
+	font-weight: normal;
+	margin: 1.5em 0 .5em;}
+#site-links ul,
+#activity-feed ul {}
+#site-links ul {
+	font-size: 1em;}
+#activity-feed ul {
+	font-size: .9em;}
+#site-links li,
+#activity-feed li {
+	margin-bottom: 8px;}
+#activity-feed li {
+	line-height: 1.2em;}
+#site-links a {
+	border-bottom-style: none;}
+#site-links a:hover {
+	border-bottom-style: solid;}
+#site-links a .title {
+	border-bottom: 1px dotted;}
+#site-links a:hover .title {
+	border-bottom-style: none;}
+#site-links a .description {
+	font-size: .9em;
+	font-style: italic;
+	padding-left: 3px;}
+#activity-feed .meta {
+	display: block;
+	font-style: italic;
+	margin-right: 10px;
+	text-align: right;}
+#activity-feed li a {
+	border-bottom-style: none;}
+#activity-feed li a:hover {
+	border-bottom-style: solid;}
+#activity-feed .read-more {
+	float: right;}
+
+#footer {
+	border-top: 1px solid #ddd;
+	margin: 0 0 10px;
+	padding: 10px 0;
+	text-align: center;}
+#footer p {
+	padding-top: 10px;}
+#footer a {
+	color: #333;}
+#footer ul {
+	font-size: .9em;
+	padding-top: 5px;}
+#footer li {
+	display: inline-block;
+	*display: inline;
+	margin: 0 20px;}
+
+@media all and (max-width: 850px) {
+#container {
+	padding: 0 5px;
+	width: auto;}
+
+#left-side {
+	float: none;
+	padding: 5px 10px 0;
+	width: auto;}
+#left-side ul {
+	text-align: left;}
+#left-side li {
+	display: inline-block;
+	*display: inline;
+	margin: 4px;
+	width: 22%;}
+#left-side a {
+	background: #e9e9e9;
+	border: solid #e3e3e3;
+	border-width: 0 5px;}
+#left-side a.active,
+#left-side a:hover {
+	background: #e9e9e9;
+	border-color: #ccc;
+	border-width: 0 5px;}
+
+#content {
+	padding: 15px 15px 5px;
+	width: auto;}
+#content h2 {
+	padding: 0 0 15px;
+}
+
+@media all and (max-width: 600px) {
+body {
+	font-size: .8em;}
+
+#left-side li {
+	width: 45%;}
+
+#content h2 {
+	font-size: 1.7em;}
+
+#site-links {
+	float: none;
+	width: auto;}
+#activity-feed {
+	margin: 30px 0;}
+}
+
+@media all and (max-width: 450px) {
+#top {
+	padding: 5px 10px;}
+#top h1 {
+	font-size: 1.4em;}
+
+#left-side {
+	font-size: .8em;
+	padding: 5px 5px;}
+#left-side li {
+	margin: 2px;}
+#left-side a {
+	padding: 5px 7px;}
+
+#content {
+	padding: 5px 10px;}
+#content h2 {
+	border-bottom: none;
+	font-size: 1.4em;
+	margin-bottom: 5px;
+	padding-bottom: 5px;}
+#content .date {
+	float: none;
+	font-size: 1.2em;
+	margin-top: 15px;
+	width: auto;}
+#content .message {
+	margin-left: 0;}
+
+#content form {
+	width: auto;}
+#content form input,
+#content form textarea {
+	width: 92%;}
+}

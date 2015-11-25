@@ -1,0 +1,116 @@
+html, body {
+	height: 100%;
+	overflow: hidden;
+	width: 100%;}
+body {
+	font-family: Molengo, Arial, Helvetica, sans-serif;}
+
+#container,
+#background,
+#albums,
+#click-block {
+	height: 100%;
+	width: 100%;}
+#container {
+	position: relative;}
+
+#loading {
+	bottom: 60px;
+	color: #fff;
+	font-size: 60px;
+	position: absolute;}
+
+#warning {
+	font-size: 48px;
+	position: absolute;
+	text-align: center;
+	width: 600px;}
+
+#resize-message {
+	-moz-box-shadow: 2px 2px 5px #000;
+	-webkit-box-shadow: 2px 2px 5px #000;
+	background-color: #fff;
+	border: 5px solid #fff;
+	box-shadow: 2px 2px 5px #000;
+	color: #000;
+	font-size: 18px;
+	position: absolute;
+	width: 240px;
+	z-index: 5000;}
+
+#listing li {
+	display: block;
+	position: absolute;}
+#listing img {
+	cursor: pointer;
+	position: absolute;}
+#listing .bw {
+	opacity: .4;
+	filter: alpha(opacity=40) !important;}
+
+#showcase {
+	bottom: 100px;
+	display: none;
+	height: 400px;
+	position: absolute;
+	width: 980px;}
+#showcase-image {
+	-moz-box-shadow: 5px 5px 25px #000;
+	-webkit-box-shadow: 5px 5px 25px #000;
+	border: 5px solid #fff;
+	box-shadow: 5px 5px 25px #000;
+	float: left;}
+#showcase-information {
+	color: #fff;
+	margin: 80px 0 0 450px;
+	text-shadow: 2px 2px 7px #000;}
+#showcase-artist {
+	font-size: 72px;}
+#showcase-album {
+	font-size: 48px;}
+#showcase-close {
+	-moz-border-radius: 30px;
+	-moz-box-shadow: 5px 5px 25px #000;
+	-webkit-border-radius: 30px;
+	-webkit-box-shadow: 5px 5px 25px #000;
+	border: 5px solid #fff;
+	border-radius: 30px;
+	background: #fff;
+	box-shadow: 5px 5px 25px #000;
+	cursor: pointer;
+	display: block;
+	font-size: 50px;
+	height: 50px;
+	position: absolute;
+	text-indent: 9px;
+	text-transform: uppercase;
+	top: -10px;
+	right: -10px;
+	width: 50px;}
+
+#welcome {
+	-moz-box-shadow: 5px 5px 25px #000;
+	-webkit-box-shadow: 5px 5px 25px #000;
+	background: #fff;
+	box-shadow: 5px 5px 25px #000;
+	padding: 10px 15px;
+	position: absolute;
+	width: 600px;}
+#welcome h1 {
+	font-size: 22px;}
+#welcome h2 {
+	font-size: 18px;}
+#welcome p {
+	font-size: 14px;
+	margin: 5px 10px 20px;}
+#welcome a {
+	color: #1f758c;
+	text-decoration: none;}
+#welcome a:hover {
+	border-bottom: 1px dotted;}
+#welcome-toggle {
+	cursor: pointer;
+	display: block;
+	position: absolute;
+	top: 10px;
+	right: 15px;}

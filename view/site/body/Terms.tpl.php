@@ -1,0 +1,6 @@
+<div id="content">
+	<h2>Some basic (and boring) terms of use for all of Jacob Emerick's websites.</h2>
+	<p>Any and all information displayed on Jacob Emerick's sites are not for commercial use. This includes replicating directions, photos, descriptions, instructions, or any other information on this site for any type of commercial gain. Also, if you would like to use any information located on any of these sites for any type of non-commercial use, please contact Jacob Emerick via the contact form.</p>
+	<p>Neither Jacob Emerick nor any individuals or groups listed on these sites are to be held accountable for any injuries, issues, or mishaps that may occur from following the information displayed on these sites. Any and all content is simply displayed as-is and may not be an advisable course of action nor represent the interest of any company or employer.</p>
+	<p>Directions, routes, photos, and instructions to any waterfall or point of interest may not be correct nor appropriate. Care was taken to avoid private property and to remain on safe paths on the adventures portrayed on these sites but these precautions are not guaranteed to be fulfilled. It is recommended that any trip or visit to the areas mentioned on these sites is proceeded by research from a variety of sources, not just these sites.</p>
+</div>

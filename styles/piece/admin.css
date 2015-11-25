@@ -1,0 +1,98 @@
+body {
+	background: #eee;
+	font: 13px Calibri, Arial, Helvetica, sans-serif;}
+a,
+a:visited {
+	color: #0262a5;
+	text-decoration: none;}
+a:hover {
+	border-bottom: 1px dotted;}
+
+#container {
+	width: 100%;}
+
+#header {
+	background: #333;
+	color: #ddd;
+	width: 100%;}
+#title {
+	font-size: 1.3em;
+	padding: 15px 0 10px 20px;}
+#title h1 {
+	font-size: 1.5em;}
+
+#menu {
+	background-image: -moz-linear-gradient(#555, #333);
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#555), to(#333));
+	background-image: -webkit-linear-gradient(#555, #333);
+	font-size: 1.3em;
+	float: left;
+	width: 100%;}
+#menu > ul {
+	padding-left: 20px;}
+#menu li {
+	display: inline-block;
+	float: left;}
+#menu .menu a {
+	color: #eee;
+	display: block;
+	padding: 7px 50px 6px;}
+#menu .menu > li.active > a,
+#menu .menu > li:hover > a {
+	background: #777;}
+#menu .submenu {
+	background: #999;}
+#menu a:hover {
+	border: none;}
+#menu .submenu {
+	display: none;
+	font-size: .8em;
+	left: 0;
+	position: absolute;
+	width: 100%;
+	z-index: 1;}
+#menu .menu > li:hover .submenu,
+#menu .active .submenu {
+	display: block;}
+#menu .menu > li:hover .submenu {
+	z-index: 2;}
+#menu .submenu a {
+	padding: 8px 40px 7px;}
+#menu .menu li .submenu a:hover {
+	background: #aaa;}
+
+#login-box {
+	background: #ddd;
+	border: 3px solid #888;
+	font-size: 1.4em;
+	margin: 100px auto;
+	padding: 20px 30px;
+	width: 300px;}
+#login-box h2 {
+	font-size: 1.4em;
+	margin-bottom: 10px;}
+#login-box label,
+#login-box input {
+	display: block;}
+#login-box input[type="text"],
+#login-box input[type="password"] {
+	font-size: 1.2em;
+	margin-bottom: 10px;
+	padding: 3px 5px;}
+#login-box input[type="submit"] {
+	background: #1e90ff;
+	border: 1px solid #0853ff;
+	border-radius: 6px;
+	color: white;
+	cursor: pointer;
+	font-weight: bold;
+	padding: 5px 15px;}
+
+#content {
+	clear: both;
+	padding-top: 32px;}
+
+#left-column {
+	width: 250px;}
+#map {
+	margin-left: 250px;}

@@ -1,0 +1,1 @@
+<fb:login-button length="long"></fb:login-button>
