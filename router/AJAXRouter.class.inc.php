@@ -27,10 +27,7 @@ class AJAXRouter extends Router
 				'controller' => 'GetPortfolioImageController'),
 			(object) array(
 				'match' => '/submit/comment.json',
-				'controller' => 'SubmitCommentController'),
-			(object) array(
-				'match' => '/get/popularMusic.json',
-				'controller' => 'GetPopularMusicController'));
+				'controller' => 'SubmitCommentController'));
 	}
 
 }

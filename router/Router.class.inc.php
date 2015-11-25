@@ -61,9 +61,6 @@ abstract class Router
 			case 'lifestream' :
 				return 'LifestreamRouter';
 			break;
-			case 'music' :
-				return 'MusicRouter';
-			break;
 			case 'portfolio' :
 				return 'PortfolioRouter';
 			break;
@@ -131,8 +128,6 @@ abstract class Router
 				URLDecode::getSite() == 'images' ||
 				URLDecode::getExtension() == 'ico') {
 				$file = "/css/{$file}";
-			} else if (URLDecode::getSite() == 'music') {
-				$file = "/music/{$file}";
 			} else if (URLDecode::getSite() == 'portfolio') {
 				$file = "/portfolio/{$file}";
 			} else if (substr($file, 0, 7) == '/photo/') {

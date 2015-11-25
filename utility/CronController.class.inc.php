@@ -9,7 +9,6 @@ final class CronController
 		// 'ChangelogCron' => '0 * * * *',
 		'DistanceCron' => '*/15 * * * *',
 		'ErrorCron' => '45 23 * * * *',
-		// 'PopularMusicCron' => '0 4 * * * *',
 		'TwitterCron' => '*/15 * * * *',
 		// 'YouTubeCron' => '*/15 * * * *',
 		'StreamCron' => '*/15 * * * *');

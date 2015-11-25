@@ -20,8 +20,6 @@ class HomeController
 			URLDecode::getSite() == 'images' ||
 			URLDecode::getExtension() == 'ico')
 			$file = "/css/{$file}";
-		else if(URLDecode::getSite() == 'music')
-			$file = "/music/{$file}";
 		else if(URLDecode::getSite() == 'portfolio')
 			$file = "/portfolio/{$file}";
 		else if(substr($file, 0, 7) == '/photo/')
