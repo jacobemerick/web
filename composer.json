@@ -1,0 +1,26 @@
+{
+  "name": "jacobemerick/jakemvc",
+  "description": "A simple, custom MVC that powers several of my personal sites, including a blog, lifestream, and waterfall directory.",
+  "keywords": [
+    "mvc",
+    "framework"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Jacob Emerick"
+    }
+  ],
+  "require": {
+    "php": ">=5.3"
+  },
+  "autoload": {
+    "classmap": [
+      "collector/",
+      "controller/",
+      "module/",
+      "router/",
+      "utility/"
+    ]
+  }
+}
