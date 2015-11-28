@@ -1,9 +1,8 @@
 <?php
 
-namespace Jacobemerick\Web\Domain\Blog;
-
 use Aura\Sql\ConnectionLocator;
 use Aura\Sql\ExtendedPdo;
+use Jacobemerick\Web\Domain\Blog\MysqlPostRepository;
 
 class MysqlPostRepositoryTest extends \PHPUnit_Framework_TestCase
 {
