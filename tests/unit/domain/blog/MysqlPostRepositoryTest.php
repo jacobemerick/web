@@ -43,14 +43,14 @@ class MysqlPostRepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function testFindByUri()
     {
-        $test_post = [
+        $test_post = array(
             'title' => 'test title',
             'path' => 'test-uri',
             'category' => 'test',
             'date' => date('Y-m-d H:i:s'),
             'body' => 'test content',
-            'display' => 1,
-        ];
+            'display' => 1
+        );
 
         $this->connections->getDefault()->perform("
             INSERT INTO jpemeric_blog.post
