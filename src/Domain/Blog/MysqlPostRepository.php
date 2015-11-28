@@ -22,9 +22,9 @@ class MysqlPostRepository implements PostRepository
             FROM `jpemeric_blog`.`post`
             WHERE `path` = :uri AND `display` = '1'
             LIMIT 1";
-        $bindings = [
-            'uri' => $uri,
-        ];
+        $bindings = array(
+            'uri' => $uri
+        );
         return $this
             ->connections
             ->getRead()
