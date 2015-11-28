@@ -26,6 +26,9 @@
       "module/",
       "router/",
       "utility/"
-    ]
+    ],
+    "psr-4": {
+      "Jacobemerick\\Web\\": "src/"
+    }
   }
 }
