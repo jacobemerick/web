@@ -12,7 +12,9 @@
     }
   ],
   "require": {
-    "php": ">=5.3"
+    "php": ">=5.3",
+    "aura/sql": "~2.4",
+    "pimple/pimple": "~3.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^4.8"
