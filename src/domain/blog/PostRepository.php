@@ -6,4 +6,3 @@ interface PostRepository
 {
     public function findByUri($uri);
 }
-

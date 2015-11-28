@@ -14,6 +14,7 @@ class MysqlPostRepository implements PostRepository
         $this->connections = $connections;
     }
 
+    // todo make this smarter - it should parse by category as well
     public function findByUri($uri)
     {
         $query = "
@@ -24,8 +25,9 @@ class MysqlPostRepository implements PostRepository
         $bindings = [
             'uri' => $uri,
         ];
-        return $this->connections->getRead()->fetchOne($query, $bindings);
+        return $this
+            ->connections
+            ->getRead()
+            ->fetchOne($query, $bindings);
     }
-
 }
-
