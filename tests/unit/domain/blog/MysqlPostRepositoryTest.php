@@ -40,15 +40,15 @@ class MysqlPostRepositoryTest extends \PHPUnit_Framework_TestCase
         return new MysqlPostRepository($this->connections);
     }
 
-    public function testFindByUri()
+    public function testFindByPath()
     {
-        $test_post = array(
-            'title' => 'test title',
-            'path' => 'test-uri',
-            'category' => 'test',
-            'date' => date('Y-m-d H:i:s'),
-            'body' => 'test content',
-            'display' => 1
+        $test_active_post = array(
+            'title'     => 'test findByPath active',
+            'path'      => 'test-findbypath-active',
+            'category'  => 'test-category',
+            'date'      => (new DateTime())->format('Y-m-d H:i:s'),
+            'body'      => 'test content',
+            'display'   => 1
         );
 
         $this->connections->getDefault()->perform("
@@ -56,11 +56,42 @@ class MysqlPostRepositoryTest extends \PHPUnit_Framework_TestCase
                 (title, path, category, date, body, display)
             VALUES
                 (:title, :path, :category, :date, :body, :display)",
-            $test_post);
+            $test_active_post);
 
-        $post = $this->newMysqlPostRepository()->findByUri($test_post['path']);
-        $this->assertSame($test_post['path'], $post['path']);
-    }
+        $active_post = $this->newMysqlPostRepository()->findByPath(
+            $test_active_post['category'],
+            $test_active_post['path']
+        );
+        $this->assertSame($test_active_post['title'], $active_post['title']);
+
+        $test_inactive_post = array(
+            'title'     => 'test findByPath inactive',
+            'path'      => 'test-findbypath-inactive',
+            'category'  => 'test-category',
+            'date'      => (new DateTime())->format('Y-m-d H:i:s'),
+            'body'      => 'test content',
+            'display'   => 0
+        );
+
+        $this->connections->getDefault()->perform("
+            INSERT INTO jpemeric_blog.post
+                (title, path, category, date, body, display)
+            VALUES
+                (:title, :path, :category, :date, :body, :display)",
+            $test_inactive_post);
+
+        $inactive_post = $this->newMysqlPostRepository()->findByPath(
+            $test_inactive_post['category'],
+            $test_inactive_post['path']
+        );
+        $this->assertFalse($inactive_post);
+
+        $nonexistant_post = $this->newMysqlPostRepository()->findByPath(
+            'test-category',
+            'test-findbypath-nonexistant'
+        );
+        $this->assertFalse($nonexistant_post);
+   }
 
     public function testIsInstanceOfPostRepository()
     {

@@ -7,24 +7,36 @@ use Aura\Sql\ConnectionLocator;
 class MysqlPostRepository implements PostRepository
 {
 
+    /** @var  Aura\Sql\ConnectionLocator */
     protected $connections;
 
+    /**
+     * @param Aura\Sql\ConnectionLocator $connections
+     */
     public function __construct(ConnectionLocator $connections)
     {
         $this->connections = $connections;
     }
 
-    // todo make this smarter - it should parse by category as well
-    public function findByUri($uri)
+    /**
+     * @param string $category
+     * @param string $path
+     *
+     * @return array|false
+     */
+    public function findByPath($category, $path)
     {
         $query = "
             SELECT `id`, `title`, `path`, `date`, `body`, `category`
             FROM `jpemeric_blog`.`post`
-            WHERE `path` = :uri AND `display` = '1'
+            WHERE `path` = :path AND `category` = :category AND `display` = :is_active
             LIMIT 1";
         $bindings = array(
-            'uri' => $uri
+            'path'      => $path,
+            'category'  => $category,
+            'is_active' => 1,
         );
+
         return $this
             ->connections
             ->getRead()
