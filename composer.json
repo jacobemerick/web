@@ -17,6 +17,7 @@
     "pimple/pimple": "~3.0"
   },
   "require-dev": {
+    "codeclimate/php-test-reporter": "dev-master",
     "phpunit/phpunit": "^4.8"
   },
   "autoload": {
