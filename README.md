@@ -3,6 +3,7 @@ A simple, custom framework that powers several of my personal sites, including a
 
 [![Build Status](https://travis-ci.org/jacobemerick/web.svg?branch=master)](https://travis-ci.org/jacobemerick/web)
 [![Code Climate](https://codeclimate.com/github/jacobemerick/web/badges/gpa.svg)](https://codeclimate.com/github/jacobemerick/web)
+[![Test Coverage](https://codeclimate.com/github/jacobemerick/web/badges/coverage.svg)](https://codeclimate.com/github/jacobemerick/web/coverage)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jacobemerick/web/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jacobemerick/web/?branch=master)
 
 ### Overview
