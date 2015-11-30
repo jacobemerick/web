@@ -39,7 +39,7 @@ class MysqlPostRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         return new MysqlPostRepository($this->connections);
     }
-/*
+
     public function testConstructSetsConnections()
     {
         $this->assertAttributeEquals(
@@ -48,7 +48,7 @@ class MysqlPostRepositoryTest extends \PHPUnit_Framework_TestCase
             $this->newMysqlPostRepository()
         );
     }
-*/
+
     public function testFindByPath()
     {
         $test_active_post = array(
