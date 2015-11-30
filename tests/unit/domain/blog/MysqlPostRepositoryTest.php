@@ -40,6 +40,15 @@ class MysqlPostRepositoryTest extends \PHPUnit_Framework_TestCase
         return new MysqlPostRepository($this->connections);
     }
 
+    public function testConstructSetsConnections()
+    {
+        $this->assertAttributeEquals(
+            $this->connections,
+            'connections',
+            $this->newMysqlPostRepository()
+        );
+    }
+
     public function testFindByPath()
     {
         $test_active_post = array(
