@@ -4,5 +4,5 @@ namespace Jacobemerick\Web\Domain\Blog;
 
 interface PostRepository
 {
-    public function findByPath($category, $path);
+    public function findPostByPath($category, $path);
 }

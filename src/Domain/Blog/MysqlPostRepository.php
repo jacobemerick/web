@@ -24,7 +24,7 @@ class MysqlPostRepository implements PostRepository
      *
      * @return array|false
      */
-    public function findByPath($category, $path)
+    public function findPostByPath($category, $path)
     {
         $query = "
             SELECT `id`, `title`, `path`, `date`, `body`, `category`

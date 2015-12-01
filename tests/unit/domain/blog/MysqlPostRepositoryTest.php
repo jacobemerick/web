@@ -49,7 +49,7 @@ class MysqlPostRepositoryTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testFindByPath()
+    public function testFindPostByPath()
     {
         $test_active_post = array(
             'title'     => 'test findByPath active',
@@ -67,7 +67,7 @@ class MysqlPostRepositoryTest extends \PHPUnit_Framework_TestCase
                 (:title, :path, :category, :date, :body, :display)",
             $test_active_post);
 
-        $active_post = $this->newMysqlPostRepository()->findByPath(
+        $active_post = $this->newMysqlPostRepository()->findPostByPath(
             $test_active_post['category'],
             $test_active_post['path']
         );
@@ -89,13 +89,13 @@ class MysqlPostRepositoryTest extends \PHPUnit_Framework_TestCase
                 (:title, :path, :category, :date, :body, :display)",
             $test_inactive_post);
 
-        $inactive_post = $this->newMysqlPostRepository()->findByPath(
+        $inactive_post = $this->newMysqlPostRepository()->findPostByPath(
             $test_inactive_post['category'],
             $test_inactive_post['path']
         );
         $this->assertFalse($inactive_post);
 
-        $nonexistant_post = $this->newMysqlPostRepository()->findByPath(
+        $nonexistant_post = $this->newMysqlPostRepository()->findPostByPath(
             'test-category',
             'test-findbypath-nonexistant'
         );
