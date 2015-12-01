@@ -4,7 +4,7 @@ namespace Jacobemerick\Web\Domain\Blog;
 
 use Aura\Sql\ConnectionLocator;
 
-class MysqlSeriesRepository implements IntroductionRepository
+class MysqlSeriesRepository implements SeriesRepository
 {
 
     /** @var  Aura\Sql\ConnectionLocator */
@@ -44,7 +44,7 @@ class MysqlSeriesRepository implements IntroductionRepository
         ];
 
         return $this
-            ->connections()
+            ->connections
             ->getRead()
             ->fetchAll($query, $bindings);
     }

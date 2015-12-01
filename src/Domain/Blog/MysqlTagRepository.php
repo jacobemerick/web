@@ -35,7 +35,7 @@ class MysqlTagRepository implements TagRepository
         ];
 
         return $this
-            ->connections()
+            ->connections
             ->getRead()
             ->fetchOne($query, $bindings);
     }
@@ -48,7 +48,7 @@ class MysqlTagRepository implements TagRepository
             ORDER BY `tag`";
 
         return $this
-            ->connections()
+            ->connections
             ->getRead()
             ->fetchAll($query);
     }
@@ -67,7 +67,7 @@ class MysqlTagRepository implements TagRepository
         ];
 
         return $this
-            ->connections()
+            ->connections
             ->getRead()
             ->fetchAll($query, $bindings);
     }
@@ -84,7 +84,8 @@ class MysqlTagRepository implements TagRepository
         ];
 
         return $this
-            ->connections()
+            ->connections
             ->getRead()
             ->fetchAll($query, $bindings);
+    }
 }

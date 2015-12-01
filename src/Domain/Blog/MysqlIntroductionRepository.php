@@ -37,7 +37,7 @@ class MysqlIntroductionRepository implements IntroductionRepository
         ];
 
         return $this
-            ->connections()
+            ->connections
             ->getRead()
             ->fetchOne($query, $bindings);
     }
