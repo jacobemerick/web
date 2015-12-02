@@ -1,10 +1,10 @@
 <?php
 
-namespace Jacobemerick\Web\Domain\Blog;
+namespace Jacobemerick\Web\Domain\Blog\Post;
 
 use Aura\Sql\ConnectionLocator;
 
-class MysqlPostRepository implements PostRepository
+class MysqlPostRepository implements PostRepositoryInterface
 {
 
     /** @var  Aura\Sql\ConnectionLocator */

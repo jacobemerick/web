@@ -1,8 +1,8 @@
 <?php
 
-namespace Jacobemerick\Web\Domain\Blog;
+namespace Jacobemerick\Web\Domain\Blog\Post;
 
-interface PostRepository
+interface PostRepositoryInterface
 {
     public function findPostByPath($category, $path);
     public function getActivePosts($limit = null, $offset= 0);

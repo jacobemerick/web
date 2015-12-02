@@ -1,10 +1,10 @@
 <?php
 
-namespace Jacobemerick\Web\Domain\Blog;
+namespace Jacobemerick\Web\Domain\Blog\Tag;
 
 use Aura\Sql\ConnectionLocator;
 
-class MysqlTagRepository implements TagRepository
+class MysqlTagRepository implements TagRepositoryInterface
 {
 
     /** @var  Aura\Sql\ConnectionLocator */

@@ -1,8 +1,8 @@
 <?php
 
-namespace Jacobemerick\Web\Domain\Blog;
+namespace Jacobemerick\Web\Domain\Blog\Tag;
 
-interface TagRepository
+interface TagRepositoryInterface
 {
     public function findTagByTitle($title);
     public function getAllTags();

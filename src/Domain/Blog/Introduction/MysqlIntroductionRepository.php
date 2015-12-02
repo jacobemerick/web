@@ -1,10 +1,10 @@
 <?php
 
-namespace Jacobemerick\Web\Domain\Blog;
+namespace Jacobemerick\Web\Domain\Blog\Introduction;
 
 use Aura\Sql\ConnectionLocator;
 
-class MysqlIntroductionRepository implements IntroductionRepository
+class MysqlIntroductionRepository implements IntroductionRepositoryInterface
 {
 
     /** @var  Aura\Sql\ConnectionLocator */

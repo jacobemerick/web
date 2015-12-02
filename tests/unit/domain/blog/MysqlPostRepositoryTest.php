@@ -2,9 +2,9 @@
 
 use Aura\Sql\ConnectionLocator;
 use Aura\Sql\ExtendedPdo;
-use Jacobemerick\Web\Domain\Blog\MysqlPostRepository;
+use Jacobemerick\Web\Domain\Blog\Post\MysqlPostRepository;
 
-class MysqlPostRepositoryTest extends \PHPUnit_Framework_TestCase
+class MysqlPostRepositoryTest extends PHPUnit_Framework_TestCase
 {
 
     protected $connections;
@@ -105,7 +105,7 @@ class MysqlPostRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testIsInstanceOfPostRepository()
     {
         $this->assertInstanceOf(
-            'Jacobemerick\Web\Domain\Blog\PostRepository',
+            'Jacobemerick\Web\Domain\Blog\Post\PostRepositoryInterface',
             $this->newMysqlPostRepository()
         );
     }
