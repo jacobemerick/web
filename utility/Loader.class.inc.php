@@ -11,7 +11,7 @@ final class Loader
 
 	private function __construct()
 	{
-		$this->is_live = !get_cfg_var('development_mode');
+		$this->is_live = (substr($_SERVER['HTTP_HOST'], 0, 4) !== 'dev.');
 		return $this;
 	}
 
@@ -36,12 +36,12 @@ final class Loader
 
 	private function get_delimiter()
 	{
-		return ($this->is_live) ? '/' : '\\';
+		return (true || $this->is_live) ? '/' : '\\';
 	}
 
 	private function check_delimiters($path)
 	{
-		return ($this->is_live) ? $path : str_replace('/', '\\', $path);
+		return (true || $this->is_live) ? $path : str_replace('/', '\\', $path);
 	}
 
 	private static function get_class_name($path)
