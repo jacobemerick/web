@@ -2,6 +2,7 @@
 
 $config = json_decode(file_get_contents(__DIR__ . '/config.json'));
 
+include_once 'vendor/autoload.php';
 include_once('utility/Loader.class.inc.php');
 
 Loader::loadInstance('utility', 'Debugger');

@@ -1,5 +1,8 @@
 <?
 
+use ParticleTree\Pqp\Console;
+use ParticleTree\Pqp\PhpQuickProfiler;
+
 final class Debugger
 {
 
@@ -14,9 +17,6 @@ final class Debugger
 
 	private function __construct()
 	{
-		Loader::load('utility', array(
-			'pqp/Console',
-			'pqp/PhpQuickProfiler'));
 		$this->console = new Console();
 		$this->profiler = new PhpQuickProfiler($this->console);
 	}
@@ -30,7 +30,7 @@ final class Debugger
 
 	public static function log($message)
 	{
-		self::instance()->console->logError('Gah, this is using Debugger::log()!');
+		self::instance()->console->logError(new Exception(), 'Gah, this is using Debugger::log()!');
 		self::instance()->console->log($message);
 	}
 
@@ -58,7 +58,7 @@ final class Debugger
 		if($context == null)
 			$context = self::$UNKNOWN_ERROR_CONTEXT;
 		
-		self::instance()->console->logError("{$string}... TYPE: {$code}", $file, $line);
+		self::instance()->console->logError(new Exception(), "{$string}... TYPE: {$code}");
 		
 		return true;
 	}
