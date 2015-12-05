@@ -1,7 +1,7 @@
 <?
 
-use ParticleTree\Pqp\Console;
-use ParticleTree\Pqp\PhpQuickProfiler;
+use Particletree\Pqp\Console;
+use Particletree\Pqp\PhpQuickProfiler;
 
 final class Debugger
 {
@@ -58,7 +58,7 @@ final class Debugger
 		if($context == null)
 			$context = self::$UNKNOWN_ERROR_CONTEXT;
 		
-		self::instance()->console->logError(new Exception(), "{$string}... TYPE: {$code}");
+		self::instance()->console->logError(new Exception($string), "{$string}... TYPE: {$code}");
 		
 		return true;
 	}
@@ -81,8 +81,9 @@ final class Debugger
 
 	public static function display()
 	{
-		if(!Loader::isLive() && self::instance()->display)
+    if ($_COOKIE['debugger'] == 'display' && self::instance()->display) {
 			self::instance()->profiler->display();
+    }
 	}
 
 }
