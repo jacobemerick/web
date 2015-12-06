@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5265d7a32695d38f37f315a314c5b144",
-    "content-hash": "9cb3b3395775824b5eebbb7ccc6f009f",
+    "hash": "8f956a6fa6b29924bbf052cf39e8f3c2",
+    "content-hash": "74a3e35665cdfe3591d346fff96a71b0",
     "packages": [
         {
             "name": "aura/sql",
@@ -62,29 +62,38 @@
         },
         {
             "name": "particletree/pqp",
-            "version": "0.1.0",
+            "version": "0.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jacobemerick/pqp.git",
-                "reference": "99b235a926ec5a9d3bfdd392c7c6248daf45f1be"
+                "reference": "f9b271c8fb2d68306504b55c4015a68f136448fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jacobemerick/pqp/zipball/99b235a926ec5a9d3bfdd392c7c6248daf45f1be",
-                "reference": "99b235a926ec5a9d3bfdd392c7c6248daf45f1be",
+                "url": "https://api.github.com/repos/jacobemerick/pqp/zipball/f9b271c8fb2d68306504b55c4015a68f136448fe",
+                "reference": "f9b271c8fb2d68306504b55c4015a68f136448fe",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=5.2.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "dev-master",
+                "phpunit/phpunit": "^4.7",
+                "symfony/config": "<3.0",
+                "symfony/console": "<3.0",
+                "symfony/filesystem": "<3.0",
+                "symfony/stopwatch": "<3.0",
+                "symfony/yaml": "<3.0"
             },
             "type": "library",
             "autoload": {
-                "classmap": [
-                    "classes"
-                ]
+                "psr-4": {
+                    "Particletree\\Pqp\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2015-12-03 13:01:43"
+            "time": "2015-12-06 03:32:31"
         },
         {
             "name": "pimple/pimple",
@@ -1209,16 +1218,16 @@
         },
         {
             "name": "sebastian/recursion-context",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/recursion-context.git",
-                "reference": "994d4a811bafe801fb06dccbee797863ba2792ba"
+                "reference": "913401df809e99e4f47b27cdd781f4a258d58791"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/994d4a811bafe801fb06dccbee797863ba2792ba",
-                "reference": "994d4a811bafe801fb06dccbee797863ba2792ba",
+                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/913401df809e99e4f47b27cdd781f4a258d58791",
+                "reference": "913401df809e99e4f47b27cdd781f4a258d58791",
                 "shasum": ""
             },
             "require": {
@@ -1258,7 +1267,7 @@
             ],
             "description": "Provides functionality to recursively process PHP variables",
             "homepage": "http://www.github.com/sebastianbergmann/recursion-context",
-            "time": "2015-06-21 08:04:50"
+            "time": "2015-11-11 19:50:13"
         },
         {
             "name": "sebastian/version",
