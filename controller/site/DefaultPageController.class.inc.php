@@ -1,7 +1,7 @@
 <?
 
 Loader::load('controller', '/PageController');
-Debugger::hide();
+
 abstract class DefaultPageController extends PageController
 {
 

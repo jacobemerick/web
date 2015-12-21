@@ -18,7 +18,8 @@ final class Debugger
 	private function __construct()
 	{
 		$this->console = new Console();
-		$this->profiler = new PhpQuickProfiler($this->console);
+    $this->profiler = new PhpQuickProfiler();
+    $this->profiler->setConsole($this->console);
 	}
 
 	public static function instance()
@@ -82,7 +83,23 @@ final class Debugger
 	public static function display()
 	{
     if ($_COOKIE['debugger'] == 'display' && self::instance()->display) {
-			self::instance()->profiler->display();
+      $pdo = '';
+      if (!empty($pdo)) {
+        $profiles = $pdo->getProfiler()->getProfiles();
+        $profiles = array_filter($profiles, function ($profile) {
+            return $profile['function'] == 'perform';
+        });
+        $profiles = array_map(function ($profile) {
+            return array(
+                'sql' => $profile['statement'],
+                'parameters' => $profile['bind_values'],
+                'time' => $profile['duration']
+            );
+        }, $profiles);
+        self::instance()->profiler->setProfiledQueries($profiles);
+      }
+      self::instance()->profiler->setDisplay(new Particletree\Pqp\Display());
+      self::instance()->profiler->display($pdo);
     }
 	}
 
