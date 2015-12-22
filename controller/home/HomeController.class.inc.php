@@ -1,7 +1,8 @@
-<?
+<?php
+
+use Jacobemerick\Web\Domain\Blog\Post\MysqlPostRepository;
 
 Loader::load('controller', 'home/DefaultPageController');
-Loader::load('collector', 'blog/PostCollector');
 Loader::load('utility', 'Content');
 
 final class HomeController extends DefaultPageController
@@ -42,16 +43,19 @@ final class HomeController extends DefaultPageController
 
 	private function get_recent_posts()
 	{
+    global $container;
+    $postRepository = new MysqlPostRepository($container['db_connection_locator']);
+    $recentPosts = $postRepository->getActivePosts(3);
+
 		$recent_post_array = array();
-		$recent_post_result = PostCollector::getRecentPosts();
-		foreach($recent_post_result as $post_result)
+		foreach($recentPosts as $postResult)
 		{
 			$post = new stdclass();
-			$post->title = $post_result->title;
-			$post->url = Loader::getRootUrl('blog') . "{$post_result->category}/{$post_result->path}/";
-			$post->category = ucwords(str_replace('-', ' ', $post_result->category));
-			$post->thumb = Content::instance('FetchFirstPhoto', $post_result->body)->activate();
-			$post->body = Content::instance('SmartTrim', $post_result->body)->activate(($post->thumb !== '') ? self::$POST_LENGTH_SHORT : self::$POST_LENGTH_LONG);
+			$post->title = $postResult['title'];
+			$post->url = Loader::getRootUrl('blog') . "{$postResult['category']}/{$postResult['path']}/";
+			$post->category = ucwords(str_replace('-', ' ', $postResult['category']));
+			$post->thumb = Content::instance('FetchFirstPhoto', $postResult['body'])->activate();
+			$post->body = Content::instance('SmartTrim', $postResult['body'])->activate(($post->thumb !== '') ? self::$POST_LENGTH_SHORT : self::$POST_LENGTH_LONG);
 						
 			$recent_post_array[] = $post;
 		}

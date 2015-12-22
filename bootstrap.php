@@ -3,7 +3,7 @@
 include_once 'vendor/autoload.php';
 
 // load the config for the application
-$configuration_path = 'config.json';
+$configuration_path = __DIR__ . '/config.json';
 
 $handle = @fopen($configuration_path, 'r');
 if ($handle === false) {

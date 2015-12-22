@@ -84,6 +84,10 @@ final class Debugger
 	{
     if ($_COOKIE['debugger'] == 'display' && self::instance()->display) {
       $pdo = '';
+      global $container;
+      if (!empty($container) && !empty($container['db_connection_locator'])) {
+        $pdo = $container['db_connection_locator']->getRead();
+      }
       if (!empty($pdo)) {
         $profiles = $pdo->getProfiler()->getProfiles();
         $profiles = array_filter($profiles, function ($profile) {
@@ -91,7 +95,7 @@ final class Debugger
         });
         $profiles = array_map(function ($profile) {
             return array(
-                'sql' => $profile['statement'],
+                'sql' => trim(preg_replace('/\s+/', ' ', $profile['statement'])),
                 'parameters' => $profile['bind_values'],
                 'time' => $profile['duration']
             );
