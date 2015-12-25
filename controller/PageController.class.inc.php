@@ -60,14 +60,14 @@ abstract class PageController
 
 	protected function get_recent_activity()
 	{
-		Loader::load('collector', 'stream/ActivityCollector');
-		
+    global $container;
+    $activityRepository = new Jacobemerick\Web\Domain\Stream\Post\MysqlPostRepository($container['db_connection_locator']);
+    $post_result = $activityRepository->getPosts(5);
+
 		$post_array = array();
-		$post_result = ActivityCollector::getRecent();
-		
 		foreach($post_result as $row)
 		{
-			$post_array[] = $this->expand_post($row);;
+			$post_array[] = $this->expand_post((object) $row);;
 		}
 		
 		return $post_array;
