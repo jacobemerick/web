@@ -59,7 +59,7 @@ final class Debugger
 		if($context == null)
 			$context = self::$UNKNOWN_ERROR_CONTEXT;
 		
-		self::instance()->console->logError(new Exception($string), "{$string}... TYPE: {$code}");
+		self::instance()->console->logError(new Exception($string), "{$string}\nACTUAL FILE/LINE: {$file}, {$line}\n");
 		
 		return true;
 	}
