@@ -6,11 +6,9 @@ final class CronController
 	private static $CRON_ARRAY = array(
 		'BlogCron' => '*/15 * * * *',
 		'BookCron' => '*/30 * * * *',
-		// 'ChangelogCron' => '0 * * * *',
 		'DistanceCron' => '*/15 * * * *',
 		'ErrorCron' => '45 23 * * * *',
 		'TwitterCron' => '*/15 * * * *',
-		// 'YouTubeCron' => '*/15 * * * *',
 		'StreamCron' => '*/15 * * * *');
 
 	private $timestamp;
@@ -24,9 +22,8 @@ final class CronController
 	{
 		foreach(self::$CRON_ARRAY as $cron => $frequency)
 		{
-			//if(!$this->time_to_run($frequency))
-			//	continue;
-            if ($cron != 'TwitterCron') continue;
+			if(!$this->time_to_run($frequency))
+				continue;
 			
 			Loader::load('utility', "cron/{$cron}");
 			$reflection = new ReflectionClass($cron);

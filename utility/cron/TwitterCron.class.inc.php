@@ -1,7 +1,6 @@
 <?
 
 Loader::load('collector', 'stream/TwitterCollector');
-Loader::load('utility', 'Content');
 Loader::load('utility', 'cron/Cron');
 
 final class TwitterCron extends Cron

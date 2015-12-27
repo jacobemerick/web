@@ -1,7 +1,5 @@
 <?
 
-// use -> Content::instance('Acceptable', $string)->activate(ARGS);
-
 abstract class Content
 {
 
