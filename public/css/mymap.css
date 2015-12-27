@@ -1,0 +1,35 @@
+html,body,#map
+{
+	height:100%;
+}
+
+body
+{
+	background-color:#206ba4;
+	color:#fff;
+	font-family:Tahoma, Geneva, Arial, Helvetica, sans-serif;
+	font-size:12px;
+	margin:0;
+}
+
+#map
+{
+	margin-right:200px;
+}
+
+#sidebar
+{
+	height:100%;
+	position:absolute;
+	right:0;
+	top:0;
+	width:200px;
+}
+
+textarea
+{
+	font-family:'Trebuchet MS';
+	font-size:12px;
+	height:200px;
+	width:190px;
+}
