@@ -23,11 +23,11 @@ final class PostController extends DefaultPageController
 		if(!$id || !is_numeric($id))
 			$this->eject();
 		
-		$post = ActivityCollector::getPost($id);
+		$post = $this->postRepository->getPostById($id);
 		if(!$post)
 			$this->eject();
 		
-		if(URLDecode::getPiece(1) != $post->type)
+		if(URLDecode::getPiece(1) != $post['type'])
 			$this->eject();
 		
 		$this->post = $post;
@@ -35,11 +35,11 @@ final class PostController extends DefaultPageController
 
 	protected function set_head_data()
 	{
-		$this->set_title(sprintf(self::$TITLE, $this->post->id, ucwords($this->post->type)));
-		$this->set_description(sprintf(self::$DESCRIPTION, $this->post->id, ucwords($this->post->type)));
+		$this->set_title(sprintf(self::$TITLE, $this->post['id'], ucwords($this->post['type'])));
+		$this->set_description(sprintf(self::$DESCRIPTION, $this->post['id'], ucwords($this->post['type'])));
 		
 		$keyword_array = self::$KEYWORD_ARRAY;
-		array_unshift($keyword_array, $this->post->type);
+		array_unshift($keyword_array, $this->post['type']);
 		$this->set_keywords($keyword_array);
 		
 		parent::set_head_data();
@@ -59,7 +59,7 @@ final class PostController extends DefaultPageController
 
 	private function get_title()
 	{
-		switch($this->post->type)
+		switch($this->post['type'])
 		{
 			case 'blog' :
 				return 'Jacob blogged';
@@ -84,7 +84,7 @@ final class PostController extends DefaultPageController
 
 	private function get_description()
 	{
-		switch($this->post->type)
+		switch($this->post['type'])
 		{
 			case 'blog' :
 				return 'Another awesome blog post from Jacob. Did I mention it was awesome?';

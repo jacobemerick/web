@@ -13,7 +13,7 @@ abstract class DefaultListController extends DefaultPageController
 	public function __construct()
 	{
 		parent::__construct();
-		
+
 		$this->page = $this->get_page_number();
 		$this->offset = ($this->page - 1) * self::$POSTS_PER_PAGE;
 	}

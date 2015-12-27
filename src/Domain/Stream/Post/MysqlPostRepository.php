@@ -46,7 +46,7 @@ class MysqlPostRepository implements PostRepositoryInterface
      *
      * @return array|false
      */
-    public function getPostByType($type, $type_id)
+    public function getPostByFields($type, $type_id)
     {
         $query = "
             SELECT *
@@ -99,19 +99,19 @@ class MysqlPostRepository implements PostRepositoryInterface
             ->fetchValue($query);
     }
 
-    public function getPostsByTag($tag, $limit = null, $offset = 0)
+    public function getPostsByType($type, $limit = null, $offset = 0)
     {
         $query = "
             SELECT *
             FROM `jpemeric_stream`.`post`
-            WHERE `tag` = :tag
+            WHERE `type` = :type
             ORDER BY `date` DESC";
         if (!is_null($limit)) {
             $query .= "
             LIMIT {$offset}, {$limit}";
         }
         $bindings = [
-            'tag' => $tag,
+            'type' => $type,
         ];
 
         return $this
@@ -120,19 +120,19 @@ class MysqlPostRepository implements PostRepositoryInterface
             ->fetchAll($query, $bindings);
     }
 
-    public function getPostsByTagCount($tag)
+    public function getPostsByTypeCount($type)
     {
         $query = "
             SELECT COUNT(1) AS `count`
             FROM `jpemeric_stream`.`post`
-            WHERE `tag` = :tag";
+            WHERE `type` = :type";
         $bindings = [
-            'tag' => $tag,
+            'type' => $type,
         ];
 
         return $this
             ->connections
             ->getRead()
-            ->fetchAll($query, $bindings);
+            ->fetchValue($query, $bindings);
     }
 }

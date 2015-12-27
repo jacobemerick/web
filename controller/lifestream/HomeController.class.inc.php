@@ -45,7 +45,7 @@ final class HomeController extends DefaultListController
 
 	protected function get_list_results()
 	{
-		return ActivityCollector::getInRange(self::$POSTS_PER_PAGE, $this->offset);
+    return $this->postRepository->getPosts(self::$POSTS_PER_PAGE, $this->offset);
 	}
 
 	protected function get_list_description()
@@ -76,7 +76,7 @@ final class HomeController extends DefaultListController
 	protected function get_total_post_count()
 	{
 		if(!isset($this->total_post_count))
-			$this->total_post_count = ActivityCollector::getCount();
+			$this->total_post_count = $this->postRepository->getPostsCount();
 		return $this->total_post_count;
 	}
 

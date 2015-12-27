@@ -104,7 +104,7 @@ final class TagController extends DefaultListController
 
 	protected function get_list_results()
 	{
-		return ActivityCollector::getByTagInRange($this->tag, self::$POSTS_PER_PAGE, $this->offset);
+		return $this->postRepository->getPostsByType($this->tag, self::$POSTS_PER_PAGE, $this->offset);
 	}
 
 	protected function get_list_description()
@@ -135,7 +135,7 @@ final class TagController extends DefaultListController
 	protected function get_total_post_count()
 	{
 		if(!isset($this->total_post_count))
-			$this->total_post_count = ActivityCollector::getCountForTag($this->tag);
+			$this->total_post_count = $this->postRepository->getPostsByTypeCount($this->tag);
 		return $this->total_post_count;
 	}
 
