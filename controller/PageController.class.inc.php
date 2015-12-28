@@ -1,8 +1,6 @@
 <?
 
-Loader::load('utility', array(
-	'Asset',
-	'Header'));
+Loader::load('utility', 'Header');
 
 abstract class PageController
 {

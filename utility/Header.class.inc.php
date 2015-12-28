@@ -22,19 +22,6 @@ final class Header
 		self::send($array);
 	}
 
-	public static function sendICO($timestamp)
-	{
-		$array = array(
-			'HTTP/1.1 200 OK',
-			'Cache-Control: max-age=' . self::$CACHE_EXPIRATION . ', must-revalidate',
-			'Content-Language: en',
-			'Content-Type: image/ico',
-			'Expires: ' . self::get_date(time() + self::$CACHE_EXPIRATION),
-			'Last-Modified: ' . self::get_date($timestamp),
-			'X-Powered-By: jacobemerick.com');
-		self::send($array);
-	}
-
 	public static function sendJPG($timestamp)
 	{
 		$array = array(
@@ -70,32 +57,6 @@ final class Header
 			'Content-Type: application/json',
 			'Expires: ' . self::get_date(time() - 1),
 			'Last-Modified: ' . self::get_date(),
-			'X-Powered-By: jacobemerick.com');
-		self::send($array);
-	}
-
-	public static function sendCSS($timestamp)
-	{
-		$array = array(
-			'HTTP/1.1 200 OK',
-			'Cache-Control: max-age=' . self::$CACHE_EXPIRATION . ', must-revalidate',
-			'Content-Language: en',
-			'Content-Type: text/css',
-			'Expires: ' . self::get_date(time() + self::$CACHE_EXPIRATION),
-			'Last-Modified: ' . self::get_date($timestamp),
-			'X-Powered-By: jacobemerick.com');
-		self::send($array);
-	}
-
-	public static function sendJS()
-	{
-		$array = array(
-			'HTTP/1.1 200 OK',
-			'Cache-Control: max-age=' . self::$CACHE_EXPIRATION . ', must-revalidate',
-			'Content-Language: en',
-			'Content-Type: text/javascript',
-			'Expires: ' . self::get_date(time() + self::$CACHE_EXPIRATION),
-			'Last-Modified: ' . self::get_date(time() - self::$CACHE_MODIFICATION),
 			'X-Powered-By: jacobemerick.com');
 		self::send($array);
 	}

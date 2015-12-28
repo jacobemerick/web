@@ -27,12 +27,6 @@ abstract class Router
 			return 'SitemapRouter';
 		if(URLDecode::getURI() == '/rss/')
 			return 'RSSRouter';
-		if(URLDecode::getExtension() == 'css')
-			return 'StyleRouter';
-		if(URLDecode::getExtension() == 'js')
-			return 'ScriptRouter';
-		if(URLDecode::getExtension() == 'ico')
-			return 'ImageRouter';
 		if(URLDecode::getExtension() == 'jpg')
 			return 'ImageRouter';
 		if(URLDecode::getExtension() == 'png')
