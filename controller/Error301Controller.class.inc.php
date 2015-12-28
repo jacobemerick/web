@@ -7,7 +7,6 @@ class Error301Controller extends PageController
 
 	public function __construct($uri)
 	{
-		Visitor::update301Error($uri);
 		Header::redirect($uri);
 		exit;
 	}

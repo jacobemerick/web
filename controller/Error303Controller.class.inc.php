@@ -7,7 +7,6 @@ class Error303Controller extends PageController
 
 	public function __construct($uri)
 	{
-		Visitor::update303Error($uri);
 		Header::redirect($uri, 303);
 		exit;
 	}

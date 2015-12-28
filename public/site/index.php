@@ -11,5 +11,4 @@ error_reporting(-1);
 set_error_handler(array('Debugger', 'internal_error'));
 register_shutdown_function(array('Debugger', 'shutdown'));
 
-Loader::loadInstance('utility', 'Visitor');
 Loader::loadInstance('router', 'Router');

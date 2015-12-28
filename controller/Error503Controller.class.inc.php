@@ -5,11 +5,6 @@ Loader::load('controller', '/PageController');
 class Error503Controller extends PageController
 {
 
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
 	protected function set_head_data()
 	{
 		$this->set_header_method('send503');

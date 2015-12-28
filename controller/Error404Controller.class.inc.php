@@ -5,13 +5,6 @@ Loader::load('controller', '/PageController');
 class Error404Controller extends PageController
 {
 
-	public function __construct()
-	{
-		parent::__construct();
-		
-		Visitor::update404Error();
-	}
-
 	protected function set_head_data()
 	{
 		$this->set_header_method('send404');
