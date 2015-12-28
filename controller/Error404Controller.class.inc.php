@@ -32,20 +32,38 @@ class Error404Controller extends PageController
 
 	private function get_sites()
 	{
-		Loader::load('collector', 'SiteCollector');
-		$site_result = SiteCollector::getSitesForMenu();
-		
-		foreach($site_result as $site)
-		{
-			$site_array[] = array(
-				'url' => $site->url,
-				'title' => "Jacob Emerick's {$site->name}",
-				'name' => $site->name,
-				'description' => $site->description,
-				'new' => $site->new);
-		}
-		
-		return $site_array;
+    return [
+      [
+        'url' => 'http://home.jacobemerick.com/',
+        'title' => "Jacob Emerick's Home",
+        'name' => 'Home'
+      ],
+      [
+        'url' => 'http://blog.jacobemerick.com/',
+        'title' => "Jacob Emerick's Blog",
+        'name' => 'Blog'
+      ],
+      [
+        'url' => 'http://lifestream.jacobemerick.com/',
+        'title' => "Jacob Emerick's Lifestream",
+        'name' => 'Lifestream'
+      ],
+      [
+        'url' => 'http://map.jacobemerick.com/',
+        'title' => "Jacob Emerick's Hiking Map",
+        'name' => 'Map'
+      ],
+      [
+        'url' => 'http://portfolio.jacobemerick.com/',
+        'title' => "Jacob Emerick's Portfolio",
+        'name' => 'Portfolio',
+      ],
+      [
+        'url' => 'http://www.waterfallsofthekeweenaw.com/',
+        'title' => 'Waterfalls of the Keweenaw',
+        'name' => 'Waterfalls'
+      ]
+  ];
 	}
 
 }
