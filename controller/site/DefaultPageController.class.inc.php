@@ -21,7 +21,7 @@ abstract class DefaultPageController extends PageController
 
 	protected function set_head_data()
 	{
-		$this->add_css('global');
+		$this->add_css('reset');
 		$this->add_css('site');
 	}
 

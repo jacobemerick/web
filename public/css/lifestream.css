@@ -1,5 +1,5 @@
 body {
-	background: #fafafa url('{{img="cream-dust.png"}}');
+	background: #fafafa url('/image/cream-dust.png');
 	color: #222;
 	font: 16px 'Segoe UI', Candara, 'Bitstream Vera Sans', 'DejaVu Sans', 'Bitstream Vera Sans', 'Trebuchet MS', Verdana, 'Verdana Ref', sans-serif;
 	margin: 0;}

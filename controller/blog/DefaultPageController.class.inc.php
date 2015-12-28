@@ -23,7 +23,6 @@ abstract class DefaultPageController extends PageController
 		$this->set_head('rss_link', '/rss/');
 		
 		$this->add_css('normalize');
-		$this->add_css('markup');
 		$this->add_css('blog');
 	}
 
