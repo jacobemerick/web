@@ -1,5 +1,5 @@
 body {
-	background: #e0eff1 url('{{img="dirty-grid.jpg"}}');
+	background: #e0eff1 url('/image/dirty-grid.jpg');
 	border-top: 12px solid #680148;
 	font-family: Cambria, Georgia, 'New Century Schoolbook', 'Century Schoolbook L', 'Times New Roman', serif;
 	font-size: 13px;
@@ -180,7 +180,7 @@ a:active {
 	list-style: none;
 	margin-right: 5px;}
 #container.home #social-links li a {
-	background: url('{{img="social-icons.png"}}') no-repeat;
+	background: url('/image/social-icons.png') no-repeat;
 	border-bottom: none;
 	display: block;
 	height: 60px;

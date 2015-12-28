@@ -257,16 +257,12 @@ abstract class PageController
 
 	private function load_assets()
 	{
-		$css_array = $this->css_array;
-		$css_array = Asset::getCSS($css_array);
-		
-		$js_array = array();
-		
-		if(count($this->js_array) > 0)
-			$js_array = array_merge($js_array, $this->js_array);
-		
-		if(count($js_array) > 0)
-			$js_array = Asset::getJS($js_array);
+    $css_array = array_map(function ($stylesheet) {
+      return "/css/{$stylesheet}.css";
+    }, $this->css_array);
+    $js_array = array_map(function ($script) {
+      return "/js/{$script}.js";
+    }, $this->js_array);
 		
 		$this->set_head('css_link_array', $css_array);
 		$this->set_head('js_link_array', $js_array);

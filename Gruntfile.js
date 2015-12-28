@@ -12,7 +12,7 @@ module.exports = function(grunt) {
         },
         files: {
           'js.cookie.js': 'js-cookie/src/js.cookie.js',
-          'normalize.css': 'normalize-css/normalize.css'
+          'normalize.css': 'normalize-css/normalize.css',
         }
       }
     },
@@ -25,7 +25,8 @@ module.exports = function(grunt) {
     cssmin: {
       target: {
         files: {
-          'public/css/build/normalize.css': 'build/temp/normalize.css'
+          'public/css/build/normalize.css': 'build/temp/normalize.css',
+          'public/css/build/home.css': 'public/css/home.css'
         }
       }
     },
