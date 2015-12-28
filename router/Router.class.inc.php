@@ -21,8 +21,6 @@ abstract class Router
 	{
 		if(Request::isAJAX())
 			return 'AJAXRouter';
-		if(URLDecode::getURI() == '/robots.txt')
-			return 'RobotRouter';
 		if(URLDecode::getURI() == '/sitemap.xml')
 			return 'SitemapRouter';
 		if(URLDecode::getURI() == '/rss/')
@@ -162,19 +160,12 @@ abstract class Router
 	{
 		if(Request::isAjax())
 			return 'ajax';
-		if(URLDecode::getURI() == '/robots.txt')
-			return 'robot';
 		if(URLDecode::getURI() == '/sitemap.xml')
 			return 'sitemap';
 		if(URLDecode::getURI() == '/rss/')
 			return 'rss';
-		if(URLDecode::getExtension() == 'css')
-			return 'styles';
-		if(URLDecode::getExtension() == 'js')
-			return 'scripts';
 		if(
 			URLDecode::getExtension() == 'jpg' ||
-			URLDecode::getExtension() == 'ico' ||
 			URLDecode::getExtension() == 'png')
 			return 'images';
 		
@@ -184,17 +175,10 @@ abstract class Router
 	private function requires_trailing_slash()
 	{
 		return (
-			URLDecode::getURI() != '/robots.txt' &&
 			URLDecode::getURI() != '/sitemap.xml' &&
 			URLDecode::getExtension() != 'json' &&
-			URLDecode::getSite() != 'images' &&
-			URLDecode::getSite() != 'scripts' &&
-			URLDecode::getSite() != 'styles' &&
-			URLDecode::getExtension() != 'css' &&
-			URLDecode::getExtension() != 'js' &&
 			URLDecode::getExtension() != 'jpg' &&
 			URLDecode::getExtension() != 'png' &&
-			URLDecode::getExtension() != 'ico' &&
             strstr(URLDecode::getURI(), '#') === false);
 	}
 

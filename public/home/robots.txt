@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: http://home.jacobemerick.com/sitemap.xml
