@@ -12,12 +12,10 @@ abstract class DefaultPageController extends PageController
 	{
 		parent::__construct();
 		
-		$this->add_css('global');
+		$this->add_css('reset');
 		$this->add_css('portfolio');
-		//$this->set_font_css('Molengo');
-		$this->add_js('jquery-1.4.2');
+		$this->add_js('jquery');
 		$this->add_js('portfolio');
-		$this->add_js('imageloader');
 	}
 
 	protected function get_menu()

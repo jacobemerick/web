@@ -259,7 +259,10 @@ abstract class PageController
       return "/css/{$stylesheet}.css";
     }, $this->css_array);
     $js_array = array_map(function ($script) {
-      return "/js/{$script}.js";
+      if (substr($script, 0, 4) == 'http') {
+        return $script;
+      }
+      return "/js/{$script}.min.js";
     }, $this->js_array);
 		
 		$this->set_head('css_link_array', $css_array);

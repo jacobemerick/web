@@ -1,5 +1,5 @@
 body {
-	background: #d4d0df url('{{img="portfolio-bg.jpg"}}') fixed;
+	background: #d4d0df url('/image/portfolio-bg.jpg') fixed;
 	color: #4b4b4b;
 	font-family: Molengo, 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
 	font-size: 15px;}
@@ -13,7 +13,7 @@ a:hover, .faux_link:hover {
 	display: none;}
 
 #container {
-	background: url('{{img="portfolio-glow.png"}}') top center no-repeat fixed;
+	background: url('/image/portfolio-glow.png') top center no-repeat fixed;
 	margin: 0 auto;
 	width: 850px;}
 
@@ -48,14 +48,12 @@ a:hover, .faux_link:hover {
 
 #content {
 	line-height: 1.5em;
-	padding: 79px 20px 5px 200px;
-	*padding-top: 69px;
-	width: 650px;}
+	padding: 87px 20px 5px 200px;}
 #content h2 {
 	border-bottom: 1px solid;
 	font-size: 3.7em;
 	font-weight: normal;
-	height: .6em;
+  line-height: .8em;
 	margin-bottom: 20px;
 	padding-bottom: 5px;
 	*padding: 5px 0 12px;
@@ -131,7 +129,7 @@ a:hover, .faux_link:hover {
 #content .piece-link img {
 	margin-top: -105px;}
 #content .loading {
-	background: url('{{img="loading.gif"}}') no-repeat center center;}
+	background: url('/image/loading.gif') no-repeat center center;}
 #content #piece-image {
 	-moz-border-radius: 5px;
 	background-color: #d0cbdc;

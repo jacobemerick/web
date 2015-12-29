@@ -1,5 +1,5 @@
 $(function() {
-	$('#thumb-list li').live('click', function() {
+	$('#thumb-list').on('click', 'li', function() {
 		if($(this).hasClass('active'))
 			return;
 		$('#piece-image').hide();
@@ -14,4 +14,5 @@ $(function() {
 		$('#thumb-list li').removeClass('active');
 		$(this).addClass('active');});
 	
-	$('#thumb-list img[rel=' + $('#piece-image').attr('rel') + ']').closest('li').addClass('active');});
+	$('#thumb-list img[rel=' + $('#piece-image').attr('rel') + ']').closest('li').addClass('active');
+});

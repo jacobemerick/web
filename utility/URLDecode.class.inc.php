@@ -24,7 +24,10 @@ class URLDecode
 		
 		self::$array['host'] = $host;
 		
-		if ($host == 'www.waterfallsofthekeweenaw.com') {
+    if (
+      $host == 'www.waterfallsofthekeweenaw.com' ||
+      $host == 'waterfallsofthekeweenaw.com'
+    ) {
 			self::$array['site'] = 'waterfalls';
 		} else {
 			self::$array['site'] = substr($host, 0, strpos($host, '.'));

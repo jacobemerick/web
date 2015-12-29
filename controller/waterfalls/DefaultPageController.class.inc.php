@@ -16,15 +16,14 @@ abstract class DefaultPageController extends PageController
 	{
 		$this->set_head('google_verification', 'm9ua4n8lp4FUYYa2UOh51UyZYfdivl-kRTtXKwaH0-s');
 		$this->add_css('normalize');
-		$this->add_css('waterfall');
+		$this->add_css('waterfalls');
 	}
 
     protected function add_waterfall_js()
     {
-        $this->add_js('jquery-1.10.2.min');
-        $this->add_js('imagelightbox.min');
-        $this->add_js('waterfall-overlay');
-        $this->add_js('waterfall-map');
+        $this->add_js('jquery');
+        $this->add_js('imagelightbox');
+        $this->add_js('waterfalls');
     }
 
 	protected function set_body_data($page_type = 'normal')
