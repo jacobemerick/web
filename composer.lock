@@ -62,16 +62,16 @@
         },
         {
             "name": "particletree/pqp",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jacobemerick/pqp.git",
-                "reference": "9018205500ec01e1005dec226fb7afcb4f5bce39"
+                "reference": "7af328983a0dcab6d2a6a84f0fcd5433fdc37f81"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jacobemerick/pqp/zipball/9018205500ec01e1005dec226fb7afcb4f5bce39",
-                "reference": "9018205500ec01e1005dec226fb7afcb4f5bce39",
+                "url": "https://api.github.com/repos/jacobemerick/pqp/zipball/7af328983a0dcab6d2a6a84f0fcd5433fdc37f81",
+                "reference": "7af328983a0dcab6d2a6a84f0fcd5433fdc37f81",
                 "shasum": ""
             },
             "require": {
@@ -97,7 +97,7 @@
                 "MIT"
             ],
             "description": "Simple PHP profiler to track application behavior during development",
-            "time": "2015-12-24 03:52:58"
+            "time": "2015-12-29 22:43:03"
         },
         {
             "name": "pimple/pimple",
