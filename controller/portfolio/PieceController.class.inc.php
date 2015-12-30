@@ -44,7 +44,7 @@ final class PieceController extends DefaultPageController
 		
 		$main_image = new stdclass();
 		$main_image->id = $portfolio_image_result[0]->id;
-		$main_image->link = "/{$portfolio_image_result[0]->name}";
+		$main_image->link = "/image/portfolio/{$portfolio_image_result[0]->name}";
 		
 		$dimensions = $image->getDimensions();
 		
@@ -60,7 +60,7 @@ final class PieceController extends DefaultPageController
 			
 			$image_obj = new stdclass();
 			$image_obj->id = $portfolio_image->id;
-			$image_obj->link = "/{$thumb}";
+			$image_obj->link = "/image/portfolio/{$thumb}";
 			
 			$dimensions = $image->getDimensions();
 			

@@ -71,11 +71,8 @@ final class Loader
 
 	public static function getImagePath($type, $file)
 	{
-		if($type == 'photo')
-			$type = 'photo/processed';
-		
 		$path = self::instance()->get_root();
-		$path .= 'images';
+		$path .= 'public';
 		$path .= self::instance()->get_delimiter();
 		$path .= $type;
 		$path .= self::instance()->get_delimiter();

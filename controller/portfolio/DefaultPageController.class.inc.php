@@ -65,7 +65,7 @@ abstract class DefaultPageController extends PageController
 				$piece_obj->url = Loader::getRootURL() . "web/{$piece->title_url}/";
 			else
 				$piece_obj->url = Loader::getRootURL() . "print/{$piece->title_url}/";
-			$piece_obj->image = "/{$piece->image}";
+			$piece_obj->image = "/image/portfolio/{$piece->image}";
 			$piece_array[] = $piece_obj;
 		}
 		

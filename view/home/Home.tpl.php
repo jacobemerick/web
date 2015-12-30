@@ -2,7 +2,7 @@
 <?= Loader::load('view', 'home/Menu', compact('domain_container')) ?>
 	<div id="introduction" class="section">
 		<div id="photo-container">
-			<img alt="Jacob Emerick, with a bow tie" height="314" width="314" src="/jacob-emerick.jpg" />
+			<img alt="Jacob Emerick, with a bow tie" height="314" width="314" src="/image/jacob-emerick.jpg" />
 		</div>
 		<div id="description">
 			<h1>Allons-y!</h1>

@@ -1,5 +1,5 @@
 <div id="photo-container">
-	<img alt="Jacob Emerick, with a bow tie" height="314" width="314" src="/jacob-emerick.jpg" />
+	<img alt="Jacob Emerick, with a bow tie" height="314" width="314" src="/image/jacob-emerick.jpg" />
 </div>
 <p>Howdy! Welcome to my lifestream, a single feed of some of my online activity. You can always <a href="<?= $domain_container->lifestream ?>about/" title="About lifestreams and how this one works">read about lifestreams</a> or <a href="<?= $domain_container->home ?>" title="Main site about Jacob Emerick">visit my main page</a>.</p>
 <div id="filter-container">

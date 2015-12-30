@@ -16,7 +16,7 @@ final class GetPortfolioImageController extends AJAXController
 		
 		$main_image = new stdclass();
 		$main_image->id = $portfolio_result->id;
-		$main_image->link = "/{$portfolio_result->name}";
+		$main_image->link = "/image/portfolio/{$portfolio_result->name}";
 		
 		$dimensions = $image->getDimensions();
 		

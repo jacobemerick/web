@@ -2,7 +2,7 @@ $(function() {
 	$('#thumb-list').on('click', 'li', function() {
 		if($(this).hasClass('active'))
 			return;
-		$('#piece-image').hide();
+		$('body').trigger('loadingImage');
 		$.post(
 			'/get/portfolioImage.json',
 			{portfolio_id: $(this).find('img').attr('rel')},
@@ -10,7 +10,8 @@ $(function() {
 				$('#piece-image').attr('rel', data.image.id);
 				$('#piece-image').attr('src', data.image.link);
 				$('#piece-image').attr('width', data.image.width);
-				$('#piece-image').attr('height', data.image.height);});
+				$('#piece-image').attr('height', data.image.height);
+    });
 		$('#thumb-list li').removeClass('active');
 		$(this).addClass('active');});
 	
