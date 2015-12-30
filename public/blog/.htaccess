@@ -1,3 +1,10 @@
+ExpiresActive On
+ExpiresDefault A0
+
+<FilesMatch "\.(css|gif|ico|jpeg)$">
+ExpiresDefault A604800
+</FilesMatch>
+
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
