@@ -347,7 +347,7 @@ a.photo:hover {
     padding: 1px 0;
 }
 .sidebar .rating {
-    background: url('{{img="stars.png"}}') no-repeat;
+    background: url('/image/stars.png') no-repeat;
     height: 18px;
 }
 .sidebar .rating span {
