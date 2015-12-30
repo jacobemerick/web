@@ -8,45 +8,6 @@ final class Header
 	private static $SITEMAP_EXPIRATION = 604800;
 	private static $RSS_EXPIRATION = 604800;
 
-	public static function sendGIF($timestamp)
-	{
-		$array = array(
-			'HTTP/1.1 200 OK',
-			'Cache-Control: max-age=' . self::$CACHE_EXPIRATION . ', must-revalidate',
-			'Content-Language: en',
-			'Content-Type: image/gif',
-			'Expires: ' . self::get_date(time() + self::$CACHE_EXPIRATION),
-			'Last-Modified: ' . self::get_date($timestamp),
-			'X-Powered-By: jacobemerick.com');
-		self::send($array);
-	}
-
-	public static function sendJPG($timestamp)
-	{
-		$array = array(
-			'HTTP/1.1 200 OK',
-			'Cache-Control: max-age=' . self::$CACHE_EXPIRATION . ', must-revalidate',
-			'Content-Language: en',
-			'Content-Type: image/jpeg',
-			'Expires: ' . self::get_date(time() + self::$CACHE_EXPIRATION),
-			'Last-Modified: ' . self::get_date($timestamp),
-			'X-Powered-By: jacobemerick.com');
-		self::send($array);
-	}
-
-	public static function sendPNG($timestamp)
-	{
-		$array = array(
-			'HTTP/1.1 200 OK',
-			'Cache-Control: max-age=' . self::$CACHE_EXPIRATION . ', must-revalidate',
-			'Content-Language: en',
-			'Content-Type: image/png',
-			'Expires: ' . self::get_date(time() + self::$CACHE_EXPIRATION),
-			'Last-Modified: ' . self::get_date($timestamp),
-			'X-Powered-By: jacobemerick.com');
-		self::send($array);
-	}
-
 	public static function sendJSON()
 	{
 		$array = array(

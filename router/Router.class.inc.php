@@ -1,7 +1,6 @@
 <?
 
 Loader::load('utility', array(
-	'ImageOld',
 	'Request',
 	'URLDecode'));
 
@@ -25,10 +24,6 @@ abstract class Router
 			return 'SitemapRouter';
 		if(URLDecode::getURI() == '/rss/')
 			return 'RSSRouter';
-		if(URLDecode::getExtension() == 'jpg')
-			return 'ImageRouter';
-		if(URLDecode::getExtension() == 'png')
-			return 'ImageRouter';
 		
 		switch(URLDecode::getSite())
 		{
@@ -40,9 +35,6 @@ abstract class Router
 			break;
 			case 'home' :
 				return 'HomeRouter';
-			break;
-			case 'images' :
-				return 'ImageRouter';
 			break;
 			case 'lifestream' :
 				return 'LifestreamRouter';
@@ -107,26 +99,6 @@ abstract class Router
 			exit;
 		}
 
-		if($this->get_primary_folder() == 'images') {
-			$file = $controller_check;//URLDecode::getURI();
-
-			if (
-				URLDecode::getSite() == 'images' ||
-				URLDecode::getExtension() == 'ico') {
-				$file = "/css/{$file}";
-			} else if (URLDecode::getSite() == 'portfolio') {
-				$file = "/portfolio/{$file}";
-			} else if (substr($file, 0, 7) == '/photo/') {
-				$file = '/photo/processed/' . substr($file, 7);
-			}
-
-			$image = new ImageOld($file);
-        	        if(!$image->isValid()) {
-                	        Loader::loadNew('controller', '/Error404Controller')->activate();
-				exit();
-			}
-		}
-		
 		if(substr($redirect_uri, 0, 4) != 'http')
 		{
 			$redirect_uri = substr($redirect_uri, 1);
@@ -164,10 +136,6 @@ abstract class Router
 			return 'sitemap';
 		if(URLDecode::getURI() == '/rss/')
 			return 'rss';
-		if(
-			URLDecode::getExtension() == 'jpg' ||
-			URLDecode::getExtension() == 'png')
-			return 'images';
 		
 		return URLDecode::getSite();
 	}

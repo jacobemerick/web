@@ -2,7 +2,6 @@
 
 Loader::load('collector', 'portfolio/PortfolioCollector');
 Loader::load('controller', '/AJAXController');
-Loader::load('utility', 'ImageOld');
 
 final class GetPortfolioImageController extends AJAXController
 {
@@ -12,16 +11,17 @@ final class GetPortfolioImageController extends AJAXController
 		$id = Request::getPost('portfolio_id');
 		
 		$portfolio_result = PortfolioCollector::getImageById($id);
-		$image = new ImageOld("portfolio/{$portfolio_result->name}");
-		
+
+    $image_path = "portfolio/{$portfolio_result->name}";
+    $image_path = Loader::getImagePath('image', $image_path);
+    $image_size = getimagesize($image_path);
+
 		$main_image = new stdclass();
 		$main_image->id = $portfolio_result->id;
 		$main_image->link = "/image/portfolio/{$portfolio_result->name}";
 		
-		$dimensions = $image->getDimensions();
-		
-		$main_image->width = $dimensions[0];
-		$main_image->height = $dimensions[1];
+		$main_image->width = $image_size[0];
+		$main_image->height = $image_size[1];
 		
 		$this->set_response($main_image, 'image');
 		return true;
