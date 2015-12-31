@@ -15,7 +15,9 @@
     "php": ">=5.4",
     "aura/sql": "~2.4",
     "particletree/pqp": "^1.0",
-    "pimple/pimple": "~3.0"
+    "pimple/pimple": "~3.0",
+    "thepixeldeveloper/sitemap": "^4.0",
+    "monolog/monolog": "^1.17"
   },
   "require-dev": {
     "codeclimate/php-test-reporter": "dev-master",
