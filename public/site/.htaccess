@@ -5,6 +5,10 @@
   <FilesMatch "\.(css|ico)$">
   ExpiresDefault A604800
   </FilesMatch>
+
+  <FilesMatch "\.xml$">
+  ExpiresDefault A3600
+  </FilesMatch>
 </IfModule>
 
 RewriteEngine on
