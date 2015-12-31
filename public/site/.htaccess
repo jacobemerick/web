@@ -1,9 +1,11 @@
-ExpiresActive On
-ExpiresDefault A0
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault A0
 
-<FilesMatch "\.(css|ico)$">
-ExpiresDefault A604800
-</FilesMatch>
+  <FilesMatch "\.(css|ico)$">
+  ExpiresDefault A604800
+  </FilesMatch>
+</IfModule>
 
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
