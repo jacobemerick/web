@@ -20,7 +20,7 @@ abstract class DefaultPageController extends PageController
 
 	protected function set_head_data()
 	{
-		$this->set_head('rss_link', '/rss/');
+		$this->set_head('rss_link', '/rss.xml');
 		
 		$this->add_css('normalize');
 		$this->add_css('blog');

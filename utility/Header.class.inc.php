@@ -34,19 +34,6 @@ final class Header
 		self::send($array);
 	}
 
-	public static function sendRSS()
-	{
-		$array = array(
-			'HTTP/1.1 200 OK',
-			'Cache-Control: max-age=' . self::$RSS_EXPIRATION . ', must-revalidate',
-			'Content-Language: en',
-			'Content-Type: application/rss+xml',
-			'Expires: ' . self::get_date(time() + self::$RSS_EXPIRATION),
-			'Last-Modified: ' . self::get_date(),
-			'X-Powered-By: jacobemerick.com');
-		self::send($array);
-	}
-
 	public static function sendHTML()
 	{
 		$array = array(

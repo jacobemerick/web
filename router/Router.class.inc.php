@@ -22,8 +22,6 @@ abstract class Router
 			return 'AJAXRouter';
 		if(URLDecode::getURI() == '/sitemap.xml')
 			return 'SitemapRouter';
-		if(URLDecode::getURI() == '/rss/')
-			return 'RSSRouter';
 		
 		switch(URLDecode::getSite())
 		{
@@ -134,8 +132,6 @@ abstract class Router
 			return 'ajax';
 		if(URLDecode::getURI() == '/sitemap.xml')
 			return 'sitemap';
-		if(URLDecode::getURI() == '/rss/')
-			return 'rss';
 		
 		return URLDecode::getSite();
 	}
