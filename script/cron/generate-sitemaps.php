@@ -120,7 +120,8 @@ foreach ($blogTags as $blogTag) {
 
     $mostRecentBlogTagPost = array_reduce($blogPostsWithTag, $reduceToMostRecentBlogPost);
 
-    $entryKey = "/tag/{$blogTag['tag']}/";
+    $blogTagPath = str_replace(' ', '-', $blogTag['tag']);
+    $entryKey = "/tag/{$blogTagPath}/";
     $entryArray += [
         $entryKey => [
             'lastmod' => (new DateTime($mostRecentBlogTagPost['date']))->format('Y-m-d'),
