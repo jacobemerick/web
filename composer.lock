@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ee08c054bd2a8e14df40b686514eaf9a",
-    "content-hash": "cbe57af73eb76697c7f1ceaf649ef68a",
+    "hash": "4a032a1340ea6cfe1fd813299c41f0ed",
+    "content-hash": "29fc4bd53833572bce6b876fa94f5a14",
     "packages": [
         {
             "name": "aura/sql",
@@ -259,6 +259,50 @@
                 "psr-3"
             ],
             "time": "2012-12-21 11:40:51"
+        },
+        {
+            "name": "suin/php-rss-writer",
+            "version": "1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/suin/php-rss-writer.git",
+                "reference": "96ff59575442dbe23e15fe7ff56d0bf27486cff9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/suin/php-rss-writer/zipball/96ff59575442dbe23e15fe7ff56d0bf27486cff9",
+                "reference": "96ff59575442dbe23e15fe7ff56d0bf27486cff9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Suin\\RSSWriter": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Hidehito Nozawa aka Suin",
+                    "email": "suinyeze@gmail.com"
+                }
+            ],
+            "description": "Yet another simple RSS writer library for PHP 5.3 or later.",
+            "homepage": "https://github.com/suin/php-rss-writer",
+            "keywords": [
+                "feed",
+                "generator",
+                "php",
+                "rss",
+                "writer"
+            ],
+            "time": "2015-08-21 06:24:39"
         },
         {
             "name": "thepixeldeveloper/sitemap",

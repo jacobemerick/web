@@ -1,4 +1,4 @@
-<?
+<?php
 
 Loader::load('collector', 'Collector');
 

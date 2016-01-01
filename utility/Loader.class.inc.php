@@ -1,4 +1,4 @@
-<?
+<?php
 
 final class Loader
 {
@@ -11,7 +11,7 @@ final class Loader
 
 	private function __construct()
 	{
-		$this->is_live = (substr($_SERVER['HTTP_HOST'], 0, 4) !== 'dev.');
+		$this->is_live = (isset($_SERVER['HTTP_HOST']) && substr($_SERVER['HTTP_HOST'], 0, 4) !== 'dev.');
 		return $this;
 	}
 
