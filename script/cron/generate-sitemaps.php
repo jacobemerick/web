@@ -129,8 +129,9 @@ foreach ($blogTags as $blogTag) {
         ]
     ];
 
-    for ($i = 2; (($i = 1) * $blogPostsPerPage) < count($blogPostsWithTag); $i++) {
-        $entryKey = "/tag/{$blogTag['tag']}/{$i}/";
+    for ($i = 2; (($i - 1) * $blogPostsPerPage) < count($blogPostsWithTag); $i++) {
+        $blogTagPath = str_replace(' ', '-', $blogTag['tag']);
+        $entryKey = "/tag/{$blogTagPath}/{$i}/";
         $entryArray += [
             $entryKey => [
                 'lastmod' => (new DateTime($mostRecentBlogTagPost['date']))->format('Y-m-d'),
