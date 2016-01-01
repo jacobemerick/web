@@ -1,9 +1,15 @@
-ExpiresActive On
-ExpiresDefault A0
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault A0
 
-<FilesMatch "\.(css|gif|ico|jpeg)$">
-ExpiresDefault A604800
-</FilesMatch>
+  <FilesMatch "\.(css|gif|ico|jpeg)$">
+  ExpiresDefault A604800
+  </FilesMatch>
+
+  <FilesMatch "\.xml$">
+  ExpiresDefault A3600
+  </FilesMatch>
+</IfModule>
 
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
