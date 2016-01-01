@@ -145,8 +145,6 @@ abstract class Router
 		return (
 			URLDecode::getURI() != '/sitemap.xml' &&
 			URLDecode::getExtension() != 'json' &&
-			URLDecode::getExtension() != 'jpg' &&
-			URLDecode::getExtension() != 'png' &&
             strstr(URLDecode::getURI(), '#') === false);
 	}
 
