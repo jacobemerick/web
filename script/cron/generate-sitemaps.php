@@ -9,6 +9,7 @@ use Thepixeldeveloper\Sitemap\Urlset;
 use Jacobemerick\Web\Domain\Blog\Post\MysqlPostRepository as BlogPostRepository;
 use Jacobemerick\Web\Domain\Blog\Tag\MysqlTagRepository as BlogTagRepository;
 use Jacobemerick\Web\Domain\Portfolio\Piece\MysqlPieceRepository as PortfolioPieceRepository;
+use Jacobemerick\Web\Domain\Stream\Changelog\MysqlChangelogRepository as ChangelogRepository;
 use Jacobemerick\Web\Domain\Stream\Post\MysqlPostRepository as StreamPostRepository;
 use Jacobemerick\Web\Domain\Waterfall\Companion\MysqlCompanionRepository as WaterfallCompanionRepository;
 use Jacobemerick\Web\Domain\Waterfall\County\MysqlCountyRepository as WaterfallCountyRepository;
@@ -350,6 +351,10 @@ $buildSitemap($entryArray, 'http://portfolio.jacobemerick.com', 'portfolio');
 /*********************************************
  * site.jacobemerick.com
  *********************************************/
+$changelogRepository = new ChangelogRepository($container['db_connection_locator']);
+$mostRecentChange = $changelogRepository->getChanges(1);
+$mostRecentChange = current($mostRecentChange);
+
 $entryArray = [
     '/' => [
         'lastmod' => (new DateTime('December 20, 2015'))->format('Y-m-d'),
@@ -362,7 +367,7 @@ $entryArray = [
         'priority' => .3,
     ],
     '/change-log/' => [
-        'lastmod' => (new DateTime('now'))->format('Y-m-d'), // todo lookup based on changelog
+        'lastmod' => (new DateTime($mostRecentChange['datetime']))->format('c'),
         'changefreq' => 'daily',
         'priority' => .1,
     ],

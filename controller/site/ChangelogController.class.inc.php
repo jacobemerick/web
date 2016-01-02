@@ -1,5 +1,7 @@
 <?
 
+use Jacobemerick\Web\Domain\Stream\Changelog\MysqlChangelogRepository;
+
 Loader::load('controller', 'site/DefaultPageController');
 
 final class ChangelogController extends DefaultPageController
@@ -26,17 +28,18 @@ final class ChangelogController extends DefaultPageController
 
 	private function get_changelog()
 	{
-		Loader::load('collector', 'data/ChangelogCollector');
-		$changelog_result = ChangelogCollector::getLast20Changes();
+    global $container;
+    $changelogRepository = new MysqlChangelogRepository($container['db_connection_locator']);
+    $changelog_result = $changelogRepository->getChanges(40);
 		
 		foreach($changelog_result as $change)
 		{
 			$changelog[] = (object) array(
 				'date' => (object) array(
-					'stamp' => date('c', strtotime($change->date)),
-					'short' => date('M j', strtotime($change->date)),
-					'friendly' => date('F j, Y g:i A', strtotime($change->date))),
-				'message' => $change->message);
+					'stamp' => date('c', strtotime($change['datetime'])),
+					'short' => date('M j', strtotime($change['datetime'])),
+					'friendly' => date('F j, Y g:i A', strtotime($change['datetime']))),
+				'message' => $change['message_short']);
 		}
 		
 		return array('changelog' => $changelog);
