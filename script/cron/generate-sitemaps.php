@@ -200,7 +200,7 @@ $entryArray = [
     ],
 ];
 
-$buildSitemap($entryArray, 'http://site.jacobemerick.com', 'site');
+$buildSitemap($entryArray, 'http://home.jacobemerick.com', 'home');
 
 
 /*********************************************
@@ -377,7 +377,7 @@ $buildSitemap($entryArray, 'http://site.jacobemerick.com', 'site');
 
 
 /*********************************************
- * waterfall.jacobemerick.com
+ * www.waterfallofthekeweenaw.com
  *********************************************/
 $reduceToMostRecentJournalLog = function ($recentLog, $log) {
     if (is_null($recentLog)) {
