@@ -306,16 +306,16 @@
         },
         {
             "name": "thepixeldeveloper/sitemap",
-            "version": "4.0.1",
+            "version": "4.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThePixelDeveloper/Sitemap.git",
-                "reference": "13ee43a2ace00cb8d893239f5e514f60b1708db4"
+                "reference": "816072f6a9c3fbc5dc079881be7cdb47deb8bdd3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThePixelDeveloper/Sitemap/zipball/13ee43a2ace00cb8d893239f5e514f60b1708db4",
-                "reference": "13ee43a2ace00cb8d893239f5e514f60b1708db4",
+                "url": "https://api.github.com/repos/ThePixelDeveloper/Sitemap/zipball/816072f6a9c3fbc5dc079881be7cdb47deb8bdd3",
+                "reference": "816072f6a9c3fbc5dc079881be7cdb47deb8bdd3",
                 "shasum": ""
             },
             "require-dev": {
@@ -344,7 +344,7 @@
                 "Sitemap",
                 "xml"
             ],
-            "time": "2015-12-18 23:28:02"
+            "time": "2016-01-01 22:05:09"
         }
     ],
     "packages-dev": [
