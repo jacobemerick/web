@@ -3,11 +3,6 @@
 final class Header
 {
 
-	private static $CACHE_EXPIRATION = 315360000;
-	private static $CACHE_MODIFICATION = 604800;
-	private static $SITEMAP_EXPIRATION = 604800;
-	private static $RSS_EXPIRATION = 604800;
-
 	public static function sendJSON()
 	{
 		$array = array(
@@ -16,19 +11,6 @@ final class Header
 			'Content-Language: en',
 			'Content-Type: application/json',
 			'Expires: ' . self::get_date(time() - 1),
-			'Last-Modified: ' . self::get_date(),
-			'X-Powered-By: jacobemerick.com');
-		self::send($array);
-	}
-
-	public static function sendSitemap()
-	{
-		$array = array(
-			'HTTP/1.1 200 OK',
-			'Cache-Control: max-age=' . self::$SITEMAP_EXPIRATION . ', must-revalidate',
-			'Content-Language: en',
-			'Content-Type: text/xml',
-			'Expires: ' . self::get_date(time() + self::$SITEMAP_EXPIRATION),
 			'Last-Modified: ' . self::get_date(),
 			'X-Powered-By: jacobemerick.com');
 		self::send($array);

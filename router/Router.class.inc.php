@@ -20,8 +20,6 @@ abstract class Router
 	{
 		if(Request::isAJAX())
 			return 'AJAXRouter';
-		if(URLDecode::getURI() == '/sitemap.xml')
-			return 'SitemapRouter';
 		
 		switch(URLDecode::getSite())
 		{
@@ -130,8 +128,6 @@ abstract class Router
 	{
 		if(Request::isAjax())
 			return 'ajax';
-		if(URLDecode::getURI() == '/sitemap.xml')
-			return 'sitemap';
 		
 		return URLDecode::getSite();
 	}
@@ -139,7 +135,6 @@ abstract class Router
 	private function requires_trailing_slash()
 	{
 		return (
-			URLDecode::getURI() != '/sitemap.xml' &&
 			URLDecode::getExtension() != 'json' &&
             strstr(URLDecode::getURI(), '#') === false);
 	}
