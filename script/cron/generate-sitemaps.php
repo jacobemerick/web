@@ -167,6 +167,33 @@ $buildSitemap($entryArray, 'http://blog.jacobemerick.com', 'blog');
 
 
 /*********************************************
+ * home.jacobemerick.com
+ *********************************************/
+$blogPostRepository = new BlogPostRepository($container['db_connection_locator']);
+$mostRecentPost = $blogPostRepository->getActivePosts(1);
+
+$entryArray = [
+    '/' => [
+        'lastmod' => (new DateTime($mostRecentPost['date']))->format('Y-m-d'),
+        'changefreq' => 'daily',
+        'priority' => 1,
+    ],
+    '/about/' => [
+        'lastmod' => (new DateTime('December 20, 2015'))->format('Y-m-d'),
+        'changefreq' => 'monthly',
+        'priority' => .4,
+    ],
+    '/contact/' => [
+        'lastmod' => (new DateTime('December 20, 2015'))->format('Y-m-d'),
+        'changefreq' => 'monthly',
+        'priority' => .3,
+    ],
+];
+
+$buildSitemap($entryArray, 'http://site.jacobemerick.com', 'site');
+
+
+/*********************************************
  * site.jacobemerick.com
  *********************************************/
 $entryArray = [
