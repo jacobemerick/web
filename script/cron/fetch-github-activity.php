@@ -4,6 +4,8 @@ require_once __DIR__ . '/../index.php';
 
 use Github\Client;
 
+use Jacobemerick\Web\Domain\Stream\Changelog\MysqlChangelogRepository as ChangelogRepository;
+
 $client = new Client();
 $client->authenticate(
     $config->github->client_id,
@@ -14,17 +16,31 @@ $client->authenticate(
 /*********************************************
  * get changelog for jacobemerick/web
  *********************************************/
-$commits = $client->api('repo')->commits()->all('jacobemerick', 'web', ['sha' => 'master']);
-foreach ($commits as $commit) {
-    echo "Message: ", $commit['commit']['message'], PHP_EOL;
-    echo "Short Message: ", 'todo', PHP_EOL;
-    echo "Date: ", $commit['commit']['author']['date'], PHP_EOL;
-    echo "Author: ", $commit['commit']['author']['name'], PHP_EOL;
-    echo "Link: ", $commit['html_url'], PHP_EOL;
-    echo PHP_EOL;
-}
+$changelogRepository = new ChangelogRepository($container['db_connection_locator']);
+$mostRecentChange = $changelogRepository->getChanges(1);
+$mostRecentChange = current($mostRecentChange);
+$mostRecentChangeDateTime = $mostRecentChange['datetime'];
+$mostRecentChangeDateTime = new DateTime($mostRecentChangeDateTime);
 
-echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~', PHP_EOL;
+$parameters = [
+    'sha' => 'master',
+    'since' => $mostRecentChangeDateTime->format('c'),
+];
+$commits = $client->api('repo')->commits()->all('jacobemerick', 'web', $parameters);
+
+foreach ($commits as $commit) {
+    $uniqueChangeCheck = $changelogRepository->getChangeByHash($commit['sha']);
+    if ($uniqueChangeCheck !== false) {
+        continue;
+    }
+    $changelogRepository->insertChange(
+        $commit['sha'],
+        $commit['commit']['message'],
+        new DateTime($commit['commit']['author']['date']),
+        $commit['commit']['author']['name'],
+        $commit['html_url']
+    );
+}
 
 /*********************************************
  * get activity for jacobemerick
