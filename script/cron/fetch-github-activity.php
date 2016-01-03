@@ -37,7 +37,7 @@ foreach ($commits as $commit) {
     $changelogRepository->insertChange(
         $commit['sha'],
         $commit['commit']['message'],
-        new DateTime($commit['commit']['author']['date']),
+        (new DateTime($commit['commit']['author']['date']))->setTimezone($container['default_timezone']),
         $commit['commit']['author']['name'],
         $commit['html_url']
     );
@@ -77,7 +77,7 @@ foreach ($events as $event) {
     $githubRepository->insertEvent(
         $event['id'],
         $event['type'],
-        $eventDateTime,
+        $eventDateTime->setTimezone($container['default_timezone']),
         $event
     );
 }

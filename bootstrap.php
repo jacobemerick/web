@@ -18,6 +18,9 @@ if ($last_json_error !== JSON_ERROR_NONE) {
     throw new RuntimeException("Could not parse config - JSON error detected");
 }
 
+// timezones are fun
+date_default_timezone_set('America/Phoenix');
+
 // configure the db connections holder
 $db_connections = new Aura\Sql\ConnectionLocator();
 $db_connections->setDefault(function () use ($config) {
@@ -54,4 +57,4 @@ $db_connections->setRead('slave', function () use ($config) {
 // setup the service locator
 $container = new Pimple\Container();
 $container['db_connection_locator'] = $db_connections;
-
+$container['default_timezone'] = new DateTimeZone('America/Phoenix');
