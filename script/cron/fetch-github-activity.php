@@ -5,6 +5,7 @@ require_once __DIR__ . '/../index.php';
 use Github\Client;
 
 use Jacobemerick\Web\Domain\Stream\Changelog\MysqlChangelogRepository as ChangelogRepository;
+use Jacobemerick\Web\Domain\Stream\Github\MysqlGithubRepository as GithubRepository;
 
 $client = new Client();
 $client->authenticate(
@@ -45,32 +46,38 @@ foreach ($commits as $commit) {
 /*********************************************
  * get activity for jacobemerick
  *********************************************/
+$supportedEventTypes = [
+    'CreateEvent',
+    'ForkEvent',
+    'PullRequestEvent',
+    'PushEvent',
+];
+
+$githubRepository = new GithubRepository($container['db_connection_locator']);
+$mostRecentEvent = $githubRepository->getEvents(1);
+$mostRecentEvent = current($mostRecentEvent);
+$mostRecentEventDateTime = $mostRecentEvent['datetime'];
+$mostRecentEventDateTime = new DateTime($mostRecentEventDateTime);
+
 $events = $client->api('user')->publicEvents('jacobemerick');
 foreach ($events as $event) {
-    if (
-        $event['type'] == 'DeleteEvent' ||
-        $event['type'] == 'IssueCommentEvent' ||
-        $event['type'] == 'ReleaseEvent'
-    ) {
+    $eventDateTime = new DateTime($event['created_at']);
+    if ($eventDateTime >= $mostRecentEventDateTime) {
+        break;
+    }
+
+    if (!in_array($event['type'], $supportedEventTypes)) {
         continue;
     }
-    echo "Type: ", $event['type'], PHP_EOL;
-    echo "Repo: ", $event['repo']['name'], PHP_EOL;
-    echo "Date: ", $event['created_at'], PHP_EOL;
-    if ($event['type'] == 'CreateEvent') {
-        echo " Created a new ", $event['payload']['ref_type'], ", name ", $event['payload']['ref'], PHP_EOL;
+    $uniqueEventCheck = $githubRepository->getEventByEventId($event['id']);
+    if ($uniqueEventCheck !== false) {
+        continue;
     }
-    if ($event['type'] == 'ForkEvent') {
-        echo " Forked to ", $event['payload']['forkee']['name'], PHP_EOL;
-    }
-    if ($event['type'] == 'PullRequestEvent') {
-        echo ' ', ucwords($event['payload']['action']), ' a pull request to ', $event['payload']['pull_request']['base']['repo']['name'], PHP_EOL;
-        echo ' Message: ', $event['payload']['pull_request']['body'], PHP_EOL;
-    }
-    if ($event['type'] == 'PushEvent') {
-        foreach ($event['payload']['commits'] as $commit) {
-            echo " Commit: ", $commit['message'], PHP_EOL;
-        }
-    }
-    echo PHP_EOL;
+
+    $githubRepository->insertEvent(
+        $event['id'],
+        $event['type'],
+        $eventDateTime,
+        $event
+    );
 }
