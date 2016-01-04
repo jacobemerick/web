@@ -2,9 +2,6 @@
 
 require_once __DIR__ . '/../index.php';
 
-require_once __DIR__ . '/../../utility/Loader.class.inc.php'; // ughs
-require_once __DIR__ . '/../../utility/Content.class.inc.php'; // todo kill with fire
-
 use Suin\RSSWriter\Channel;
 use Suin\RSSWriter\Feed;
 use Suin\RSSWriter\Item;
@@ -54,8 +51,16 @@ foreach ($activeBlogPosts as $blogPost) {
     $blogPostItem->guid($url, true);
 
     $description = $blogPost['body'];
-    $description = Content::instance('FixPhoto', $description)->activate(true); // todo kill this with fire
-    $description = htmlentities($description);
+    $description = strip_tags($description);
+    $description = strtok($description, "\n");
+    if (strlen($description) > 250) {
+        $description = wordwrap($description, 250);
+        $description = strtok($description, "\n");
+        if (substr($description, -1) != '.') {
+            $description .= '&hellip;';
+        }
+    }
+    $description = html_entity_decode($description);
     $blogPostItem->description($description);
 
     $categoryUrl = "http://blog.jacobemerick.com/{$blogPost['category']}/";

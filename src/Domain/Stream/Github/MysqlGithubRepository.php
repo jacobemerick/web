@@ -32,8 +32,8 @@ class MysqlGithubRepository implements GithubRepositoryInterface
             FROM `jpemeric_stream`.`github`
             ORDER BY `datetime` DESC";
         if (!is_null($limit)) {
-          $query .= "
-          LIMIT {$offset}, {$limit}";
+            $query .= "
+            LIMIT {$offset}, {$limit}";
         }
 
         return $this

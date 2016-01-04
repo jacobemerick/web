@@ -32,8 +32,8 @@ class MysqlChangelogRepository implements ChangelogRepositoryInterface
             FROM `jpemeric_stream`.`changelog`
             ORDER BY `datetime` DESC";
         if (!is_null($limit)) {
-          $query .= "
-          LIMIT {$offset}, {$limit}";
+            $query .= "
+            LIMIT {$offset}, {$limit}";
         }
 
         return $this
