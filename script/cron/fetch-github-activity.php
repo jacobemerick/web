@@ -62,7 +62,7 @@ $mostRecentEventDateTime = new DateTime($mostRecentEventDateTime);
 $events = $client->api('user')->publicEvents('jacobemerick');
 foreach ($events as $event) {
     $eventDateTime = new DateTime($event['created_at']);
-    if ($eventDateTime >= $mostRecentEventDateTime) {
+    if ($eventDateTime <= $mostRecentEventDateTime) {
         break;
     }
 
