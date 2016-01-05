@@ -3,7 +3,7 @@
 namespace Jacobemerick\Web\Domain\Stream\Twitter;
 
 use Aura\Sql\ConnectionLocator;
-use DateTimeInterface;
+use DateTime;
 
 class MysqlTwitterRepository implements TwitterRepositoryInterface
 {
@@ -60,12 +60,12 @@ class MysqlTwitterRepository implements TwitterRepositoryInterface
     }
 
     /**
-     * @param DateTimeInterface $date
-     * @param string            $text
+     * @param DateTime $date
+     * @param string   $text
      *
      * @return array|false
      */
-    public function getTwitterByFields(DateTimeInterface $date, $text)
+    public function getTwitterByFields(DateTime $date, $text)
     {
         $query = "
             SELECT *
@@ -100,7 +100,7 @@ class MysqlTwitterRepository implements TwitterRepositoryInterface
             ->fetchAll($query);
     }
 
-    public function insertTweet($tweetId, DateTimeInterface $datetime, array $metadata)
+    public function insertTweet($tweetId, DateTime $datetime, array $metadata)
     {
         $query = "
             INSERT INTO `jpemeric_stream`.`twitter2`

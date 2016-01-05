@@ -91,7 +91,6 @@ foreach ($activeBlogComments as $blogComment) {
     $blogCommentItem = new Item();
 
     $blogCommentItem->title("Comment on '{$blogComment['title']}' from {$blogComment['name']}");
-    $blogCommentItem->author($blogComment['name']);
 
     $url = "http://blog.jacobemerick.com/{$blogComment['category']}/{$blogComment['path']}/";
     $url .= "#comment-{$blogComment['id']}";
