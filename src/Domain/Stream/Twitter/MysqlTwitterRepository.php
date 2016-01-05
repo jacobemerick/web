@@ -41,6 +41,24 @@ class MysqlTwitterRepository implements TwitterRepositoryInterface
             ->fetchOne($query, $bindings);
     }
 
+    public function getTwitterByTweetId($tweetId)
+    {
+        $query = "
+            SELECT `id`, `tweet_id`, `datetime`, `metadata`
+            FROM `jpemeric_stream`.`twitter2`
+            WHERE `tweet_id` = :tweet_id
+            LIMIT 1";
+
+        $bindings = [
+            'tweet_id' => $tweetId,
+        ];
+
+        return $this
+            ->connections
+            ->getRead()
+            ->fetchOne($query, $bindings);
+    }
+
     /**
      * @param DateTimeInterface $date
      * @param string            $text
@@ -80,5 +98,43 @@ class MysqlTwitterRepository implements TwitterRepositoryInterface
             ->connections
             ->getRead()
             ->fetchAll($query);
+    }
+
+    public function insertTweet($tweetId, DateTimeInterface $datetime, array $metadata)
+    {
+        $query = "
+            INSERT INTO `jpemeric_stream`.`twitter2`
+                (`tweet_id`, `datetime`, `metadata`)
+            VALUES
+                (:tweet_id, :datetime, :metadata)";
+
+        $bindings = [
+            'tweet_id' => $tweetId,
+            'datetime' => $datetime->format('Y-m-d H:i:s'),
+            'metadata' => json_encode($metadata),
+        ];
+
+        return $this
+            ->connections
+            ->getWrite()
+            ->perform($query, $bindings);
+    }
+
+    public function updateTweetMetadata($tweetId, array $metadata)
+    {
+        $query = "
+            UPDATE `jpemeric_stream`.`twitter2`
+            SET `metadata` = :metadata
+            WHERE `tweet_id` = :tweet_id";
+
+        $bindings = [
+            'metadata' => json_encode($metadata),
+            'tweet_id' => $tweetId,
+        ];
+
+        return $this
+            ->connections
+            ->getWrite()
+            ->perform($query, $bindings);
     }
 }
