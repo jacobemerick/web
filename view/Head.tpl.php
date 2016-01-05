@@ -14,7 +14,10 @@
 	<meta name="msvalidate.01" content="<?= $bing_verification ?>" />
 	<link rel="shortcut icon" href="/favicon.ico" />
 <? if(isset($rss_link)) : ?>
-	<link rel="alternate" type="application/rss+xml" href="<?= $rss_link ?>" />
+	<link rel="alternate" type="application/rss+xml" title="<?= $rss_link['title'] ?>" href="<?= $rss_link['url'] ?>" />
+<? endif ?>
+<? if(isset($rss_comment_link)) : ?>
+	<link rel="alternate" type="application/rss+xml" title="<?= $rss_comment_link['title'] ?>" href="<?= $rss_comment_link['url'] ?>" />
 <? endif ?>
 <? if(isset($canonical)) : ?>
 	<link rel="canonical" href="<?= $canonical ?>" />
