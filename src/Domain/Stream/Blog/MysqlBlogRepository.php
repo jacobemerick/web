@@ -97,6 +97,23 @@ class MysqlBlogRepository implements BlogRepositoryInterface
             ->fetchAll($query);
     }
 
+    public function getBlogsUpdatedSince(DateTime $datetime)
+    {
+        $query = "
+            SELECT *
+            FROM `jpemeric_stream`.`blog2`
+            WHERE `updated_at` >= :last_update";
+
+        $bindings = [
+            'last_update' => $datetime->format('Y-m-d H:i:s'),
+        ];
+
+        return $this
+            ->connections
+            ->getRead()
+            ->fetchAll($query, $bindings);
+    }
+
     public function insertBlog($permalink, DateTime $datetime, array $metadata)
     {
         $query = "
