@@ -60,6 +60,23 @@ class MysqlGoodreadRepository implements GoodreadRepositoryInterface
             ->fetchOne($query, $bindings);
     }
 
+    public function getGoodreadsUpdatedSince(DateTime $datetime)
+    {
+        $query = "
+            SELECT *
+            FROM `jpemeric_stream`.`goodread`
+            WHERE `updated_at` >= :last_update";
+
+        $bindings = [
+            'last_update' => $datetime->format('Y-m-d H:i:s'),
+        ];
+
+        return $this
+            ->connections
+            ->getRead()
+            ->fetchAll($query, $bindings);
+    }
+
     public function insertReview($permalink, $bookId, DateTime $datetime, array $metadata)
     {
         $query = "

@@ -65,6 +65,23 @@ class MysqlDailyMileRepository implements DailyMileRepositoryInterface
             ->fetchOne($query, $bindings);
     }
 
+    public function getDailyMilesUpdatedSince(DateTime $datetime)
+    {
+        $query = "
+            SELECT *
+            FROM `jpemeric_stream`.`dailymile`
+            WHERE `updated_at` >= :last_update";
+
+        $bindings = [
+            'last_update' => $datetime->format('Y-m-d H:i:s'),
+        ];
+
+        return $this
+            ->connections
+            ->getRead()
+            ->fetchAll($query, $bindings);
+    }
+
     /**
      * @param integer  $entryId
      * @param string   $entryType

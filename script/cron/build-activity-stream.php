@@ -70,7 +70,7 @@ foreach ($blogCommentActivity as $blogComment) {
 
 foreach ($blogCommentHolder as $blogId => $commentCount) {
     $blogActivity = $activityRepository->getActivityByTypeId('blog', $blogId);
-    $blogActivityMetadata = json_decode($blogActivity['metadata']);
+    $blogActivityMetadata = json_decode($blogActivity['metadata'], true);
     if (
         !isset($blogActivityMetadata['comments']) ||
         $blogActivityMetadata['comments'] != $commentCount
@@ -81,3 +81,122 @@ foreach ($blogCommentHolder as $blogId => $commentCount) {
         );
     }
 }
+
+// distance
+use Jacobemerick\Web\Domain\Stream\DailyMile\MysqlDailyMileRepository as DailyMileRepository;
+$dailyMileRepository = new DailyMileRepository($container['db_connection_locator']);
+
+$lastDailyMileActivity = $activityRepository->getActivityLastUpdateByType('distance');
+if ($lastDailyMileActivity === false) {
+    $lastDailyMileActivityDateTime = new DateTime('2008-05-03');
+} else {
+    $lastDailyMileActivityDateTime = new DateTime($lastDailyMileActivity['updated_at']);
+    $lastDailyMileActivityDateTime->modify('-5 days');
+}
+$newDailyMileActivity = $dailyMileRepository->getDailyMilesUpdatedSince($lastDailyMileActivityDateTime);
+foreach ($newDailyMileActivity as $dailyMile) {
+    $uniqueDailyMileCheck = $activityRepository->getActivityByTypeId('distance', $dailyMile['id']);
+    if ($uniqueDailyMileCheck !== false) {
+        continue;
+    }
+
+    $dailyMileData = json_decode($dailyMile['metadata'], true);
+    if ($dailyMile['type'] == 'Hiking') {
+        $message = sprintf(
+            '%s %.2f %s and felt %s.',
+            'Hiked',
+            $dailyMileData['workout']['distance']['value'],
+            $dailyMileData['workout']['distance']['units'],
+            $dailyMileData['workout']['felt']
+        );
+        $messageLong = "<p>{$message}</p>";
+        if (isset($dailyMileData['workout']['title'])) {
+            $messageLong .= "\n<p>I was hiking up around the {$dailyMileData['workout']['title']} area.</p>";
+        }
+    } else if ($dailyMile['type'] == 'Running') {
+        $message = sprintf(
+            '%s %.2f %s and felt %s.',
+            'Ran',
+            $dailyMileData['workout']['distance']['value'],
+            $dailyMileData['workout']['distance']['units'],
+            $dailyMileData['workout']['felt']
+        );
+        $messageLong = "<p>{$message}</p>";
+        if (isset($dailyMileData['message'])) {
+            $messageLong .= "\n<p>Afterwards, I was all like '{$dailyMileData['message']}'.</p>";
+        }
+    } else if ($dailyMile['type'] == 'Walking') {
+        $message = sprintf(
+            '%s %.2f %s and felt %s.',
+            'Walked',
+            $dailyMileData['workout']['distance']['value'],
+            $dailyMileData['workout']['distance']['units'],
+            $dailyMileData['workout']['felt']
+        );
+        $messageLong = "<p>{$message}</p>";
+        if (isset($dailyMileData['message'])) {
+            $messageLong .= "\n<p>{$dailyMileData['message']}</p>";
+        }
+    } else {
+        continue;
+    }
+
+    $activityRepository->insertActivity(
+        $message,
+        $messageLong,
+        (new DateTime($dailyMile['datetime'])),
+        [],
+        'distance',
+        $dailyMile['id']
+    );
+}
+
+// books
+use Jacobemerick\Web\Domain\Stream\Goodread\MysqlGoodreadRepository as GoodreadRepository;
+$goodreadRepository = new GoodreadRepository($container['db_connection_locator']);
+
+$lastGoodreadActivity = $activityRepository->getActivityLastUpdateByType('book');
+if ($lastGoodreadActivity === false) {
+    $lastGoodreadActivityDateTime = new DateTime('2010-08-28');
+} else {
+    $lastGoodreadActivityDateTime = new DateTime($lastGoodreadActivity['updated_at']);
+    $lastGoodreadActivityDateTime->modify('-5 days');
+}
+$newGoodreadActivity = $goodreadRepository->getGoodreadsUpdatedSince($lastGoodreadActivityDateTime);
+foreach ($newGoodreadActivity as $goodread) {
+    $uniqueGoodreadCheck = $activityRepository->getActivityByTypeId('book', $goodread['id']);
+    if ($uniqueGoodreadCheck !== false) {
+        continue;
+    }
+
+    $goodreadData = json_decode($goodread['metadata'], true);
+
+    if (empty($goodreadData['user_read_at'])) {
+        continue;
+    }
+
+    $message = sprintf(
+        'Just finished reading %s by %s.',
+        $goodreadData['title'],
+        $goodreadData['author_name']
+    );
+    if (isset($goodreadData['book_large_image_url'])) {
+        $messageLong = sprintf(
+            "<img alt=\"Goodreads | %s\" src=\"%s\" />\n",
+            $goodreadData['title'],
+            $goodreadData['book_large_image_url']
+        );
+    }
+    $messageLong .= "<p>{$message}</p>";
+
+    $activityRepository->insertActivity(
+        $message,
+        $messageLong,
+        (new DateTime($goodread['datetime'])),
+        [],
+        'book',
+        $goodread['id']
+    );
+}
+
+
