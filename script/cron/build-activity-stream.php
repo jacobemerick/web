@@ -151,6 +151,135 @@ foreach ($newDailyMileActivity as $dailyMile) {
     );
 }
 
+// github
+use Jacobemerick\Web\Domain\Stream\Github\MysqlGithubRepository as GithubRepository;
+$githubRepository = new GithubRepository($container['db_connection_locator']);
+
+$lastGithubActivity = $activityRepository->getActivityLastUpdateByType('git');
+if ($lastGithubActivity === false) {
+    $lastGithubActivityDateTime = new DateTime('2015-10-01');
+} else {
+    $lastGithubActivityDateTime = new DateTime($lastGithubActivity['updated_at']);
+    $lastGithubActivityDateTime->modify('-5 days');
+}
+$newGithubActivity = $githubRepository->getGithubsUpdatedSince($lastGithubActivityDateTime);
+foreach ($newGithubActivity as $github) {
+    $uniqueGithubCheck = $activityRepository->getActivityByTypeId('git', $github['id']);
+    if ($uniqueGithubCheck !== false) {
+        continue;
+    }
+
+    $githubData = json_decode($github['metadata'], true);
+
+    if ($github['type'] == 'CreateEvent') {
+        if (
+            $githubData['payload']['ref_type'] == 'branch' ||
+            $githubData['payload']['ref_type'] == 'tag'
+        ) {
+            $message = sprintf(
+                'Created %s %s at %s.',
+                $githubData['payload']['ref_type'],
+                $githubData['payload']['ref'],
+                $githubData['repo']['name']
+            );
+            $messageLong = sprintf(
+                '<p>Created %s %s at <a href="%s" target="_blank" title="Github | %s">%s</a>.</p>',
+                $githubData['payload']['ref_type'],
+                $githubData['payload']['ref'],
+                "https://github.com/{$githubData['repo']['name']}",
+                $githubData['repo']['name'],
+                $githubData['repo']['name']
+            );
+        } else if ($githubData['payload']['ref_type'] == 'repository') {
+            $message = sprintf(
+                'Created %s %s.',
+                $githubData['payload']['ref_type'],
+                $githubData['repo']['name']
+            );
+            $messageLong = sprintf(
+                '<p>Created %s <a href="%s" target="_blank" title="Github | %s">%s</a>.</p>',
+                $githubData['payload']['ref_type'],
+                "https://github.com/{$githubData['repo']['name']}",
+                $githubData['repo']['name'],
+                $githubData['repo']['name']
+            );
+        } else {
+            continue;
+        }
+    } else if ($github['type'] == 'ForkEvent') {
+        $message = sprintf(
+            'Forked %s to %s',
+            $githubData['repo']['name'],
+            $githubData['payload']['forkee']['full_name']
+        );
+        $messageLong = sprintf(
+            '<p>Forked <a href="%s" target="_blank" title="Github | %s">%s</a> to <a href="%s" target="_blank" title="Github | %s">%s</a>.',
+            "https://github.com/{$githubData['repo']['name']}",
+            $githubData['repo']['name'],
+            $githubData['repo']['name'],
+            $githubData['payload']['forkee']['html_url'],
+            $githubData['payload']['forkee']['full_name'],
+            $githubData['payload']['forkee']['full_name']
+        );
+    } else if ($github['type'] == 'PullRequestEvent') {
+        $message = sprintf(
+            '%s a pull request at %s',
+            ucwords($githubData['payload']['action']),
+            $githubData['repo']['name']
+        );
+        $messageLong = sprintf(
+            '<p>%s pull request <a href="%s" target="_blank" title="Github | %s PR %d">%d</a> at <a href="%s" target="_blank" title="Github | %s">%s</a>.</p>',
+            ucwords($githubData['payload']['action']),
+            $githubData['payload']['pull_request']['html_url'],
+            $githubData['repo']['name'],
+            $githubData['payload']['number'],
+            $githubData['payload']['number'],
+            "https://github.com/{$githubData['repo']['name']}",
+            $githubData['repo']['name'],
+            $githubData['repo']['name']
+        );
+    } else if ($github['type'] == 'PushEvent') {
+        $message = sprintf(
+            'Pushed some code at %s.',
+            $githubData['repo']['name']
+        );
+        $messageLong = sprintf(
+            "<p>Pushed some code at <a href=\"%s\" target=\"_blank\" title=\"Github | %s\">%s</a>.</p>\n",
+            $githubData['payload']['ref'],
+            "https://github.com/{$githubData['repo']['name']}",
+            $githubData['repo']['name'],
+            $githubData['repo']['name']
+        );
+        $messageLong .= "<ul>\n";
+        foreach ($githubData['payload']['commits'] as $commit) {
+            $messageShort = $commit['message'];
+            $messageShort = strtok($messageShort, "\n");
+            if (strlen($messageShort) > 72) {
+                $messageShort = wordwrap($messageShort, 65);
+                $messageShort = strtok($messageShort, "\n");
+                $messageShort .= '...';
+            }
+            $messageLong .= sprintf(
+                "<li><a href=\"%s\" target=\"_blank\" title=\"Github | %s\">%s</a> %s.</p>\n",
+                "https://github.com/{$githubData['repo']['name']}/commit/{$commit['sha']}",
+                substr($commit['sha'], 0, 7),
+                substr($commit['sha'], 0, 7),
+                $messageShort
+            );
+        }
+        $messageLong .= "</ul>";
+    }
+
+    $activityRepository->insertActivity(
+        $message,
+        $messageLong,
+        (new DateTime($github['datetime'])),
+        [],
+        'git',
+        $github['id']
+    );
+}
+
 // books
 use Jacobemerick\Web\Domain\Stream\Goodread\MysqlGoodreadRepository as GoodreadRepository;
 $goodreadRepository = new GoodreadRepository($container['db_connection_locator']);
@@ -198,5 +327,3 @@ foreach ($newGoodreadActivity as $goodread) {
         $goodread['id']
     );
 }
-
-
