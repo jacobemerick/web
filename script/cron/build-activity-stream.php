@@ -25,10 +25,8 @@ foreach ($newBlogActivity as $blog) {
 
     $blogData = json_decode($blog['metadata'], true);
     $message = sprintf(
-        'Blogged about %s: <a href="%s" title="Jacob Emerick\'s Blog | %s">%s</a>.',
+        'Blogged about %s | %s.',
         str_replace('-', ' ', $blogData['category']),
-        $blogData['link'],
-        $blogData['title'],
         $blogData['title']
     );
     $messageLong = sprintf(
@@ -305,7 +303,7 @@ foreach ($newGoodreadActivity as $goodread) {
     }
 
     $message = sprintf(
-        'Just finished reading %s by %s.',
+        'Read %s by %s.',
         $goodreadData['title'],
         $goodreadData['author_name']
     );
@@ -349,12 +347,7 @@ foreach ($newTwitterActivity as $twitter) {
 
     $twitterData = json_decode($twitter['metadata'], true);
 
-    $message = $twitterData['text'];
-
-    $hashtag_link_pattern = '&lt;a href="http://twitter.com/search?q=%%23%s&src=hash" rel="nofollow" target="_blank"&gt;#%s&lt;/a&gt;';
-    $url_link_pattern = '&lt;a href="%s" rel="nofollow" target="_blank" title="%s"&gt;%s&lt;/a&gt;';
-    $user_mention_link_pattern = '&lt;a href="http://twitter.com/%s" rel="nofollow" target="_blank" title="%s"&gt;@%s&lt;/a&gt;';
-    $media_link_pattern = '&lt;a href="%s" rel="nofollow" target="_blank" title="%s"&gt;%s&lt;/a&gt;';
+    $message = "Tweeted {$twitterData['text']}";
 
     $entityHolder = [];
     foreach ($twitterData['entities'] as $entityType => $entities) {
