@@ -80,6 +80,21 @@ class MysqlYouTubeRepository implements YouTubeRepositoryInterface
             ->fetchOne($query, $bindings);
     }
 
+    public function getYouTubesUpdatedSince(DateTime $datetime)
+    {
+        $query = "
+            SELECT *
+            FROM `jpemeric_stream`.`youtube`
+            WHERE `updated_at` >= :last_update";
+        $bindings = [
+            'last_update' => $datetime->format('Y-m-d H:i:s'),
+        ];
+        return $this
+            ->connections
+            ->getRead()
+            ->fetchAll($query, $bindings);
+    }
+
     public function insertVideo($videoId, DateTime $datetime, array $metadata)
     {
         $query = "

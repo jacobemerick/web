@@ -327,3 +327,46 @@ foreach ($newGoodreadActivity as $goodread) {
         $goodread['id']
     );
 }
+
+// youtube
+use Jacobemerick\Web\Domain\Stream\YouTube\MysqlYouTubeRepository as YouTubeRepository;
+$youTubeRepository = new YouTubeRepository($container['db_connection_locator']);
+
+$lastYouTubeActivity = $activityRepository->getActivityLastUpdateByType('youtube');
+if ($lastYouTubeActivity === false) {
+    $lastYouTubeActivityDateTime = new DateTime('2010-08-28');
+} else {
+    $lastYouTubeActivityDateTime = new DateTime($lastYouTubeActivity['updated_at']);
+    $lastYouTubeActivityDateTime->modify('-5 days');
+}
+$newYouTubeActivity = $youTubeRepository->getYouTubesUpdatedSince($lastYouTubeActivityDateTime);
+foreach ($newYouTubeActivity as $youTube) {
+    $uniqueYouTubeCheck = $activityRepository->getActivityByTypeId('youtube', $youTube['id']);
+    if ($uniqueYouTubeCheck !== false) {
+        continue;
+    }
+
+    $youTubeData = json_decode($youTube['metadata'], true);
+
+    $message = sprintf(
+        'Favorited %s on YouTube.',
+        $youTubeData['snippet']['title']
+    );
+    $messageLong = sprintf(
+        "<iframe src=\"%s\" frameborder=\"0\" allowfullscreen></iframe>\n" .
+        "<p>Favorited <a href=\"%s\" target=\"_blank\" title=\"YouTube | %s\">%s</a> on YouTube.</p>",
+        "https://www.youtube.com/embed/{$youTubeData['contentDetails']['videoId']}",
+        "https://youtu.be/{$youTubeData['contentDetails']['videoId']}",
+        $youTubeData['snippet']['title'],
+        $youTubeData['snippet']['title']
+    );
+
+    $activityRepository->insertActivity(
+        $message,
+        $messageLong,
+        (new DateTime($youTube['datetime'])),
+        [],
+        'youtube',
+        $youTube['id']
+    );
+}
