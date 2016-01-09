@@ -328,6 +328,104 @@ foreach ($newGoodreadActivity as $goodread) {
     );
 }
 
+// twitter
+use Jacobemerick\Web\Domain\Stream\Twitter\MysqlTwitterRepository as TwitterRepository;
+$twitterRepository = new TwitterRepository($container['db_connection_locator']);
+
+$lastTwitterActivity = $activityRepository->getActivityLastUpdateByType('twitter');
+if ($lastTwitterActivity === false) {
+    $lastTwitterActivityDateTime = new DateTime('2010-03-10');
+} else {
+    $lastTwitterActivityDateTime = new DateTime($lastTwitterActivity['updated_at']);
+    $lastTwitterActivityDateTime->modify('-5 days');
+}
+$newTwitterActivity = $twitterRepository->getTwittersUpdatedSince($lastTwitterActivityDateTime);
+foreach ($newTwitterActivity as $twitter) {
+    $uniqueTwitterCheck = $activityRepository->getActivityByTypeId('twitter', $twitter['id']);
+    if ($uniqueTwitterCheck !== false) {
+        // check for metadata update
+        continue;
+    }
+
+    $twitterData = json_decode($twitter['metadata'], true);
+
+    $message = $twitterData['text'];
+
+    $hashtag_link_pattern = '&lt;a href="http://twitter.com/search?q=%%23%s&src=hash" rel="nofollow" target="_blank"&gt;#%s&lt;/a&gt;';
+    $url_link_pattern = '&lt;a href="%s" rel="nofollow" target="_blank" title="%s"&gt;%s&lt;/a&gt;';
+    $user_mention_link_pattern = '&lt;a href="http://twitter.com/%s" rel="nofollow" target="_blank" title="%s"&gt;@%s&lt;/a&gt;';
+    $media_link_pattern = '&lt;a href="%s" rel="nofollow" target="_blank" title="%s"&gt;%s&lt;/a&gt;';
+
+    $entityHolder = [];
+    foreach ($twitterData['entities'] as $entityType => $entities) {
+        foreach ($entities as $entity) {
+            if ($entityType == 'hashtags') {
+                $replace = sprintf(
+                    '<a href="https://twitter.com/search?q=%%23%s&src=hash" rel="nofollow" target="_blank">#%s</a>',
+                    $entity['text'],
+                    $entity['text']
+                );
+            } else if ($entityType == 'urls') {
+                $replace = sprintf(
+                    '<a href="%s" rel="nofollow" target="_blank" title="%s">%s</a>',
+                    $entity['url'],
+                    $entity['expanded_url'],
+                    $entity['display_url']
+                );
+            } else if ($entityType == 'user_mentions') {
+                $replace = sprintf(
+                    '<a href="https://twitter.com/%s" rel="nofollow" target="_blank" title="Twitter | %s">@%s</a>',
+                    strtolower($entity['screen_name']),
+                    $entity['name'],
+                    $entity['screen_name']
+                );
+            } else if ($entityType == 'media') {
+                $replace = sprintf(
+                    "<a href=\"%s\" rel=\"nofollow\" target=\"_blank\" title=\"%s\">\n" .
+                    "<img src=\"%s:%s\" alt=\"%s\" height=\"%s\" width=\"%s\" />\n" .
+                    "</a>",
+                    $entity['url'],
+                    $entity['display_url'],
+                    $entity['media_url'],
+                    'large',
+                    $entity['display_url'],
+                    $entity['sizes']['large']['h'],
+                    $entity['sizes']['large']['w']
+                );
+            } else {
+                continue 2;
+            }
+
+            $entityHolder[$entity['indices'][0]] = [
+                'start' => $entity['indices'][0],
+                'end' => $entity['indices'][1],
+                'replace' => $replace,
+            ];
+        }
+    }
+
+    $messageLong = $twitterData['text'];
+    krsort($entityHolder);
+    foreach($entityHolder as $entity)
+    {
+        $messageLong = substr_replace(
+            $messageLong,
+            $entity['replace'],
+            $entity['start'],
+            $entity['end'] - $entity['start']
+        );
+    }
+
+    $activityRepository->insertActivity(
+        $message,
+        $messageLong,
+        (new DateTime($twitter['datetime'])),
+        [], // metadata
+        'twitter',
+        $twitter['id']
+    );
+}
+
 // youtube
 use Jacobemerick\Web\Domain\Stream\YouTube\MysqlYouTubeRepository as YouTubeRepository;
 $youTubeRepository = new YouTubeRepository($container['db_connection_locator']);

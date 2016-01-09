@@ -100,6 +100,23 @@ class MysqlTwitterRepository implements TwitterRepositoryInterface
             ->fetchAll($query);
     }
 
+    public function getTwittersUpdatedSince(DateTime $datetime)
+    {
+        $query = "
+            SELECT *
+            FROM `jpemeric_stream`.`twitter2`
+            WHERE `updated_at` >= :last_update";
+
+        $bindings = [
+            'last_update' => $datetime->format('Y-m-d H:i:s'),
+        ];
+
+        return $this
+            ->connections
+            ->getRead()
+            ->fetchAll($query, $bindings);
+    }
+
     public function insertTweet($tweetId, DateTime $datetime, array $metadata)
     {
         $query = "
