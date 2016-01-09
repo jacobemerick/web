@@ -339,13 +339,29 @@ if ($lastTwitterActivity === false) {
 }
 $newTwitterActivity = $twitterRepository->getTwittersUpdatedSince($lastTwitterActivityDateTime);
 foreach ($newTwitterActivity as $twitter) {
+    $twitterData = json_decode($twitter['metadata'], true);
+
     $uniqueTwitterCheck = $activityRepository->getActivityByTypeId('twitter', $twitter['id']);
     if ($uniqueTwitterCheck !== false) {
-        // check for metadata update
+        $metadata = [];
+        if ($twitterData['favorite_count'] > 0) {
+            $metadata['favorites'] = $twitterData['favorite_count'];
+        }
+        if ($twitterData['retweet_count'] > 0) {
+            $metadata['retweets'] = $twitterData['retweet_count'];
+        }
+
+        $activityRepository->updateActivityMetadata($twitter['id'], $metadata);
         continue;
     }
 
-    $twitterData = json_decode($twitter['metadata'], true);
+    if (
+        $twitterData['in_reply_to_user_id'] != null &&
+        $twitterData['favorite_count'] == 0 &&
+        $twitterData['retweet_count'] == 0
+    ) {
+        continue;
+    }
 
     $message = "Tweeted {$twitterData['text']}";
 
@@ -409,11 +425,19 @@ foreach ($newTwitterActivity as $twitter) {
         );
     }
 
+    $metadata = [];
+    if ($twitterData['favorite_count'] > 0) {
+        $metadata['favorites'] = $twitterData['favorite_count'];
+    }
+    if ($twitterData['retweet_count'] > 0) {
+        $metadata['retweets'] = $twitterData['retweet_count'];
+    }
+
     $activityRepository->insertActivity(
         $message,
         $messageLong,
         (new DateTime($twitter['datetime'])),
-        [], // metadata
+        $metadata,
         'twitter',
         $twitter['id']
     );
