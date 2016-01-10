@@ -363,7 +363,9 @@ foreach ($newTwitterActivity as $twitter) {
         continue;
     }
 
-    $message = "Tweeted {$twitterData['text']}";
+    $message = "Tweeted | {$twitterData['text']}";
+    $message = trim(preg_replace('/\s+/', ' ', $message));
+    $message = mb_convert_encoding($message, 'HTML-ENTITIES', 'UTF-8');
 
     $entityHolder = [];
     foreach ($twitterData['entities'] as $entityType => $entities) {
@@ -421,9 +423,9 @@ foreach ($newTwitterActivity as $twitter) {
             mb_substr($messageLong, 0, $entity['start']) .
             $entity['replace'] .
             mb_substr($messageLong, $entity['end'], null, 'UTF-8');
-        );
     }
     $messageLong = mb_convert_encoding($messageLong, 'HTML-ENTITIES', 'UTF-8');
+    $messageLong = nl2br($messageLong, true);
     $messageLong = "<p>{$messageLong}</p>";
 
     $metadata = [];
