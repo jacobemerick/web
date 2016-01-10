@@ -9,8 +9,8 @@ use Thepixeldeveloper\Sitemap\Urlset;
 use Jacobemerick\Web\Domain\Blog\Post\MysqlPostRepository as BlogPostRepository;
 use Jacobemerick\Web\Domain\Blog\Tag\MysqlTagRepository as BlogTagRepository;
 use Jacobemerick\Web\Domain\Portfolio\Piece\MysqlPieceRepository as PortfolioPieceRepository;
+use Jacobemerick\Web\Domain\Stream\Activity\MysqlActivityRepository as StreamActivityRepository;
 use Jacobemerick\Web\Domain\Stream\Changelog\MysqlChangelogRepository as ChangelogRepository;
-use Jacobemerick\Web\Domain\Stream\Post\MysqlPostRepository as StreamPostRepository;
 use Jacobemerick\Web\Domain\Waterfall\Companion\MysqlCompanionRepository as WaterfallCompanionRepository;
 use Jacobemerick\Web\Domain\Waterfall\County\MysqlCountyRepository as WaterfallCountyRepository;
 use Jacobemerick\Web\Domain\Waterfall\Log\MysqlLogRepository as WaterfallLogRepository;
@@ -207,33 +207,33 @@ $buildSitemap($entryArray, 'http://home.jacobemerick.com', 'home');
 /*********************************************
  * lifestream.jacobemerick.com
  *********************************************/
-$reduceToMostRecentStreamPost = function ($recentPost, $post) {
-    if (is_null($recentPost)) {
-        return $post;
+$reduceToMostRecentStreamActivity = function ($recentActivity, $activity) {
+    if (is_null($recentActivity)) {
+        return $activity;
     }
-    $postDate = new DateTime($post['date']);
-    $recentPostDate = new DateTime($recentPost['date']);
-    return ($postDate > $recentPostDate) ? $post: $recentPost;
+    $activityDate = new DateTime($activity['datetime']);
+    $recentActivityDate = new DateTime($recentActivity['datetime']);
+    return ($activityDate > $recentActivityDate) ? $activity: $recentActivity;
 };
 
-$streamPostsPerPage = 15;
+$streamActivitiesPerPage = 15;
 
-$streamPostRepository = new StreamPostRepository($container['db_connection_locator']);
-$streamPosts = $streamPostRepository->getPosts();
-$mostRecentStreamPost = array_reduce($streamPosts, $reduceToMostRecentStreamPost);
+$streamActivityRepository = new StreamActivityRepository($container['db_connection_locator']);
+$streamActivities = $streamActivityRepository->getActivities();
+$mostRecentStreamActivity = array_reduce($streamActivities, $reduceToMostRecentStreamActivity);
 
 $entryArray = [
     '/' => [
-        'lastmod' => (new DateTime($mostRecentStreamPost['date']))->format('c'),
+        'lastmod' => (new DateTime($mostRecentStreamActivity['datetime']))->format('c'),
         'changefreq' => 'hourly',
         'priority' => .9,
     ]
 ];
-for ($i = 2; (($i - 1) * $streamPostsPerPage) < count($streamPosts); $i++) {
+for ($i = 2; (($i - 1) * $streamActivitiesPerPage) < count($streamActivities); $i++) {
     $entryKey = "/page/{$i}/";
     $entryArray += [
         $entryKey => [
-            'lastmod' => (new DateTime($mostRecentStreamPost['date']))->format('c'),
+            'lastmod' => (new DateTime($mostRecentStreamActivity['datetime']))->format('c'),
             'changefreq' => 'hourly',
             'priority' => .1,
         ]
@@ -244,31 +244,32 @@ $streamTypeArray = [
     'blog',
     'books',
     'distance',
+    'git',
     'hulu',
     'twitter',
     'youtube',
 ];
 
 foreach ($streamTypeArray as $streamType) {
-    $streamTypePosts = array_filter($streamPosts, function ($post) use ($streamType) {
+    $streamTypeActivities = array_filter($streamActivities, function ($post) use ($streamType) {
         return $post['type'] == $streamType;
     });
-    $mostRecentStreamTypePost = array_reduce($streamTypePosts, $reduceToMostRecentStreamPost);
+    $mostRecentStreamTypeActivity = array_reduce($streamTypeActivities, $reduceToMostRecentStreamActivity);
 
     $entryKey = "/{$streamType}/";
     $entryArray += [
         $entryKey => [
-            'lastmod' => (new DateTime($mostRecentStreamTypePost['date']))->format('c'),
+            'lastmod' => (new DateTime($mostRecentStreamTypeActivity['datetime']))->format('c'),
             'changefreq' => 'hourly',
             'priority' => .3,
         ]
     ];
 
-    for ($i = 2; (($i - 1) * $streamPostsPerPage) < count($streamTypePosts); $i++) {
+    for ($i = 2; (($i - 1) * $streamActivitiesPerPage) < count($streamTypeActivities); $i++) {
         $entryKey = "/{$streamType}/page/{$i}/";
         $entryArray += [
             $entryKey => [
-                'lastmod' => (new DateTime($mostRecentStreamTypePost['date']))->format('c'),
+                'lastmod' => (new DateTime($mostRecentStreamTypeActivity['datetime']))->format('c'),
                 'changefreq' => 'hourly',
                 'priority' => .1,
             ]
@@ -276,12 +277,12 @@ foreach ($streamTypeArray as $streamType) {
     }
 }
 
-$reversedStreamPosts = array_reverse($streamPosts);
-foreach ($reversedStreamPosts as $streamPost) {
-    $entryKey = "/{$streamPost['type']}/{$streamPost['id']}/";
+$reversedStreamActivities = array_reverse($streamActivities);
+foreach ($reversedStreamActivities as $streamActivity) {
+    $entryKey = "/{$streamActivity['type']}/{$streamActivity['id']}/";
     $entryArray += [
         $entryKey => [
-            'lastmod' => (new DateTime($streamPost['date']))->format('c'),
+            'lastmod' => (new DateTime($streamActivity['datetime']))->format('c'),
             'changefreq' => 'never',
             'priority' => .5,
         ],

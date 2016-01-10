@@ -37,28 +37,6 @@ class MysqlYouTubeRepository implements YouTubeRepositoryInterface
     }
 
     /**
-     * @param integer $id
-     *
-     * @return array|false
-     */
-    public function getYouTubeById($id)
-    {
-        $query = "
-            SELECT *
-            FROM `jpemeric_stream`.`youtube`
-            WHERE `id` = :id
-            LIMIT 1";
-        $bindings = [
-            'id' => $id,
-        ];
-
-        return $this
-            ->connections
-            ->getRead()
-            ->fetchOne($query, $bindings);
-    }
-
-    /**
      * @param string $title
      *
      * @return array|false

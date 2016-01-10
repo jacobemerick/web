@@ -19,28 +19,6 @@ class MysqlBlogRepository implements BlogRepositoryInterface
         $this->connections = $connections;
     }
 
-    /**
-     * @param integer $id
-     *
-     * @return array|false
-     */
-    public function getBlogById($id)
-    {
-        $query = "
-            SELECT *
-            FROM `jpemeric_stream`.`blog`
-            WHERE `id` = :id
-            LIMIT 1";
-        $bindings = [
-            'id' => $id,
-        ];
-
-        return $this
-            ->connections
-            ->getRead()
-            ->fetchOne($query, $bindings);
-    }
-
     public function getBlogByPermalink($permalink)
     {
         $query = "
@@ -50,28 +28,6 @@ class MysqlBlogRepository implements BlogRepositoryInterface
             LIMIT 1";
         $bindings = [
             'permalink' => $permalink,
-        ];
-
-        return $this
-            ->connections
-            ->getRead()
-            ->fetchOne($query, $bindings);
-    }
-
-    /**
-     * @param string $title
-     *
-     * @return array|false
-     */
-    public function getBlogByTitle($title)
-    {
-        $query = "
-            SELECT *
-            FROM `jpemeric_stream`.`blog`
-            WHERE `title` = :title
-            LIMIT 1";
-        $bindings = [
-            'title' => $title,
         ];
 
         return $this
