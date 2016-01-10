@@ -126,7 +126,7 @@ while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
 
 foreach ($idMap as $currentId => $newId) {
     $query = "
-        UPDATE `activity` SET `id` = :new_id WHERE `id` = :current_id";
+        UPDATE `jpemeric_stream`.`activity` SET `id` = :new_id WHERE `id` = :current_id";
     $update = $pdo->perform($query, ['new_id' => $newId, 'current_id' => $currentId]);
     if ($update === false) {
         exit('problem with update');

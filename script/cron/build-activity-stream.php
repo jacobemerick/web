@@ -356,7 +356,7 @@ foreach ($newTwitterActivity as $twitter) {
     }
 
     if (
-        $twitterData['in_reply_to_user_id'] != null &&
+        ($twitterData['in_reply_to_user_id'] != null || substr($twitterData['text'], 0, 1) === '@') &&
         $twitterData['favorite_count'] == 0 &&
         $twitterData['retweet_count'] == 0
     ) {
@@ -417,13 +417,14 @@ foreach ($newTwitterActivity as $twitter) {
     krsort($entityHolder);
     foreach($entityHolder as $entity)
     {
-        $messageLong = substr_replace(
-            $messageLong,
-            $entity['replace'],
-            $entity['start'],
-            $entity['end'] - $entity['start']
+        $messageLong =
+            mb_substr($messageLong, 0, $entity['start']) .
+            $entity['replace'] .
+            mb_substr($messageLong, $entity['end'], null, 'UTF-8');
         );
     }
+    $messageLong = mb_convert_encoding($messageLong, 'HTML-ENTITIES', 'UTF-8');
+    $messageLong = "<p>{$messageLong}</p>";
 
     $metadata = [];
     if ($twitterData['favorite_count'] > 0) {
