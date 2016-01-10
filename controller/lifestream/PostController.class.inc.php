@@ -23,7 +23,7 @@ final class PostController extends DefaultPageController
 		if(!$id || !is_numeric($id))
 			$this->eject();
 		
-		$post = $this->postRepository->getPostById($id);
+		$post = $this->activityRepository->getActivityById($id);
 		if(!$post)
 			$this->eject();
 		
