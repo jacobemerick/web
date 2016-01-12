@@ -244,7 +244,7 @@ $streamTypeArray = [
     'blog',
     'books',
     'distance',
-    'git',
+    'github',
     'hulu',
     'twitter',
     'youtube',

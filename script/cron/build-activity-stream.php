@@ -153,7 +153,7 @@ foreach ($newDailyMileActivity as $dailyMile) {
 use Jacobemerick\Web\Domain\Stream\Github\MysqlGithubRepository as GithubRepository;
 $githubRepository = new GithubRepository($container['db_connection_locator']);
 
-$lastGithubActivity = $activityRepository->getActivityLastUpdateByType('git');
+$lastGithubActivity = $activityRepository->getActivityLastUpdateByType('github');
 if ($lastGithubActivity === false) {
     $lastGithubActivityDateTime = new DateTime('2015-10-01');
 } else {
@@ -162,7 +162,7 @@ if ($lastGithubActivity === false) {
 }
 $newGithubActivity = $githubRepository->getGithubsUpdatedSince($lastGithubActivityDateTime);
 foreach ($newGithubActivity as $github) {
-    $uniqueGithubCheck = $activityRepository->getActivityByTypeId('git', $github['id']);
+    $uniqueGithubCheck = $activityRepository->getActivityByTypeId('github', $github['id']);
     if ($uniqueGithubCheck !== false) {
         continue;
     }
@@ -273,7 +273,7 @@ foreach ($newGithubActivity as $github) {
         $messageLong,
         (new DateTime($github['datetime'])),
         [],
-        'git',
+        'github',
         $github['id']
     );
 }
