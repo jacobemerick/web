@@ -29,15 +29,31 @@ foreach ($newBlogActivity as $blog) {
         str_replace('-', ' ', $blogData['category']),
         $blogData['title']
     );
-    $messageLong = sprintf(
-        "<h4><a href=\"%s\" title=\"Jacob Emerick's Blog | %s\">%s</a></h4>\n" .
-        "<p>%s [<a href=\"%s\">read more</a></a>]</p>",
-        $blogData['link'],
-        $blogData['title'],
-        $blogData['title'],
-        htmlentities($blogData['description']),
-        $blogData['link']
-    );
+
+    if (isset($blogData['enclosure'])) {
+        $messageLong = sprintf(
+            "<h4><a href=\"%s\" title=\"Jacob Emerick's Blog | %s\">%s</a></h4>\n" .
+            "<img src=\"%s\" alt=\"Blog | %s\" />\n" .
+            "<p>%s [<a href=\"%s\">read more</a></a>]</p>",
+            $blogData['link'],
+            $blogData['title'],
+            $blogData['title'],
+            $blogData['enclosure']['@attributes']['url'],
+            $blogData['title'],
+            htmlentities($blogData['description']),
+            $blogData['link']
+        );
+    } else {
+        $messageLong = sprintf(
+            "<h4><a href=\"%s\" title=\"Jacob Emerick's Blog | %s\">%s</a></h4>\n" .
+            "<p>%s [<a href=\"%s\">read more</a></a>]</p>",
+            $blogData['link'],
+            $blogData['title'],
+            $blogData['title'],
+            htmlentities($blogData['description']),
+            $blogData['link']
+        );
+    }
 
     $activityRepository->insertActivity(
         $message,
