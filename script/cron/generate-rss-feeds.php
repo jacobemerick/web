@@ -84,9 +84,14 @@ foreach ($activeBlogPosts as $blogPost) {
 
         $firstPhotoSize = filesize($firstPhotoInternalPath);
 
-        $fInfo = new finfo(FILEINFO_MIME_TYPE);
-        $firstPhotoType = $fInfo->file($firstPhotoInternalPath);
-        unset($fInfo);
+        /**
+         * ugh, remote host does not have pecl fileinfo
+         *
+         * $fInfo = new finfo(FILEINFO_MIME_TYPE);
+         * $firstPhotoType = $fInfo->file($firstPhotoInternalPath);
+         * unset($fInfo);
+         **/
+        $firstPhotoType = 'image/jpeg';
 
         $blogPostItem->enclosure("http://blog.jacobemerick.com{$firstPhotoPath}", $firstPhotoSize, $firstPhotoType);
     }
