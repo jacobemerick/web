@@ -2,6 +2,10 @@
 
 require_once __DIR__ . '/../index.php';
 
+// todo nope nope nope
+require_once __DIR__ . '/../../utility/Loader.class.inc.php';
+Loader::load('utility', 'Content');
+
 use Suin\RSSWriter\Channel;
 use Suin\RSSWriter\Feed;
 use Suin\RSSWriter\Item;
@@ -69,6 +73,23 @@ foreach ($activeBlogPosts as $blogPost) {
 
     $pubDate = new DateTime($blogPost['date']);
     $blogPostItem->pubDate($pubDate->getTimestamp());
+
+    $firstPhoto = Content::instance('FetchFirstPhoto', $blogPost['body'])->activate(true, 'large');
+    if (!empty($firstPhoto)) {
+        $firstPhotoPieces = sscanf($firstPhoto, '<img src="%s" height="%d" width="%d" alt="%s" />');
+        $firstPhotoPath = current($firstPhotoPieces);
+        $firstPhotoPath = trim($firstPhotoPath, '"');
+
+        $firstPhotoInternalPath = __DIR__ . '/../../public' . $firstPhotoPath;
+
+        $firstPhotoSize = filesize($firstPhotoInternalPath);
+
+        $fInfo = new finfo(FILEINFO_MIME_TYPE);
+        $firstPhotoType = $fInfo->file($firstPhotoInternalPath);
+        unset($fInfo);
+
+        $blogPostItem->enclosure("http://blog.jacobemerick.com{$firstPhotoPath}", $firstPhotoSize, $firstPhotoType);
+    }
 
     $blogPostItem->appendTo($blogPostChannel);
 }
