@@ -23,7 +23,7 @@ final class PostController extends DefaultPageController
 		if(!$id || !is_numeric($id))
 			$this->eject();
 		
-		$post = $this->postRepository->getPostById($id);
+		$post = $this->activityRepository->getActivityById($id);
 		if(!$post)
 			$this->eject();
 		
@@ -70,6 +70,9 @@ final class PostController extends DefaultPageController
 			case 'distance' :
 				return 'Jacob ran xor hiked';
 			break;
+      case 'github' :
+        return 'Jacob did code';
+      break;
 			case 'hulu' :
 				return 'What Jacob watched';
 			break;
@@ -95,6 +98,9 @@ final class PostController extends DefaultPageController
 			case 'distance' :
 				return 'Well, it might have been both at the same time if there was a bear.';
 			break;
+      case 'github' :
+        return 'An epic code change by Jacob on the Githubs.';
+      break;
 			case 'hulu' :
 				return 'It was a cold, dark night, so Jacob watched something on Hulu.';
 			break;

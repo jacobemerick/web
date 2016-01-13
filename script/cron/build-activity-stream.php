@@ -32,13 +32,13 @@ foreach ($newBlogActivity as $blog) {
 
     if (isset($blogData['enclosure'])) {
         $messageLong = sprintf(
-            "<h4><a href=\"%s\" title=\"Jacob Emerick's Blog | %s\">%s</a></h4>\n" .
             "<img src=\"%s\" alt=\"Blog | %s\" />\n" .
+            "<h4><a href=\"%s\" title=\"Jacob Emerick's Blog | %s\">%s</a></h4>\n" .
             "<p>%s [<a href=\"%s\">read more</a></a>]</p>",
+            $blogData['enclosure']['@attributes']['url'],
+            $blogData['title'],
             $blogData['link'],
             $blogData['title'],
-            $blogData['title'],
-            $blogData['enclosure']['@attributes']['url'],
             $blogData['title'],
             htmlentities($blogData['description']),
             $blogData['link']
@@ -169,16 +169,17 @@ foreach ($newDailyMileActivity as $dailyMile) {
 use Jacobemerick\Web\Domain\Stream\Github\MysqlGithubRepository as GithubRepository;
 $githubRepository = new GithubRepository($container['db_connection_locator']);
 
-$lastGithubActivity = $activityRepository->getActivityLastUpdateByType('git');
+$lastGithubActivity = $activityRepository->getActivityLastUpdateByType('github');
 if ($lastGithubActivity === false) {
     $lastGithubActivityDateTime = new DateTime('2015-10-01');
 } else {
     $lastGithubActivityDateTime = new DateTime($lastGithubActivity['updated_at']);
     $lastGithubActivityDateTime->modify('-5 days');
 }
+
 $newGithubActivity = $githubRepository->getGithubsUpdatedSince($lastGithubActivityDateTime);
 foreach ($newGithubActivity as $github) {
-    $uniqueGithubCheck = $activityRepository->getActivityByTypeId('git', $github['id']);
+    $uniqueGithubCheck = $activityRepository->getActivityByTypeId('github', $github['id']);
     if ($uniqueGithubCheck !== false) {
         continue;
     }
@@ -274,7 +275,7 @@ foreach ($newGithubActivity as $github) {
                 $messageShort .= '...';
             }
             $messageLong .= sprintf(
-                "<li><a href=\"%s\" target=\"_blank\" title=\"Github | %s\">%s</a> %s.</p>\n",
+                "<li><a href=\"%s\" target=\"_blank\" title=\"Github | %s\">%s</a> %s.</li>\n",
                 "https://github.com/{$githubData['repo']['name']}/commit/{$commit['sha']}",
                 substr($commit['sha'], 0, 7),
                 substr($commit['sha'], 0, 7),
@@ -289,7 +290,7 @@ foreach ($newGithubActivity as $github) {
         $messageLong,
         (new DateTime($github['datetime'])),
         [],
-        'git',
+        'github',
         $github['id']
     );
 }
@@ -379,9 +380,31 @@ foreach ($newTwitterActivity as $twitter) {
         continue;
     }
 
-    $message = "Tweeted | {$twitterData['text']}";
-    $message = trim(preg_replace('/\s+/', ' ', $message));
+    $entityHolder = [];
+    foreach ($twitterData['entities'] as $entityType => $entities) {
+        foreach ($entities as $entity) {
+            if ($entityType == 'urls' || $entityType == 'media') {
+                $entityHolder[$entity['indices'][0]] = [
+                    'start' => $entity['indices'][0],
+                    'end' => $entity['indices'][1],
+                    'replace' => "[{$entity['display_url']}]"
+                ];
+            }
+        }
+    }
+
+    $message = $twitterData['text'];
+    krsort($entityHolder);
+    foreach($entityHolder as $entity)
+    {
+        $message =
+            mb_substr($message, 0, $entity['start']) .
+            $entity['replace'] .
+            mb_substr($message, $entity['end'], null, 'UTF-8');
+    }
     $message = mb_convert_encoding($message, 'HTML-ENTITIES', 'UTF-8');
+    $message = trim(preg_replace('/\s+/', ' ', $message));
+    $message = "Tweeted | {$message}";
 
     $entityHolder = [];
     foreach ($twitterData['entities'] as $entityType => $entities) {
@@ -408,11 +431,7 @@ foreach ($newTwitterActivity as $twitter) {
                 );
             } else if ($entityType == 'media') {
                 $replace = sprintf(
-                    "<a href=\"%s\" rel=\"nofollow\" target=\"_blank\" title=\"%s\">\n" .
-                    "<img src=\"%s:%s\" alt=\"%s\" height=\"%s\" width=\"%s\" />\n" .
-                    "</a>",
-                    $entity['url'],
-                    $entity['display_url'],
+                    "<img src=\"%s:%s\" alt=\"%s\" height=\"%s\" width=\"%s\" />",
                     $entity['media_url'],
                     'large',
                     $entity['display_url'],

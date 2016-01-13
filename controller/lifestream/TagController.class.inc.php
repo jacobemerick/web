@@ -57,6 +57,9 @@ final class TagController extends DefaultListController
 			case 'distance' :
 				return 'Run, Jacob, and Hike';
 			break;
+      case 'github' :
+        return 'Jacob, Code Monkey';
+      break;
 			case 'hulu' :
 				return 'Jacob watches Hulu';
 			break;
@@ -82,6 +85,9 @@ final class TagController extends DefaultListController
 			case 'distance' :
 				return 'All the cool kids like to be in shape. Jacob goes running and hiking.';
 			break;
+      case 'github' :
+        return 'Since he is trying to be a developer, Jacob codes. Here is some code that he pushed around on the Githubs.';
+      break;
 			case 'hulu' :
 				return 'Occasionally Jacob chills and watches some Hulu. Well, used to, anyways.';
 			break;
@@ -104,7 +110,7 @@ final class TagController extends DefaultListController
 
 	protected function get_list_results()
 	{
-		return $this->postRepository->getPostsByType($this->tag, self::$POSTS_PER_PAGE, $this->offset);
+		return $this->activityRepository->getActivitiesByType($this->tag, self::$POSTS_PER_PAGE, $this->offset);
 	}
 
 	protected function get_list_description()
@@ -135,7 +141,7 @@ final class TagController extends DefaultListController
 	protected function get_total_post_count()
 	{
 		if(!isset($this->total_post_count))
-			$this->total_post_count = $this->postRepository->getPostsByTypeCount($this->tag);
+			$this->total_post_count = $this->activityRepository->getActivitiesByTypeCount($this->tag);
 		return $this->total_post_count;
 	}
 

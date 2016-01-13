@@ -8,7 +8,8 @@
 		<li><a href="<?= $domain_container->lifestream ?>blog/">Blog Posts</a></li>
 		<li><a href="<?= $domain_container->lifestream ?>book/">Books</a></li>
 		<li><a href="<?= $domain_container->lifestream ?>distance/">Runs &amp; Hikes</a></li>
-		<li><a href="<?= $domain_container->lifestream ?>hulu/">Hulu (deprecated)</a></li>
+		<li><a href="<?= $domain_container->lifestream ?>github/">Github</a></li>
+	  <li><a href="<?= $domain_container->lifestream ?>hulu/">Hulu (deprecated)</a></li>
 		<li><a href="<?= $domain_container->lifestream ?>twitter/">Twitter</a></li>
 		<li><a href="<?= $domain_container->lifestream ?>youtube/">YouTube</a></li>
 		<li><a href="<?= $domain_container->lifestream ?>">View All</a></li>

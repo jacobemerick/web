@@ -6,20 +6,20 @@ Loader::load('utility', 'Content');
 abstract class DefaultPageController extends PageController
 {
 
-  protected $postRepository;
+  protected $activityRepository;
 
   public function __construct()
   {
     parent::__construct();
 
     global $container;
-    $this->postRepository = new Jacobemerick\Web\Domain\Stream\Post\MysqlPostRepository($container['db_connection_locator']);
+    $this->activityRepository = new Jacobemerick\Web\Domain\Stream\Activity\MysqlActivityRepository($container['db_connection_locator']);
   }
 
 	protected function set_head_data()
 	{
 		$this->add_css('normalize');
-		$this->add_css('lifestream');
+		$this->add_css('lifestream', 2);
 	}
 
 	protected function set_body_data()

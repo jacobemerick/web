@@ -56,123 +56,37 @@ abstract class PageController
 		return $domain_container;
 	}
 
-	protected function get_recent_activity()
-	{
-    global $container;
-    $activityRepository = new Jacobemerick\Web\Domain\Stream\Post\MysqlPostRepository($container['db_connection_locator']);
-    $post_result = $activityRepository->getPosts(5);
+    protected function get_recent_activity()
+    {
+        global $container;
+        $activityRepository = new Jacobemerick\Web\Domain\Stream\Activity\MysqlActivityRepository($container['db_connection_locator']);
+        $post_result = $activityRepository->getActivities(5);
 
-		$post_array = array();
-		foreach($post_result as $row)
-		{
-			$post_array[] = $this->expand_post($row);;
-		}
-		
-		return $post_array;
-	}
+        $post_array = array();
+        foreach($post_result as $row) {
+            array_push($post_array, $this->expand_post($row));
+        }
 
-	protected function expand_post($raw_post, $format = 'short')
-	{
-		Loader::load('utility', 'Content');
+        return $post_array;
+    }
 
-    global $container;
-    $blogRepository = new Jacobemerick\Web\Domain\Stream\Blog\MysqlBlogRepository($container['db_connection_locator']);
-    $bookRepository = new Jacobemerick\Web\Domain\Stream\Book\MysqlBookRepository($container['db_connection_locator']);
-    $distanceRepository = new Jacobemerick\Web\Domain\Stream\Distance\MysqlDistanceRepository($container['db_connection_locator']);
-    $huluRepository = new Jacobemerick\Web\Domain\Stream\Hulu\MysqlHuluRepository($container['db_connection_locator']);
-    $twitterRepository = new Jacobemerick\Web\Domain\Stream\Twitter\MysqlTwitterRepository($container['db_connection_locator']);
-    $youtubeRepository = new Jacobemerick\Web\Domain\Stream\YouTube\MysqlYouTubeRepository($container['db_connection_locator']);
+    protected function expand_post($raw_post, $format = 'short')
+    {
+        $post = [
+            'type' => $raw_post['type'],
+            'title' => ($format == 'short') ? $raw_post['message'] : $raw_post['message_long'],
+            'date' => $this->get_parsed_date($raw_post['datetime']),
+        ];
 
-		$post = new stdclass();
-		
-		switch($raw_post['type'])
-		{
-			case 'blog' :
-				$row = $blogRepository->getBlogById($raw_post['type_id']);
-				
-				$post->type = 'blog';
-				
-				$category = str_replace('-', ' ', $row['category']);
-				$post->title = "Blogged about {$category}: <a href=\"{$row['url']}\">{$row['title']}</a>.";
-				$post->comments = $row['comments'];
-				
-				if($format == 'full')
-					$post->image = Content::instance('FetchFirstPhoto', $row['body'])->activate(false, 'standard');
-			break;
-			case 'book' :
-				$row = $bookRepository->getBookById($raw_post['type_id']);
-				
-				$post->type = 'book';
-				$post->title = "Just finished reading {$row['title']} by {$row['author']}.";
-				
-				if($format == 'full')
-					$post->image = "<img alt=\"{$row['title']} by {$row['author']}\" src=\"{$row['image']}\" />";
-			break;
-			case 'distance' :
-				$row = $distanceRepository->getDistanceById($raw_post['type_id']);
-				
-				$post->type = 'distance';
-				if($row['type'] == 'running')
-				{
-					$post->title = "Ran {$row['distance']} miles and felt {$row['felt']}.";
-					if(strlen($row['message']) > 0)
-						$post->title .= " Afterwards, I was all like '{$row['message']}'.";
-				}
-				else if($row['type'] == 'hiking')
-				{
-					$post->title = "Hiked {$row['distance']} miles and felt {$row['felt']}.";
-					if(strlen($row['title']) > 0)
-						$post->title .= " I was hiking up around the {$row['title']} area.";
-				}
-                else if ($row['type'] == 'walking') {
-                    $post->title = "Walked {$row['distance']} miles and felt {$row['felt']}.";
-                }
-			break;
-			case 'hulu' :
-				$row = $huluRepository->getHuluById($raw_post['type_id']);
-				
-				$post->type = 'hulu';
-				$post->title = "Watched {$row['title']} on Hulu.";
-			break;
-			case 'twitter' :
-				$row = $twitterRepository->getTwitterById($raw_post['type_id']);
-				
-				$post->type = 'twitter';
-				
-				if($format == 'full')
-					$post->title = $row['text_formatted_full'];
-				else
-					$post->title = $row['text_formatted'];
-				
-				$post->retweets = ($row['is_retweet'] == 0) ? $row['retweets'] : 0;
-				$post->favorites = ($row['is_retweet'] == 0) ? $row['favorites'] : 0;
-			break;
-			case 'youtube' :
-				$row = $youtubeRepository->getYouTubeById($raw_post['type_id']);
-				
-				$post->type = 'youtube';
-				
-				if($format == 'full')
-					$post->title = "Favorited {$row['title']} by {$row['author']} on YouTube.";
-				else
-					$post->title = "Favorited <a href=\"http://www.youtube.com/watch?feature=player_embedded&v={$row['video_id']}\" rel=\"nofollow\" target=\"_blank\" title=\"{$row['content']}\">{$row['title']}</a> by {$row['author']} on YouTube.";
-				
-				if($format == 'full')
-					$post->embed_code = "<iframe src=\"http://www.youtube.com/embed/{$row['video_id']}?rel=0\" frameborder=\"0\" allowfullscreen></iframe>";
-			break;
-		}
-		
-		$post->date = $this->get_parsed_date($row['date']);
-		
-		$post->url = '';
-		$post->url .= Loader::getRootUrl('lifestream');
-		$post->url .= $raw_post['type'];
-		$post->url .= '/';
-		$post->url .= $raw_post['id'];
-		$post->url .= '/';
-		
-		return $post;
-	}
+        if ($format != 'short') {
+            $post['url'] = Loader::getRootUrl('lifestream') . "{$raw_post['type']}/{$raw_post['id']}/";
+
+            $metadata = json_decode($raw_post['metadata'], true);
+            $post = array_merge($post, $metadata);
+        }
+
+        return (object) $post;
+    }
 
 	public function activate()
 	{
@@ -243,9 +157,9 @@ abstract class PageController
 		$this->data_array['body'][$set] = $value;
 	}
 
-	protected function add_css($file)
+	protected function add_css($file, $version = 1)
 	{
-		$this->css_array[] = $file;
+		$this->css_array[] = [$file, $version];
 	}
 
 	protected function add_js($file)
@@ -256,7 +170,11 @@ abstract class PageController
 	private function load_assets()
 	{
     $css_array = array_map(function ($stylesheet) {
-      return "/css/{$stylesheet}.css";
+      $path = "/css/{$stylesheet[0]}.css";
+      if ($stylesheet[1] > 1) {
+        $path .= "?v={$stylesheet[1]}";
+      }
+      return $path;
     }, $this->css_array);
     $js_array = array_map(function ($script) {
       if (substr($script, 0, 4) == 'http') {
