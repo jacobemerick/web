@@ -17,6 +17,7 @@
     "aura/sql": "^2.4",
     "dg/rss-php": "^1.2",
     "knplabs/github-api": "^1.5",
+    "jacobemerick/monolog-pqp": "^0.1",
     "madcoda/php-youtube-api": "^1.2",
     "monolog/monolog": "^1.17",
     "particletree/pqp": "^1.0",
@@ -32,10 +33,6 @@
   },
   "autoload": {
     "classmap": [
-      "collector/",
-      "controller/",
-      "module/",
-      "router/",
       "utility/"
     ],
     "psr-4": {

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "15a7fab7b1a29ae0e36fffaa18207fa9",
-    "content-hash": "28e59d9a03a7e30f7aedbadedc73e644",
+    "hash": "7603962e9f0029d83047f6963a480da0",
+    "content-hash": "eecbc777af57108923b0e5fcbce5b0c9",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -421,6 +421,53 @@
                 "uri"
             ],
             "time": "2015-11-03 01:34:55"
+        },
+        {
+            "name": "jacobemerick/monolog-pqp",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jacobemerick/monolog-pqp.git",
+                "reference": "27a9ceaca5dea1f41f1859900f6f77ca13418957"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jacobemerick/monolog-pqp/zipball/27a9ceaca5dea1f41f1859900f6f77ca13418957",
+                "reference": "27a9ceaca5dea1f41f1859900f6f77ca13418957",
+                "shasum": ""
+            },
+            "require": {
+                "monolog/monolog": "^1.17",
+                "particletree/pqp": "^1.0",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "dev-master",
+                "phpunit/phpunit": "^4.7",
+                "symfony/config": "<3.0",
+                "symfony/console": "<3.0",
+                "symfony/filesystem": "<3.0",
+                "symfony/stopwatch": "<3.0",
+                "symfony/yaml": "<3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Jacobemerick\\MonologPqp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "jacobemerick",
+                    "email": "jpemeric@gmail.com"
+                }
+            ],
+            "description": "Monolog handler that interfaces with PHP Quick Profiler",
+            "time": "2016-01-13 23:17:22"
         },
         {
             "name": "knplabs/github-api",
@@ -930,16 +977,16 @@
         },
         {
             "name": "thepixeldeveloper/sitemap",
-            "version": "4.0.2",
+            "version": "4.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThePixelDeveloper/Sitemap.git",
-                "reference": "816072f6a9c3fbc5dc079881be7cdb47deb8bdd3"
+                "reference": "c511b9b5cef5eb3c5ae1ba6bf94131e917ab4ed1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThePixelDeveloper/Sitemap/zipball/816072f6a9c3fbc5dc079881be7cdb47deb8bdd3",
-                "reference": "816072f6a9c3fbc5dc079881be7cdb47deb8bdd3",
+                "url": "https://api.github.com/repos/ThePixelDeveloper/Sitemap/zipball/c511b9b5cef5eb3c5ae1ba6bf94131e917ab4ed1",
+                "reference": "c511b9b5cef5eb3c5ae1ba6bf94131e917ab4ed1",
                 "shasum": ""
             },
             "require-dev": {
@@ -968,7 +1015,7 @@
                 "Sitemap",
                 "xml"
             ],
-            "time": "2016-01-01 22:05:09"
+            "time": "2016-01-07 12:28:16"
         }
     ],
     "packages-dev": [
