@@ -120,7 +120,13 @@ final class PostController extends DefaultPageController
 			
 			$post = new stdclass();
 
-			if (strpos($post_row->title, 'Isle Royale') === 0) {
+      if (strpos($post_row->title, 'Rainy Supe Loop') === 0) {
+        $title = $post_row->title;
+        $title = explode(':', $title);
+        $title = array_pop($title);
+        $title = trim($title);
+        $post->title = $title;
+      } else if (strpos($post_row->title, 'Isle Royale') === 0) {
 				$title = $post_row->title;
 				$title = explode(',', $title);
 				$title = array_pop($title);
