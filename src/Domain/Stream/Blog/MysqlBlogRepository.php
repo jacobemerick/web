@@ -23,7 +23,7 @@ class MysqlBlogRepository implements BlogRepositoryInterface
     {
         $query = "
             SELECT *
-            FROM `jpemeric_stream`.`blog2`
+            FROM `jpemeric_stream`.`blog`
             WHERE `permalink` = :permalink
             LIMIT 1";
         $bindings = [
@@ -40,7 +40,7 @@ class MysqlBlogRepository implements BlogRepositoryInterface
     {
         $query = "
             SELECT `id`, `permalink`, `datetime`
-            FROM `jpemeric_stream`.`blog2`
+            FROM `jpemeric_stream`.`blog`
             ORDER BY `datetime` DESC";
         if (!is_null($limit)) {
             $query .= "
@@ -57,7 +57,7 @@ class MysqlBlogRepository implements BlogRepositoryInterface
     {
         $query = "
             SELECT *
-            FROM `jpemeric_stream`.`blog2`
+            FROM `jpemeric_stream`.`blog`
             WHERE `updated_at` >= :last_update";
 
         $bindings = [
@@ -73,7 +73,7 @@ class MysqlBlogRepository implements BlogRepositoryInterface
     public function insertBlog($permalink, DateTime $datetime, array $metadata)
     {
         $query = "
-            INSERT INTO `jpemeric_stream`.`blog2`
+            INSERT INTO `jpemeric_stream`.`blog`
                 (`permalink`, `datetime`, `metadata`)
             VALUES
                 (:permalink, :datetime, :metadata)";

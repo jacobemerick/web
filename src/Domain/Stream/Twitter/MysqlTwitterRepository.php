@@ -23,7 +23,7 @@ class MysqlTwitterRepository implements TwitterRepositoryInterface
     {
         $query = "
             SELECT `id`, `tweet_id`, `datetime`, `metadata`
-            FROM `jpemeric_stream`.`twitter2`
+            FROM `jpemeric_stream`.`twitter`
             WHERE `tweet_id` = :tweet_id
             LIMIT 1";
 
@@ -41,7 +41,7 @@ class MysqlTwitterRepository implements TwitterRepositoryInterface
     {
         $query = "
             SELECT *
-            FROM `jpemeric_stream`.`twitter2`
+            FROM `jpemeric_stream`.`twitter`
             WHERE `updated_at` >= :last_update";
 
         $bindings = [
@@ -57,7 +57,7 @@ class MysqlTwitterRepository implements TwitterRepositoryInterface
     public function insertTweet($tweetId, DateTime $datetime, array $metadata)
     {
         $query = "
-            INSERT INTO `jpemeric_stream`.`twitter2`
+            INSERT INTO `jpemeric_stream`.`twitter`
                 (`tweet_id`, `datetime`, `metadata`)
             VALUES
                 (:tweet_id, :datetime, :metadata)";
@@ -77,7 +77,7 @@ class MysqlTwitterRepository implements TwitterRepositoryInterface
     public function updateTweetMetadata($tweetId, array $metadata)
     {
         $query = "
-            UPDATE `jpemeric_stream`.`twitter2`
+            UPDATE `jpemeric_stream`.`twitter`
             SET `metadata` = :metadata
             WHERE `tweet_id` = :tweet_id";
 
