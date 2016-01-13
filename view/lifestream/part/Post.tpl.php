@@ -3,22 +3,7 @@
 		<time class="dtstart" datetime="<?= $post->date->stamp ?>"><?= $post->date->elapsed ?></time>
 	</div>
 	<div class="post">
-<? if($post->type == 'youtube' && !empty($post->embed_code)) : ?>
-		<div class="embedded-video-container">
-			<?= $post->embed_code ?>
-		</div>
-<? endif ?>
-<? if($post->type == 'blog' && !empty($post->image)) : ?>
-		<?= $post->image ?>
-<? endif ?>
-<? if($post->type == 'book' && !empty($post->image)) : ?>
-		<?= $post->image ?>
-<? endif ?>
-<? if($type == 'list') : ?>
-		<h5><?= $post->title ?></h5>
-<? elseif($type == 'single') : ?>
-		<h1><?= $post->title ?></h1>
-<? endif ?>
+    <?= $post->title ?>
 		<ul class="meta">
 			<li class="source">Source: <span><?= $post->type ?></span></li>
 			<li class="time">Time: <span><time class="dtstart" datetime="<?= $post->date->stamp ?>"><?= $post->date->friendly ?></time></span></li>

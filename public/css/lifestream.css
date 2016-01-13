@@ -138,18 +138,6 @@ a:active {
 	-moz-transform: rotate(3deg);
 	-o-transform: rotate(3deg);
 	-ms-transform: rotate(3deg);}
-#content li.youtube .embedded-video-container {
-	height: 0;
-	overflow: hidden;
-	padding-bottom: 56.25%;
-	padding-top: 30px;
-	position: relative;}
-#content li.youtube .embedded-video-container iframe {
-	height: 100%;
-	left: 0;
-	position: absolute;
-	top: 0;
-	width: 100%;}
 #content li.blog img {
 	height: auto;
 	width: 100%;}
@@ -167,18 +155,31 @@ a:active {
 	height: auto;
 	margin: 15px auto 0;
 	width: 100%;}
-#content li .post h1,
-#content li .post h5 {
+#content li .post h4 {
+  font-size: 1.3em;
+  margin: 0;
+  padding: 20px 20px 0;}
+#content li .post p {
 	font-size: 1.3em;
 	font-weight: normal;
 	margin: 0;
-	padding: 25px 20px 10px;}
-#content li .meta {
+	padding: 25px 20px 15px;}
+#content li .post ul {
+  font-size: 1.2em;
+  padding: 0 20px 10px;}
+#content li .post li {
+  font-size: .9em;
+  padding: 0 0 8px 10px;}
+#content li .post iframe {
+  height: 400px;
+  width: 100%;}
+#content li .post .meta {
 	background: #f6f6f6;
+  font-size: 1em;
 	margin: 0;
 	padding: 4px 20px 7px;
 	position: relative;}
-#content li .meta li {
+#content li .post .meta li {
 	color: #aaa;
 	display: inline-block;
 	*display: inline;
@@ -335,9 +336,11 @@ a:active {
 	width: auto;}
 #content li .post {
 	margin-left: 0;}
-#content li .post h1,
-#content li .post h5 {
+#content li .post p {
 	padding: 20px 20px 15px;}
+#content li .post iframe {
+  height: 300px;
+}
 .about #content {
 	padding-top: 20px;}
 .about #content h2 {
@@ -378,10 +381,15 @@ a:active {
 #content li.book img {
 	margin-top: 5px;
 	max-width: 40%;}
-#content li .post h1,
-#content li .post h5 {
+#content li .post h4 {
+  padding: 15px 10px 0;}
+#content li .post p {
 	padding: 15px 10px 10px;}
-#content li .meta {
+#content li .post li {
+  padding: 0 0 4px 5px;}
+#content li .post iframe {
+  height: 350px;}
+#content li .post .meta {
 	padding: 3px 10px 5px;}
 #content li .meta li.link a {
 	right: 10px;
@@ -428,9 +436,10 @@ a:active {
 #content li.book img {
 	margin-top: 5px;
 	max-width: 75%;}
-#content li .post h1,
-#content li .post h5 {
+#content li .post p {
 	font-size: 1.1em;}
+#content li .post iframe {
+  height: 250px;}
 
 #sidebar {
 	font-size: .8em;}

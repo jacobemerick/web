@@ -157,9 +157,9 @@ abstract class PageController
 		$this->data_array['body'][$set] = $value;
 	}
 
-	protected function add_css($file)
+	protected function add_css($file, $version = 1)
 	{
-		$this->css_array[] = $file;
+		$this->css_array[] = [$file, $version];
 	}
 
 	protected function add_js($file)
@@ -170,7 +170,11 @@ abstract class PageController
 	private function load_assets()
 	{
     $css_array = array_map(function ($stylesheet) {
-      return "/css/{$stylesheet}.css";
+      $path = "/css/{$stylesheet[0]}.css";
+      if ($stylesheet[1] > 1) {
+        $path .= "?v={$stylesheet[1]}";
+      }
+      return $path;
     }, $this->css_array);
     $js_array = array_map(function ($script) {
       if (substr($script, 0, 4) == 'http') {

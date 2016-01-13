@@ -19,7 +19,7 @@ abstract class DefaultPageController extends PageController
 	protected function set_head_data()
 	{
 		$this->add_css('normalize');
-		$this->add_css('lifestream');
+		$this->add_css('lifestream', 2);
 	}
 
 	protected function set_body_data()
