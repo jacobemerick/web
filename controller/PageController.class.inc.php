@@ -36,10 +36,11 @@ abstract class PageController
 			'link' => Loader::getRootUrl('site'),
 			'anchor' => 'jacobemerick.com',
 			'date' => date('Y')));
-		
-		Loader::loadInstance('utility', 'Database');
-		if(Database::isConnected() === false)
-			$this->unavailable();
+
+// todo this belongs in db handler		
+//		Loader::loadInstance('utility', 'Database');
+//		if(Database::isConnected() === false)
+//			$this->unavailable();
 	}
 
 	protected function get_domain_container()

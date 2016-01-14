@@ -5,36 +5,30 @@ date_default_timezone_set('America/Chicago');
 require_once __DIR__ . '/../../bootstrap.php';
 
 // sets up loggers
-use Jacobemerick\MonologPqp\PqpHandler;
-use Monolog\ErrorHandler;
-use Monolog\Formatter\LineFormatter;
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
-use Particletree\Pqp\Console;
-use Particletree\Pqp\PhpQuickProfiler;
+$logger = new Monolog\Logger('site');
 
-$logger = new Logger('site');
-
-$streamHandler = new StreamHandler(__DIR__ . '/../../logs/site.log', Logger::INFO);
+$streamHandler = new Monolog\Handler\StreamHandler(__DIR__ . '/../../logs/site.log', Monolog\Logger::INFO);
 $streamHandler->setFormatter(
-    new LineFormatter("[%datetime%] %channel%.%level_name%: %message%\n")
+    new Monolog\Formatter\LineFormatter("[%datetime%] %channel%.%level_name%: %message%\n")
 );
 $logger->pushHandler($streamHandler);
 
-$pqpHandler = new PqpHandler($container['console']);
+$pqpHandler = new Jacobemerick\MonologPqp\PqpHandler($container['console']);
 $logger->pushHandler($pqpHandler);
 
-ErrorHandler::register($logger);
+Monolog\ErrorHandler::register($logger);
 
 $container['logger'] = $logger;
 $container['logger']->addDebug('Bootstrapping is complete - moving onto routing');
 $container['console']->logMemory(null, 'Bootstrapping done');
 
+// route
 Loader::loadInstance('router', 'Router');
 
 $container['logger']->addDebug('Routing is complete - moving onto shutdown');
 $container['console']->logMemory(null, 'Routing is done');
 
+// shutdown - note, this should be in a shutdown function
 if ($_COOKIE['debugger'] == 'display') {
     $dbProfiles = $container['db_connection_locator']
         ->getRead()
