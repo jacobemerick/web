@@ -110,8 +110,8 @@ final class Loader
 			if(in_array($file_path, self::instance()->get_included_files()) && $type !== 'view')
 				continue;
 			
-			if(!file_exists($file_path))
-				Debugger::logMessage("Requested file does not exist: {$type}, {$file}");
+			// if(!file_exists($file_path))
+			// 	Debugger::logMessage("Requested file does not exist: {$type}, {$file}");
 			
 			self::instance()->add_included_file($file_path);
 			
