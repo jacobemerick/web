@@ -424,16 +424,16 @@
         },
         {
             "name": "jacobemerick/monolog-pqp",
-            "version": "0.1.0",
+            "version": "0.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jacobemerick/monolog-pqp.git",
-                "reference": "27a9ceaca5dea1f41f1859900f6f77ca13418957"
+                "reference": "ea79b86e479fbd94164268ac7c5607e376e68c92"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jacobemerick/monolog-pqp/zipball/27a9ceaca5dea1f41f1859900f6f77ca13418957",
-                "reference": "27a9ceaca5dea1f41f1859900f6f77ca13418957",
+                "url": "https://api.github.com/repos/jacobemerick/monolog-pqp/zipball/ea79b86e479fbd94164268ac7c5607e376e68c92",
+                "reference": "ea79b86e479fbd94164268ac7c5607e376e68c92",
                 "shasum": ""
             },
             "require": {
@@ -467,7 +467,7 @@
                 }
             ],
             "description": "Monolog handler that interfaces with PHP Quick Profiler",
-            "time": "2016-01-13 23:17:22"
+            "time": "2016-01-14 14:47:32"
         },
         {
             "name": "knplabs/github-api",
@@ -917,16 +917,16 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v2.8.1",
+            "version": "v2.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "a5eb815363c0388e83247e7e9853e5dbc14999cc"
+                "reference": "ee278f7c851533e58ca307f66305ccb9188aceda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/a5eb815363c0388e83247e7e9853e5dbc14999cc",
-                "reference": "a5eb815363c0388e83247e7e9853e5dbc14999cc",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/ee278f7c851533e58ca307f66305ccb9188aceda",
+                "reference": "ee278f7c851533e58ca307f66305ccb9188aceda",
                 "shasum": ""
             },
             "require": {
@@ -973,7 +973,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2015-10-30 20:15:42"
+            "time": "2016-01-13 10:28:07"
         },
         {
             "name": "thepixeldeveloper/sitemap",
