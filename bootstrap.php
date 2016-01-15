@@ -54,7 +54,14 @@ $db_connections->setRead('slave', function () use ($config) {
     return $pdo;
 });
 
+// setup the profiler
+$console = new Particletree\Pqp\Console();
+$profiler = new Particletree\Pqp\PhpQuickProfiler();
+$profiler->setConsole($console);
+
 // setup the service locator
 $container = new Pimple\Container();
 $container['db_connection_locator'] = $db_connections;
+$container['console'] = $console;
+$container['profiler'] = $profiler;
 $container['default_timezone'] = new DateTimeZone('America/Phoenix');

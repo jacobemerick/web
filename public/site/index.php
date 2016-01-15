@@ -4,29 +4,47 @@ date_default_timezone_set('America/Chicago');
 
 require_once __DIR__ . '/../../bootstrap.php';
 
-// sets up specific logger
-use Monolog\Formatter\LineFormatter;
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
+// sets up loggers
+$logger = new Monolog\Logger('site');
 
-$formatter = new LineFormatter('[%datetime%] %channel%.%level_name%: %message%');
-
-$handler = new StreamHandler(
-    __DIR__ . '/../../logs/site.log',
-    Logger::DEBUG
+$streamHandler = new Monolog\Handler\StreamHandler(__DIR__ . '/../../logs/site.log', Monolog\Logger::INFO);
+$streamHandler->setFormatter(
+    new Monolog\Formatter\LineFormatter("[%datetime%] %channel%.%level_name%: %message%\n")
 );
-$handler->setFormatter($formatter);
+$logger->pushHandler($streamHandler);
 
-$logger = new Logger('web');
-$logger->pushHandler($handler);
+$pqpHandler = new Jacobemerick\MonologPqp\PqpHandler($container['console']);
+$logger->pushHandler($pqpHandler);
+
+Monolog\ErrorHandler::register($logger);
 
 $container['logger'] = $logger;
-$container['logger']->addInfo('Bootstrapping is complete - moving onto routing');
+$container['logger']->addDebug('Bootstrapping is complete - moving onto routing');
+$container['console']->logMemory(null, 'Bootstrapping done');
 
-// old setup
-Loader::loadInstance('utility', 'Debugger');
-
-set_error_handler(array('Debugger', 'internal_error'));
-register_shutdown_function(array('Debugger', 'shutdown'));
-
+// route
 Loader::loadInstance('router', 'Router');
+
+$container['logger']->addDebug('Routing is complete - moving onto shutdown');
+$container['console']->logMemory(null, 'Routing is done');
+
+// shutdown - note, this should be in a shutdown function
+if ($_COOKIE['debugger'] == 'display') {
+    $dbProfiles = $container['db_connection_locator']
+        ->getRead()
+        ->getProfiler()
+        ->getProfiles();
+    $dbProfiles = array_filter($dbProfiles, function ($profile) {
+        return $profile['function'] == 'perform';
+    });
+    $dbProfiles = array_map(function ($profile) {
+        return [
+            'sql' => trim(preg_replace('/\s+/', ' ', $profile['statement'])),
+            'parameters' => $profile['bind_values'],
+            'time' => $profile['duration'],
+        ];
+    }, $dbProfiles);
+    $container['profiler']->setProfiledQueries($dbProfiles);
+    $container['profiler']->setDisplay(new Particletree\Pqp\Display());
+    $container['profiler']->display($container['db_connection_locator']->getRead());
+}
