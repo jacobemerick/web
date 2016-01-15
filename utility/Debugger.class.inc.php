@@ -10,8 +10,6 @@ final class Debugger
 	private static $UNKNOWN_ERROR_LINE		= 'Unknown Line';
 	private static $UNKNOWN_ERROR_CONTEXT	= 'Unknown Context';
 
-  public $console;
-
 	private $profiler;
 	private $display = true;
 
