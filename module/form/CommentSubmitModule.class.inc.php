@@ -151,9 +151,6 @@ final class CommentSubmitModule
 		Loader::load('utility', 'Mail');
 		
 		$email_recipient_array = array();
-		$email_recipient_array['EMAIL'] = array(
-			'email' => 'EMAIL',
-			'name' => 'Jacob Emerick');
 		
 		$commenter_result = CommentCollector::getCommenterByFields(Request::getPost('name'), Request::getPost('email'), Request::getPost('website'));
 		
