@@ -2,7 +2,6 @@
 
 Loader::load('controller', 'portfolio/DefaultPageController');
 Loader::load('utility', array(
-	'Mail',
 	'Validate'));
 
 class ContactController extends DefaultPageController
@@ -44,22 +43,20 @@ class ContactController extends DefaultPageController
 				'error_message' => $error_message,
 				'value' => Request::getPost());
 		}
-		
-		else
-		{
-            global $config;
-			$mail = new Mail();
-			$mail->setToAddress($config->admin_email, 'Jacob Emerick');
-			$mail->setSubject('Portfolio Contact');
-			$mail->setMessage('
-				Name: ' . Request::getPost('name') . '
-				Email: ' . Request::getPost('email') . '
-				Message: ' . Request::getPost('message'));
-			$mail->send();
-			
+
+    global $container;
+    $sent = $container['mail']
+      ->addTo($container['config']->admin_email)
+      ->setSubject('Portfolio Contact')
+      ->setPlainMessage(
+        'Name: ' . Request::getPost('name') . "\n" .
+        'Email: ' . Request::getPost('email') . "\n" .
+        'Message: ' . Request::getPost('message')
+      )
+      ->send();
+
 			return array(
 				'success_message' => "Thank you for your message, ".Request::getPost('name')."! I'll get back to you as soon as possible.");
-		}
 	}
 
 }

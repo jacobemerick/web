@@ -424,16 +424,16 @@
         },
         {
             "name": "jacobemerick/archangel",
-            "version": "0.1.0",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jacobemerick/archangel.git",
-                "reference": "9cdc95f541bab5bc99a02fa6669a8e0cecf2a11b"
+                "reference": "89ee04d39859810ba0e2d7012152a0f7feb5c238"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jacobemerick/archangel/zipball/9cdc95f541bab5bc99a02fa6669a8e0cecf2a11b",
-                "reference": "9cdc95f541bab5bc99a02fa6669a8e0cecf2a11b",
+                "url": "https://api.github.com/repos/jacobemerick/archangel/zipball/89ee04d39859810ba0e2d7012152a0f7feb5c238",
+                "reference": "89ee04d39859810ba0e2d7012152a0f7feb5c238",
                 "shasum": ""
             },
             "require": {
@@ -456,7 +456,7 @@
                 }
             ],
             "description": "Another PHP mailing script, this time with method chaining",
-            "time": "2016-01-15 03:06:33"
+            "time": "2016-01-16 12:29:27"
         },
         {
             "name": "jacobemerick/monolog-pqp",
