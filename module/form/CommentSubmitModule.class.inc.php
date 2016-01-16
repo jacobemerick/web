@@ -148,8 +148,6 @@ final class CommentSubmitModule
 
 	private function send_notifications($page)
 	{
-		Loader::load('utility', 'Mail');
-		
 		$email_recipient_array = array();
 		
 		$commenter_result = CommentCollector::getCommenterByFields(Request::getPost('name'), Request::getPost('email'), Request::getPost('website'));
@@ -187,7 +185,7 @@ final class CommentSubmitModule
         ->addTo($email_recipient['email'], $email_recipient['name'])
         ->addBCC($container['config']->admin_email)
         ->setSubject($subject)
-        ->setMessage($message)
+        ->setPlainMessage($message)
         ->send();		
 		}
 	}
