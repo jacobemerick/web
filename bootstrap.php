@@ -61,7 +61,11 @@ $profiler->setConsole($console);
 
 // setup the service locator
 $container = new Pimple\Container();
+$container['config'] = $config;
 $container['db_connection_locator'] = $db_connections;
 $container['console'] = $console;
 $container['profiler'] = $profiler;
 $container['default_timezone'] = new DateTimeZone('America/Phoenix');
+$container['mail'] = function ($c) {
+    return new Jacobemerick\Archangel\Archangel();
+};

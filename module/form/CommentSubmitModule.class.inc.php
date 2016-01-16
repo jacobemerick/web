@@ -151,9 +151,6 @@ final class CommentSubmitModule
 		Loader::load('utility', 'Mail');
 		
 		$email_recipient_array = array();
-		$email_recipient_array['EMAIL'] = array(
-			'email' => 'EMAIL',
-			'name' => 'Jacob Emerick');
 		
 		$commenter_result = CommentCollector::getCommenterByFields(Request::getPost('name'), Request::getPost('email'), Request::getPost('website'));
 		
@@ -175,24 +172,23 @@ final class CommentSubmitModule
         $site = URLDecode::getSite();
         
         if ($site == 'blog') {
+            $subject = "New Comment on Jacob Emerick's Blog";
             $message = "Hello!\nThere has been a new comment on the post '{$this->page_title}' at Jacob Emerick's Blog. You have chosen to be notified of it - please reply to jacob@jacobemerick.com if you would like to be removed from these notifications.\n\nOn " . date('F j, Y g:i a') . ", " . Request::getPost('name') . " commented...\n" . Request::getPost('comment') . "\n\nVisit {$this->full_path}#comments to see and reply to all the comments on this post.\nThank you!";
         } else if ($site == 'waterfalls') {
+            $subject = "New Comment on Waterfalls of the Keweenaw";
             $message = "Hello!\nThere has been a new comment on the page '{$this->page_title}' at Waterfalls of the Keweenaw. You have chosen to be notified of it - please reply to jacob@jacobemerick.com if you would like to be removed from these notifications.\n\nOn " . date('F j, Y g:i a') . ", " . Request::getPost('name') . " commented...\n" . Request::getPost('comment') . "\n\nVisit {$this->full_path}#comments to see and reply to all the comments on this post.\nThank you!";
         }
-        
+
+    global $container;
+
 		foreach($email_recipient_array as $email_recipient)
 		{
-			$mail = new Mail();
-			$mail->setToAddress($email_recipient['email'], $email_recipient['name']);
-            
-            if ($site == 'blog') {
-                $mail->setSubject("New Comment on Jacob Emerick's Blog");
-            } else if ($site == 'waterfalls') {
-                $mail->setSubject("New Comment on Waterfalls of the Keweenaw");
-            }
-            
-			$mail->setMessage($message);
-			$mail->send();
+      $sent = $container['mail']
+        ->addTo($email_recipient['email'], $email_recipient['name'])
+        ->addBCC($container['config']->admin_email)
+        ->setSubject($subject)
+        ->setMessage($message);
+        ->send();		
 		}
 	}
 

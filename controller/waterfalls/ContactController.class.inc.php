@@ -57,20 +57,18 @@ final class ContactController extends DefaultPageController
 				'messages' => $error_result,
 				'values' => $values);
 		}
-		
-        global $config;
-		$mail = Loader::loadNew('utility', 'Mail');
-		$mail->setToAddress($config->admin_email, 'Jacob Emerick');
-		$mail->setSubject('Waterfall Site Contact');
-		
-		$message = '';
-		$message .= "Name: {$values->name}\n";
-		$message .= "Email: {$values->email}\n";
-		$message .= "Message: {$values->message}";
-		
-		$mail->setMessage($message);
-		$mail->send();
-		
+
+    global $container;
+    $sent = $container['mail']
+      ->addTo($container['config']->admin_email)
+      ->setSubject('Waterfall Site Contact')
+      ->setPlainMessage(
+        "Name: {$values->name}\n" .
+        "Email: {$values->email}\n" .
+        "Message: {$values->message}"
+      )
+      ->send();
+
 		return (object) array('display' => 'success');
 	}
 
