@@ -187,7 +187,7 @@ final class CommentSubmitModule
         ->addTo($email_recipient['email'], $email_recipient['name'])
         ->addBCC($container['config']->admin_email)
         ->setSubject($subject)
-        ->setMessage($message);
+        ->setMessage($message)
         ->send();		
 		}
 	}
