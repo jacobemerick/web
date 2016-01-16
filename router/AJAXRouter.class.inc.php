@@ -17,17 +17,9 @@ class AJAXRouter extends Router
 	{
 		return array(
 			(object) array(
-				'match' => '/signOut/user.json',
-				'controller' => 'SignOutUserController'),
-			(object) array(
-				'match' => '/signIn/user.json',
-				'controller' => 'SignInUserController'),
-			(object) array(
 				'match' => '/get/portfolioImage.json',
 				'controller' => 'GetPortfolioImageController'),
-			(object) array(
-				'match' => '/submit/comment.json',
-				'controller' => 'SubmitCommentController'));
+    );
 	}
 
 }
