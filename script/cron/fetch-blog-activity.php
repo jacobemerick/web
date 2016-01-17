@@ -15,7 +15,7 @@ $blogFeed = Feed::loadRss('http://blog.jacobemerick.com/rss.xml');
 foreach ($blogFeed->item as $item) {
     $datetime = new DateTime($item->pubDate);
     if ($datetime <= $mostRecentBlogDateTime) {
-        break;
+        // break;
     }
 
     $uniqueBlogCheck = $blogRepository->getBlogByPermalink((string) $item->guid);
