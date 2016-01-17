@@ -2,6 +2,9 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
+$container = new Pimple\Container();
+
+
 // load the config for the application
 $config_path = __DIR__ . '/config.json';
 
@@ -17,9 +20,15 @@ $last_json_error = json_last_error();
 if ($last_json_error !== JSON_ERROR_NONE) {
     throw new RuntimeException("Could not parse config - JSON error detected");
 }
+$container['config'] = $config;
+
 
 // timezones are fun
-date_default_timezone_set('America/Phoenix');
+date_default_timezone_set('America/Phoenix'); // todo - belongs in configuration
+$container['default_timezone'] = function ($c) {
+    return new DateTimeZone('America/Phoenix');
+};
+
 
 // configure the db connections holder
 $db_connections = new Aura\Sql\ConnectionLocator();
@@ -53,19 +62,28 @@ $db_connections->setRead('slave', function () use ($config) {
 
     return $pdo;
 });
-
-// setup the profiler
-$console = new Particletree\Pqp\Console();
-$profiler = new Particletree\Pqp\PhpQuickProfiler();
-$profiler->setConsole($console);
-
-// setup the service locator
-$container = new Pimple\Container();
-$container['config'] = $config;
 $container['db_connection_locator'] = $db_connections;
-$container['console'] = $console;
-$container['profiler'] = $profiler;
-$container['default_timezone'] = new DateTimeZone('America/Phoenix');
-$container['mail'] = function ($c) {
+
+
+// setup mail handler
+$container['mail'] = $container->factory(function ($c) {
     return new Jacobemerick\Archangel\Archangel();
-};
+});
+
+
+// setup the logger
+$container['setup_logger'] = $container->protect(function ($name) use ($container) {
+    $logger = new Monolog\Logger($name);
+
+    $logPath = __DIR__ . "/../logs/{$name}.log";
+    $streamHandler = new Monolog\Handler\StreamHandler($logPath, Monolog\Logger::INFO);
+    $streamHandler->setFormatter(
+        new Monolog\Formatter\LineFormatter("[%datetime%] %channel%.%level_name%: %message%\n")
+    );
+    $logger->pushHandler($streamHandler);
+
+    Monolog\ErrorHandler::register($logger);
+    $container['logger'] = $logger;
+});
+
+
