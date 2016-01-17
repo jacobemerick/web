@@ -46,7 +46,6 @@ abstract class Router
 			break;
 		}
 		
-		// Debugger::logMessage("The router for " . URLDecode::getSite() . " was not loaded.");
 		Loader::loadNew('controller', '/Error404Controller')->activate();
 	}
 

@@ -13,10 +13,7 @@ abstract class AJAXController
 
 	abstract protected function set_data();
 
-	function __construct()
-	{
-		Debugger::hide();
-	}
+	function __construct() {}
 
 	public function activate()
 	{

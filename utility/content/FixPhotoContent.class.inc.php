@@ -44,10 +44,6 @@ final class FixPhotoContent extends Content
 		$width = $file_size[0];
 		$description = $photo_result->description;
         
-        if ($description == '') {
-            Debugger::logMessage("No description for {$category}/{$photo}");
-        }
-		
 		$domain = '/';
 		if($is_absolute)
 			$domain = Loader::getRootUrl('blog');

@@ -86,10 +86,6 @@ final class LogController extends DefaultPageController
 
     private function get_log_introduction($log)
     {
-        if ($log->image_description == '') {
-            Debugger::logMessage("No description for {$log->image_category}/{$log->image_name}");
-        }
-        
         return array(
             'title' => $log->title,
             'url' => Loader::getRootURL('waterfalls') . self::$JOURNAL_DIRECTORY . '/' . $log->alias . '/',
@@ -196,10 +192,6 @@ final class LogController extends DefaultPageController
                 list($height, $width) = array(75, 100);
             else
                 list($height, $width) = array(100, 75);
-            
-            if ($photo->description == '') {
-                Debugger::logMessage("No description for {$photo->category}/{$photo->name}");
-            }
             
             $photo_array['image_node'] = sprintf(
                 self::$THUMB_IMAGE_NODE,

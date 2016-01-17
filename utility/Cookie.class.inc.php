@@ -68,13 +68,11 @@ abstract class Cookie
 	{
 		if(!$this->check_values())
 		{
-			Debugger::error('Attempt to create a cookie without all of the values being set!');
 			return false;
 		}
 		
 		if(!$this->set_cookie())
 		{
-			Debugger::log('There was a problem saving the cookie.');
 			return false;
 		}
 		
