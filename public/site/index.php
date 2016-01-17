@@ -1,9 +1,7 @@
 <?php
 
 $namespace = 'site';
-
 require_once __DIR__ . '/../index.php';
-
 
 // route
 $container['console']->logMemory(null, 'Bootstrapping is done');
