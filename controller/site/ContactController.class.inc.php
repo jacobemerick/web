@@ -2,7 +2,6 @@
 
 Loader::load('controller', 'site/DefaultPageController');
 Loader::load('utility', array(
-	'Mail',
 	'Validate'));
 
 final class ContactController extends DefaultPageController
