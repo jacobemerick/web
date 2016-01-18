@@ -38,9 +38,6 @@ abstract class Router
 			case 'portfolio' :
 				return 'PortfolioRouter';
 			break;
-			case 'site' :
-				return 'SiteRouter';
-			break;
 			case 'waterfalls' :
 				return 'WaterfallRouter';
 			break;
