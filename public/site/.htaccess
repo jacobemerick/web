@@ -13,11 +13,13 @@
 
 RewriteEngine on
 
-RewriteRule ^(.*)/index\.(php|html?)$ /$1/ [R=301,L]
+RewriteCond %{THE_REQUEST} \s/index\.(php|html?)\s [OR]
+RewriteCond %{THE_REQUEST} \s/(terms|change-log|contact)/index\.(php|html?)\s
+RewriteRule ^(.*)index\.(php|html?)$ /$1 [L,R=301]
 
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*)([^/])$ /$1$2/ [L,R=301]
+RewriteCond %{REQUEST_URI} ^/(terms|change-log|contact)$
+RewriteRule ^(.*)$ /$1/ [L,R=301]
 
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php [L]
+RewriteRule ^(.*)$ index.php [L,PT]
