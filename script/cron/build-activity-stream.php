@@ -368,7 +368,7 @@ foreach ($newTwitterActivity as $twitter) {
             $metadata['retweets'] = $twitterData['retweet_count'];
         }
 
-        $activityRepository->updateActivityMetadata($twitter['id'], $metadata);
+        $activityRepository->updateActivityMetadata($uniqueTwitterCheck['id'], $metadata);
         continue;
     }
 

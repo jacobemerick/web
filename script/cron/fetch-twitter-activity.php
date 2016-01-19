@@ -21,6 +21,10 @@ $recentTweets = $client->get('statuses/user_timeline', [
     'trim_user' => true,
 ]);
 
+if (isset($recentTweets['errors'])) {
+    throw new Exception("Error encountered with twitter api {$recentTweets['errors'][0]['message']}");
+}
+
 foreach ($recentTweets as $tweet) {
     $uniqueTweetCheck = $twitterRepository->getTwitterByTweetId($tweet['id_str']);
     if ($uniqueTweetCheck !== false) {
