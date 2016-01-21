@@ -4,6 +4,8 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 $container = new Pimple\Container();
 
+$di = new Aura\Di\Container(new Aura\Di\Factory());
+
 
 // load the config for the application
 $config_path = __DIR__ . '/config.json';
@@ -72,18 +74,6 @@ $container['mail'] = $container->factory(function ($c) {
 
 
 // setup the logger
-$container['setup_logger'] = $container->protect(function ($name) use ($container) {
-    $logger = new Monolog\Logger($name);
-
-    $logPath = __DIR__ . "/../logs/{$name}.log";
-    $streamHandler = new Monolog\Handler\StreamHandler($logPath, Monolog\Logger::INFO);
-    $streamHandler->setFormatter(
-        new Monolog\Formatter\LineFormatter("[%datetime%] %channel%.%level_name%: %message%\n")
-    );
-    $logger->pushHandler($streamHandler);
-
-    Monolog\ErrorHandler::register($logger);
-    $container['logger'] = $logger;
-});
-
-
+$logger = new Monolog\Logger('web');
+Monolog\ErrorHandler::register($logger);
+$di->set('logger', $logger);

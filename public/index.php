@@ -7,21 +7,19 @@ require_once __DIR__ . '/../bootstrap.php';
 
 
 // adds profiler
-$console = new Particletree\Pqp\Console();
-$profiler = new Particletree\Pqp\PhpQuickProfiler($startTime);
-$profiler->setConsole($console);
-$container['console'] = $console;
-$container['profiler'] = $profiler;
-
-
-// sets up logger, modifes with profiler handler
-$pqpHandler = new Jacobemerick\MonologPqp\PqpHandler($container['console']);
-$container['setup_logger']($namespace);
-$container['logger']->pushHandler($pqpHandler);
+$di->set('console', $di->lazyNew('Particletree\Pqp\Console'));
+$di->set('profiler', $di->lazyNew(
+    'Particletree\Pqp\PhpQuickProfiler',
+    array('startTime' => $startTime),
+    array('setConsole' => $di->lazyGet('console'))
+));
+$di->get('logger')->pushHandler(
+    new Jacobemerick\MonologPqp\PqpHandler($di->get('console'))
+);
 
 
 // sets up shutdown function to display profiler
-register_shutdown_function(function () use ($container) {
+register_shutdown_function(function () use ($container, $di) {
     if (
         !isset($_COOKIE['debugger']) ||
         $_COOKIE['debugger'] != 'display'
@@ -43,7 +41,9 @@ register_shutdown_function(function () use ($container) {
             'time' => $profile['duration'],
         ];
     }, $dbProfiles);
-    $container['profiler']->setProfiledQueries($dbProfiles);
-    $container['profiler']->setDisplay(new Particletree\Pqp\Display());
-    $container['profiler']->display($container['db_connection_locator']->getRead());
+
+    $profiler = $di->get('profiler');
+    $profiler->setProfiledQueries($dbProfiles);
+    $profiler->setDisplay(new Particletree\Pqp\Display());
+    $profiler->display($container['db_connection_locator']->getRead());
 });

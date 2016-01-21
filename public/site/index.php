@@ -3,8 +3,18 @@
 $namespace = 'site';
 require_once __DIR__ . '/../index.php';
 
+
+// configure logger handler
+$logPath = __DIR__ . "/../logs/site.log";
+$streamHandler = new Monolog\Handler\StreamHandler($logPath, Monolog\Logger::INFO);
+$streamHandler->setFormatter(
+    new Monolog\Formatter\LineFormatter("[%datetime%] %channel%.%level_name%: %message%\n")
+);
+$di->get('logger')->pushHandler($streamHandler);
+
+
 // route
-$container['console']->logMemory(null, 'Bootstrapping is done');
+$di->get('console')->logMemory(null, 'Bootstrapping is done');
 
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/', 'HomeController');
@@ -20,18 +30,18 @@ $status = reset($routeInfo);
 
 switch ($status) {
     case FastRoute\Dispatcher::NOT_FOUND:
-        $container['logger']->debug('Route not found - 404');
+        $di->get('logger')->debug('Route not found - 404');
         Loader::loadNew('controller', '/Error404Controller')->activate();
         break;
     case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
         // todo - return allowed routes in header
-        $container['logger']->debug('Unallowed method - 405');
+        $di->get('logger')->debug('Unallowed method - 405');
         Loader::loadNew('controller', '/Error404Controller')->activate();
         break;
     case FastRoute\Dispatcher::FOUND:
-        $container['logger']->debug('found!');
+        $di->get('logger')->debug('found!');
         Loader::loadNew('controller', "{$namespace}/{$routeInfo[1]}")->activate();
         break;
 }
 
-$container['console']->logMemory(null, 'Routing is done');
+$di->get('console')->logMemory(null, 'Routing is done');
