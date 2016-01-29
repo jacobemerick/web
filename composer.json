@@ -20,7 +20,7 @@
     "jacobemerick/monolog-pqp": "^0.1",
     "madcoda/php-youtube-api": "^1.2",
     "monolog/monolog": "^1.17",
-    "particletree/pqp": "^1.0",
+    "particletree/pqp": "^1.1",
     "pimple/pimple": "^3.0",
     "simons/dailymile-php-wrapper": "dev-master as 1.0.0",
     "suin/php-rss-writer": "^1.3",
@@ -33,6 +33,12 @@
     "codeclimate/php-test-reporter": "dev-master",
     "phpunit/phpunit": "^4.8"
   },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "../pqp"
+    }
+  ],
   "autoload": {
     "classmap": [
       "utility/"

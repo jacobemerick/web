@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e60d7892c35bdc44a054c57ca78dd021",
-    "content-hash": "e1b6c4f04ae1bc63b7b06452bb30ec94",
+    "hash": "ac1cbc6be0a1d76c8be805b30636eb24",
+    "content-hash": "9af2ce3f55d33fbafd92b49e4b86b0c8",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -733,16 +733,16 @@
         },
         {
             "name": "particletree/pqp",
-            "version": "1.0.1",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jacobemerick/pqp.git",
-                "reference": "7af328983a0dcab6d2a6a84f0fcd5433fdc37f81"
+                "reference": "5e661d8bed3b5e891601c90bb805612344454ac4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jacobemerick/pqp/zipball/7af328983a0dcab6d2a6a84f0fcd5433fdc37f81",
-                "reference": "7af328983a0dcab6d2a6a84f0fcd5433fdc37f81",
+                "url": "https://api.github.com/repos/jacobemerick/pqp/zipball/5e661d8bed3b5e891601c90bb805612344454ac4",
+                "reference": "5e661d8bed3b5e891601c90bb805612344454ac4",
                 "shasum": ""
             },
             "require": {
@@ -768,7 +768,7 @@
                 "MIT"
             ],
             "description": "Simple PHP profiler to track application behavior during development",
-            "time": "2015-12-29 22:43:03"
+            "time": "2016-01-29 12:57:55"
         },
         {
             "name": "pimple/pimple",
