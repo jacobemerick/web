@@ -4,8 +4,6 @@ $namespace = 'site';
 require_once __DIR__ . '/../index.php';
 
 // route
-$container['console']->logMemory(null, 'Bootstrapping is done');
-
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/', 'HomeController');
     $r->addRoute('GET', '/terms/', 'TermsController');

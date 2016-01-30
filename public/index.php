@@ -1,6 +1,7 @@
 <?php
 
 $startTime = microtime(true);
+$startMemory = memory_get_usage();
 ini_set('display_errors', 0);
 
 require_once __DIR__ . '/../bootstrap.php';
@@ -12,6 +13,7 @@ $profiler = new Particletree\Pqp\PhpQuickProfiler($startTime);
 $profiler->setConsole($console);
 $container['console'] = $console;
 $container['profiler'] = $profiler;
+$container['console']->logMemory($startMemory, 'PHP - Pre-bootstrap memory', true);
 
 
 // sets up logger, modifes with profiler handler
@@ -47,3 +49,6 @@ register_shutdown_function(function () use ($container) {
     $container['profiler']->setDisplay(new Particletree\Pqp\Display());
     $container['profiler']->display($container['db_connection_locator']->getRead());
 });
+
+$container['console']->logMemory(null, 'PHP - Post-boostrap memory');
+$container['console']->logSpeed('Post-bootstrap time');
