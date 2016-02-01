@@ -1,9 +1,6 @@
 <?
 
-Loader::load('utility', array(
-  'Header',
-  'URLDecode'
-));
+Loader::load('utility', 'Header');
 
 abstract class PageController
 {

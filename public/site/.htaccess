@@ -12,14 +12,5 @@
 </IfModule>
 
 RewriteEngine on
-
-RewriteCond %{THE_REQUEST} \s/index\.(php|html?)\s [OR]
-RewriteCond %{THE_REQUEST} \s/(terms|change-log|contact)/index\.(php|html?)\s
-RewriteRule ^(.*)index\.(php|html?)$ /$1 [L,R=301]
-
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_URI} ^/(terms|change-log|contact)$
-RewriteRule ^(.*)$ /$1/ [L,R=301]
-
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ index.php [L,PT]
