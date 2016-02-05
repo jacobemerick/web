@@ -43,8 +43,8 @@ final class FetchFirstPhotoContent extends Content
 		
 		$domain = '/';
 		if($is_absolute)
-			$domain = Loader::getRootUrl();
-		
+			$domain = Loader::getRootURL(URLDecode::getSite());
+
 		return sprintf(self::$IMAGE_NODE, $domain, $category, $photo, $size, $extension, $height, $width, $description);
 	}
 

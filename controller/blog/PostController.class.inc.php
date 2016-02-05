@@ -47,7 +47,11 @@ final class PostController extends DefaultPageController
 		$this->set_description($this->get_post_description());
 		$this->set_keywords($this->get_post_keywords());
 		$this->set_author(self::$AUTHOR);
-		
+
+    $photo = Content::instance('FetchFirstPhoto', $this->post->body)->activate(true);
+    $photo = preg_match('/^<img src="([a-z-:\.\/]+)" [^>]+>$/', $photo, $matches);
+    $this->set_head('thumbnail', $matches[1]);
+
 		if (array_key_exists($this->post->id, self::$DEPRECATED_BLOGS)) {
 			$log_id = self::$DEPRECATED_BLOGS[$this->post->id];
 			$log = LogCollector::getById($log_id);

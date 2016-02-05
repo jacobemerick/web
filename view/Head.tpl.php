@@ -10,6 +10,9 @@
 <? if(isset($author)) : ?>
 	<meta name="author" content="<?= $author ?>" />
 <? endif ?>
+<? if(isset($thumbnail)) : ?>
+  <meta name="thumbnail" content="<?= $thumbnail ?>" />
+<? endif ?>
 	<meta name="google-site-verification" content="<?= $google_verification ?>" />
 	<meta name="msvalidate.01" content="<?= $bing_verification ?>" />
 	<link rel="shortcut icon" href="/favicon.ico" />
