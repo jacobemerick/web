@@ -4,7 +4,7 @@
 		<div id="description">
 			<h1>About Jacob</h1>
 			<h3>Introduction</h3>
-			<p>My name is Jacob Emerick and I am a young man living in the Appleton area. I work in the field of web development concentrating on best practices, optimization, and responsible implementation. When not working on code or project management I enjoy hiking in the Upper Peninsula of Michigan.</p>
+			<p>My name is Jacob Emerick and I am a young man living in the Phoenix area. I work in the field of software development concentrating on best practices, optimization, and responsible implementation. When not working on code or project management I enjoy hiking and backpacking.</p>
 			<h3>History</h3>
 			<p>Born in Camp Pendleton the son of two Marines, my early years were spent moving between military bases. We settled down in Port Hope, Michigan for most of my youth, where I was involved in sports, extracurricular academics, and youth groups. I graduated valedictorian of my high school in 2003 and traveled up to Houghton to attend Michigan Technological University. In college I became involved in different student organizations, holding positions within the Undergraduate Student Government, Student Council and the Inter-Residence Hall Council. It took five years, but I earned a degree in Applied &amp; Computational Mathematics with emphasis on Technical Communication and Business Management in the spring of 2008.</p>
 			<h3>Web Development</h3>
@@ -12,7 +12,7 @@
 			<h3>Hiking</h3>
 			<p>In 2008 I started a simple project to visit every waterfall in the Keweenaw area which kicked off a deep appreciation and understanding of the wilds of the Upper Peninsula. Avoiding trails in both public and state land, I will spend days wandering through woods and climbing mountains. Most of my hikes are in the Huron Mountains and Peshekee Highlands, although I do enjoy trips to the Keweenaw and Ottawa forests.</p>
 			<h3>Etc</h3>
-			<p>I married the love of my life in 2012, Katie Reynolds (now Emerick), on a beautiful August weekend. While hiking and web development are personal hobbies Katie and I do enjoy a number of interests, including gaming (mostly board/card) and watching Doctor Who (which explains the allons-y reference on the home page). We also have two <em>awesome</em> german shepherd mixes and two <em>quite lame</em> cats. Oh, and one son, Noah.</p>
+			<p>I married the love of my life in 2012, Katie Reynolds (now Emerick), on a beautiful August weekend. While hiking and web development are personal hobbies Katie and I do enjoy a number of interests, including gaming (mostly board/card) and watching Doctor Who (which explains the allons-y reference on the home page). We also have two <em>awesome</em> german shepherd mixes and two <em>quite lame</em> cats. Oh, and two sons, Noah and Thomas.</p>
 		</div>
 		<div id="sidebar">
 			<h3>Quick Stats</h3>
@@ -24,7 +24,7 @@
 				<dt>Employer</dt>
 				<dd>Shutterstock</dd>
 				<dt>Residence</dt>
-				<dd>Appleton, WI</dd>
+				<dd>Phoenix, AZ</dd>
 				<dt>Relationship</dt>
 				<dd>Married to Katie Emerick</dd>
 				<dt>Hobbies</dt>

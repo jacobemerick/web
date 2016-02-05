@@ -1,6 +1,6 @@
 <div class="post">
 	<h4>The Man</h4>
-	<p>Allons-y! My name is Jacob Emerick and I am a displaced (wanna-be) Yooper living in the Appleton area. I work in the field of web development and spend a lot of my time focusing on best practices, project management, and client interaction. When I'm not working in code or reading books I like to hike in the wilds of Michigan's Upper Peninsula.</p>
+	<p>Allons-y! My name is Jacob Emerick and I am a displaced (wanna-be) Yooper living in the Phoenix area. I work in the field of web development and spend a lot of my time focusing on best practices, project management, and client interaction. When I'm not working in code or reading books I like to hike in the wilds of Michigan's Upper Peninsula and the Superstition Wilderness of Arizona.</p>
 	<h4>The Technology</h4>
 	<p>Well, this is a blog, so it's running off of Wordpress, right? <strong>Wrong</strong>. This blog, as well as all of my other sites linked up in the footer, is all custom code. Everything runs off of a central custom framework that I manage through version control with several testing nodes. It is an MVC inspired by my work in Zend, CodeIgnitor, and CakePHP, but is an entirely new beast. Because this is all custom code I have a lot of freedom when it comes to testing and optimization, something that scratches my programmer itch very nicely.</p>
 	<h4>The Content</h4>

@@ -13,17 +13,9 @@
 					</span>
 					<br />
 					<span>
-						<span class="title">Director</span>
+						<span class="title">Software Engineer</span>
 						at
-						<span class="org">DealerFire</span>
-				</div>
-				<div class="adr">
-					<div>
-						<span class="street-address">2807 S Wheatfield Drive</span>
-					</div>
-					<div>
-						<span class="locality">Appleton</span>, <span class="region">WI</span> <span class="postal-code">54915</span>
-					</div>
+						<span class="org">Shutterstock</span>
 				</div>
 				<div>
 					<a class="email" href="mailto:jpemeric@gmail.com">jpemeric@gmail.com</a>
@@ -53,7 +45,7 @@
 					</div>
 					<div class="date_duration">
 						<abbr class="dtstart" title="2010-06-28">June '10</abbr> - 
-						<abbr class="dtend" title="2012-02-03">present</abbr>
+						<abbr class="dtend" title="2012-10-03">Oct '12</abbr>
 					</div>
 					<div class="summary">I coordinated and integrated a high volume of car dealer websites within a custom Zend Framework. Working with a team of programmers and designers, I managed the site production process from contract to site launch. While my main responsiblity dealt with management and direct site integration, I also worked on building new modules and upgrading current ones that were used on multiple platforms.</div>
 				</div>
