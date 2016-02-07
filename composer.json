@@ -26,18 +26,12 @@
     "suin/php-rss-writer": "^1.3",
     "thepixeldeveloper/sitemap": "^4.0",
     "guzzlehttp/guzzle": "^6.1",
-    "jacobemerick/archangel": "^0.1.0"
+    "jacobemerick/archangel": "^2.1"
   },
   "require-dev": {
     "codeclimate/php-test-reporter": "dev-master",
     "phpunit/phpunit": "^4.8"
   },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "../pqp"
-    }
-  ],
   "autoload": {
     "classmap": [
       "utility/"

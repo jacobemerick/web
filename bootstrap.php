@@ -67,7 +67,7 @@ $container['db_connection_locator'] = $db_connections;
 
 // setup mail handler
 $container['mail'] = $container->factory(function ($c) {
-    return new Jacobemerick\Archangel\Archangel();
+    return (new Jacobemerick\Archangel\Archangel())->setLogger($c['logger']);
 });
 
 
