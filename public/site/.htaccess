@@ -12,5 +12,9 @@
 </IfModule>
 
 RewriteEngine on
+
+RewriteCond %{HTTPS} off
+RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URL} [L,R=301]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ index.php [L,PT]
