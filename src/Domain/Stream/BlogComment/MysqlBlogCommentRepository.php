@@ -64,24 +64,4 @@ class MysqlBlogCommentRepository implements BlogCommentRepositoryInterface
             ->getRead()
             ->fetchOne($query, $bindings);
     }
-
-    public function insertBlogComment($permalink, DateTime $datetime, array $metadata)
-    {
-        $query = "
-            INSERT INTO `jpemeric_stream`.`blog_comment`
-                (`permalink`, `datetime`, `metadata`)
-            VALUES
-                (:permalink, :datetime, :metadata)";
-
-        $bindings = [
-            'permalink' => $permalink,
-            'datetime' => $datetime->format('Y-m-d H:i:s'),
-            'metadata' => json_encode($metadata),
-        ];
-
-        return $this
-            ->connections
-            ->getWrite()
-            ->perform($query, $bindings);
-    }
 }

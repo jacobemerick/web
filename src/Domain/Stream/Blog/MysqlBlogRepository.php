@@ -36,23 +36,6 @@ class MysqlBlogRepository implements BlogRepositoryInterface
             ->fetchOne($query, $bindings);
     }
 
-    public function getBlogs($limit = null, $offset = 0)
-    {
-        $query = "
-            SELECT `id`, `permalink`, `datetime`
-            FROM `jpemeric_stream`.`blog`
-            ORDER BY `datetime` DESC";
-        if (!is_null($limit)) {
-            $query .= "
-            LIMIT {$limit}, {$offset}";
-        }
-
-        return $this
-            ->connections
-            ->getRead()
-            ->fetchAll($query);
-    }
-
     public function getBlogsUpdatedSince(DateTime $datetime)
     {
         $query = "
@@ -68,25 +51,5 @@ class MysqlBlogRepository implements BlogRepositoryInterface
             ->connections
             ->getRead()
             ->fetchAll($query, $bindings);
-    }
-
-    public function insertBlog($permalink, DateTime $datetime, array $metadata)
-    {
-        $query = "
-            INSERT INTO `jpemeric_stream`.`blog`
-                (`permalink`, `datetime`, `metadata`)
-            VALUES
-                (:permalink, :datetime, :metadata)";
-
-        $bindings = [
-            'permalink' => $permalink,
-            'datetime' => $datetime->format('Y-m-d H:i:s'),
-            'metadata' => json_encode($metadata),
-        ];
-
-        return $this
-            ->connections
-            ->getWrite()
-            ->perform($query, $bindings);
     }
 }
