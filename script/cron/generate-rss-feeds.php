@@ -40,7 +40,7 @@ $blogPostFeed = new Feed();
 $blogPostChannel = new Channel();
 $blogPostChannel->title('Jacob Emerick | Blog Feed');
 $blogPostChannel->description('Most recent blog entries of Jacob Emerick, a software engineer that hikes.');
-$blogPostChannel->url('http://blog.jacobemerick.com'); // todo depends on env
+$blogPostChannel->url('https://blog.jacobemerick.com'); // todo depends on env
 $blogPostChannel->appendTo($blogPostFeed);
 
 $blogPostRepository = new BlogPostRepository($container['db_connection_locator']);
@@ -51,7 +51,7 @@ foreach ($activeBlogPosts as $blogPost) {
 
     $blogPostItem->title($blogPost['title']);
 
-    $url = "http://blog.jacobemerick.com/{$blogPost['category']}/{$blogPost['path']}/";
+    $url = "https://blog.jacobemerick.com/{$blogPost['category']}/{$blogPost['path']}/";
     $blogPostItem->url($url);
     $blogPostItem->guid($url, true);
 
@@ -68,7 +68,7 @@ foreach ($activeBlogPosts as $blogPost) {
     $description = html_entity_decode($description);
     $blogPostItem->description($description);
 
-    $categoryUrl = "http://blog.jacobemerick.com/{$blogPost['category']}/";
+    $categoryUrl = "https://blog.jacobemerick.com/{$blogPost['category']}/";
     $blogPostItem->category($blogPost['category'], $categoryUrl);
 
     $pubDate = new DateTime($blogPost['date']);
@@ -93,7 +93,7 @@ foreach ($activeBlogPosts as $blogPost) {
          **/
         $firstPhotoType = 'image/jpeg';
 
-        $blogPostItem->enclosure("http://blog.jacobemerick.com{$firstPhotoPath}", $firstPhotoSize, $firstPhotoType);
+        $blogPostItem->enclosure("https://blog.jacobemerick.com{$firstPhotoPath}", $firstPhotoSize, $firstPhotoType);
     }
 
     $blogPostItem->appendTo($blogPostChannel);
@@ -107,7 +107,7 @@ $blogCommentFeed = new Feed();
 $blogCommentChannel = new Channel();
 $blogCommentChannel->title('Jacob Emerick | Blog Comment Feed');
 $blogCommentChannel->description('Most recent comments on blog posts of Jacob Emerick');
-$blogCommentChannel->url('http://blog.jacobemerick.com'); // todo depends on env
+$blogCommentChannel->url('https://blog.jacobemerick.com'); // todo depends on env
 $blogCommentChannel->appendTo($blogCommentFeed);
 
 $commentRepository = new CommentRepository($container['db_connection_locator']);
@@ -118,7 +118,7 @@ foreach ($activeBlogComments as $blogComment) {
 
     $blogCommentItem->title("Comment on '{$blogComment['title']}' from {$blogComment['name']}");
 
-    $url = "http://blog.jacobemerick.com/{$blogComment['category']}/{$blogComment['path']}/";
+    $url = "https://blog.jacobemerick.com/{$blogComment['category']}/{$blogComment['path']}/";
     $url .= "#comment-{$blogComment['id']}";
     $blogCommentItem->url($url);
     $blogCommentItem->guid($url, true);

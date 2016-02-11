@@ -21,7 +21,7 @@
 					<a class="email" href="mailto:jpemeric@gmail.com">jpemeric@gmail.com</a>
 				</div>
 				<div>
-					<a class="url" href="http://home.jacobemerick.com/">http://home.jacobemerick.com/</a>
+					<a class="url" href="https://home.jacobemerick.com/">https://home.jacobemerick.com/</a>
 				</div>
 			</div>
 		</div>

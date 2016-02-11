@@ -193,7 +193,7 @@ final class WaterfallController extends DefaultPageController
     {
         $map_holder = array();
         
-        $url = 'http://maps.googleapis.com/maps/api/staticmap';
+        $url = 'https://maps.googleapis.com/maps/api/staticmap';
         $url .= "?center={$waterfall->latitude},{$waterfall->longitude}";
         $url .= "&zoom=8";
         $url .= "&maptype=terrain";

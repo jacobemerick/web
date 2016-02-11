@@ -173,7 +173,7 @@ $entryArray += [
     ]
 ];
 
-$buildSitemap($entryArray, 'http://blog.jacobemerick.com', 'blog');
+$buildSitemap($entryArray, 'https://blog.jacobemerick.com', 'blog');
 
 
 /*********************************************
@@ -201,7 +201,7 @@ $entryArray = [
     ],
 ];
 
-$buildSitemap($entryArray, 'http://home.jacobemerick.com', 'home');
+$buildSitemap($entryArray, 'https://home.jacobemerick.com', 'home');
 
 
 /*********************************************
@@ -297,7 +297,7 @@ $entryArray += [
     ]
 ];
 
-$buildSitemap($entryArray, 'http://lifestream.jacobemerick.com', 'lifestream');
+$buildSitemap($entryArray, 'https://lifestream.jacobemerick.com', 'lifestream');
 
 
 /*********************************************
@@ -346,7 +346,7 @@ foreach ($portfolioPieces as $portfolioPiece) {
     ];
 }
 
-$buildSitemap($entryArray, 'http://portfolio.jacobemerick.com', 'portfolio');
+$buildSitemap($entryArray, 'https://portfolio.jacobemerick.com', 'portfolio');
 
 
 /*********************************************
@@ -379,7 +379,7 @@ $entryArray = [
     ],
 ];
 
-$buildSitemap($entryArray, 'http://site.jacobemerick.com', 'site');
+$buildSitemap($entryArray, 'https://site.jacobemerick.com', 'site');
 
 
 /*********************************************
@@ -583,4 +583,4 @@ $entryArray += [
     ]
 ];
 
-$buildSitemap($entryArray, 'http://www.waterfallsofthekeweenaw.com', 'waterfalls');
+$buildSitemap($entryArray, 'https://www.waterfallsofthekeweenaw.com', 'waterfalls');

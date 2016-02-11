@@ -13,7 +13,7 @@ final class PostController extends DefaultPageController
 
 	private static $TITLE = "%s | Jacob Emerick's Blog";
 	private static $AUTHOR = 'Jacob Emerick';
-	private static $AUTHOR_URL = 'http://home.jacobemerick.com/';
+	private static $AUTHOR_URL = 'https://home.jacobemerick.com/';
 
 	private static $POST_LENGTH_SHORT = 100;
 	private static $POST_LENGTH_LONG = 140;

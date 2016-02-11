@@ -76,15 +76,17 @@ abstract class Router
 			$redirect_uri .= '/';
 		
         if (URLDecode::getHost() == 'waterfalls.jacobemerick.com') {
-            $redirect_uri = 'http://' . (!Loader::isLive() ? 'dev' : 'www') . '.waterfallsofthekeweenaw.com' . $redirect_uri;
+            $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+            $redirect_uri = $protocol . '://' . (!Loader::isLive() ? 'dev' : 'www') . '.waterfallsofthekeweenaw.com' . $redirect_uri;
         }
         
 		if($redirect_uri == URLDecode::getURI())
 			return;
 		
 		$controller_check = $redirect_uri;
-		if(substr($redirect_uri, 0, 4) == 'http')
-			$controller_check = preg_replace('@^http://([a-z\.]+)@', '', $redirect_uri);
+		if(substr($redirect_uri, 0, 4) == 'http') {
+      $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+			$controller_check = preg_replace('@^' . $protocol . '://([a-z\.]+)@', '', $redirect_uri);
 		
 		$controller = $this->get_controller($controller_check);
 		if($controller == '/Error404Controller')

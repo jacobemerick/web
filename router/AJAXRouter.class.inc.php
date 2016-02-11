@@ -10,7 +10,7 @@ class AJAXRouter extends Router
 		return array(
 			(object) array(
 				'pattern' => '@^/$@',
-				'replace' => 'http://home.jacobemerick.com/'));
+				'replace' => 'https://home.jacobemerick.com/'));
 	}
 
 	protected function get_direct_array()

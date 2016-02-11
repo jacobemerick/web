@@ -9,7 +9,7 @@ final class LogController extends DefaultPageController
 {
 
     private static $AUTHOR = 'Jacob Emerick';
-    private static $AUTHOR_URL = 'http://home.jacobemerick.com/';
+    private static $AUTHOR_URL = 'https://home.jacobemerick.com/';
     private static $JOURNAL_DIRECTORY = 'journal';
 
     private static $FULL_IMAGE_LINK = '/photo/%s/%s-size-standard.jpg';

@@ -32,8 +32,15 @@ class URLDecode
 		} else {
 			self::$array['site'] = substr($host, 0, strpos($host, '.'));
 		}
-		
-		self::$array['base'] = 'http://' . (!Loader::isLive() ? 'dev.' : '') . $host . '/';
+
+    $base = '';
+    $base .= (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $base .= '://';
+    $base .= (!Loader::isLive()) ? 'dev' : '';
+    $base .= $host;
+    $base .= '/';
+
+		self::$array['base'] = $base;
 		self::$array['uri'] = '/' . implode('/', $uri_array);
 		
 		if(end($uri_array) == '')

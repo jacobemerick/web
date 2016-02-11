@@ -176,10 +176,11 @@ final class Loader
     public static function getRootURL($site = '')
     {
         if (strlen($site) > 0) {
+            $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
             if ($site == 'waterfalls' && self::instance()->is_live) {
-                return 'http://www.waterfallsofthekeweenaw.com/';
+                return "{$protocol}://www.waterfallsofthekeweenaw.com/";
             } else {
-                return 'http://' . (self::instance()->is_live ? '' : 'dev.') . $site . '.jacobemerick.com/';
+                return $protocol . '://' . (self::instance()->is_live ? '' : 'dev.') . $site . '.jacobemerick.com/';
             }
         }
         return '/';

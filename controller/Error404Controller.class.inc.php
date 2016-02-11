@@ -27,32 +27,32 @@ class Error404Controller extends PageController
 	{
     return [
       [
-        'url' => 'http://home.jacobemerick.com/',
+        'url' => 'https://home.jacobemerick.com/',
         'title' => "Jacob Emerick's Home",
         'name' => 'Home'
       ],
       [
-        'url' => 'http://blog.jacobemerick.com/',
+        'url' => 'https://blog.jacobemerick.com/',
         'title' => "Jacob Emerick's Blog",
         'name' => 'Blog'
       ],
       [
-        'url' => 'http://lifestream.jacobemerick.com/',
+        'url' => 'https://lifestream.jacobemerick.com/',
         'title' => "Jacob Emerick's Lifestream",
         'name' => 'Lifestream'
       ],
       [
-        'url' => 'http://map.jacobemerick.com/',
+        'url' => 'https://map.jacobemerick.com/',
         'title' => "Jacob Emerick's Hiking Map",
         'name' => 'Map'
       ],
       [
-        'url' => 'http://portfolio.jacobemerick.com/',
+        'url' => 'https://portfolio.jacobemerick.com/',
         'title' => "Jacob Emerick's Portfolio",
         'name' => 'Portfolio',
       ],
       [
-        'url' => 'http://www.waterfallsofthekeweenaw.com/',
+        'url' => 'https://www.waterfallsofthekeweenaw.com/',
         'title' => 'Waterfalls of the Keweenaw',
         'name' => 'Waterfalls'
       ]
