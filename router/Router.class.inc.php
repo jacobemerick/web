@@ -87,6 +87,7 @@ abstract class Router
 		if(substr($redirect_uri, 0, 4) == 'http') {
       $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
 			$controller_check = preg_replace('@^' . $protocol . '://([a-z\.]+)@', '', $redirect_uri);
+    }
 		
 		$controller = $this->get_controller($controller_check);
 		if($controller == '/Error404Controller')
