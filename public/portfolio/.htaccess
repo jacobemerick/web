@@ -13,8 +13,8 @@
 
 RewriteEngine on
 
-RewriteCond %{HTTPS} off
-RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URL} [L,R=301]
+RewriteCond %{HTTPS} on
+RewriteRule .* http://%{HTTP_HOST}%{REQUEST_URL} [L,R=301]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
