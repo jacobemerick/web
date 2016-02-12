@@ -328,7 +328,7 @@ foreach ($newGoodreadActivity as $goodread) {
         $messageLong = sprintf(
             "<img alt=\"Goodreads | %s\" src=\"%s\" />\n",
             $goodreadData['title'],
-            $goodreadData['book_large_image_url']
+            str_replace('http', 'https', $goodreadData['book_large_image_url'], 1)
         );
     }
     $messageLong .= "<p>{$message}</p>";
@@ -432,7 +432,7 @@ foreach ($newTwitterActivity as $twitter) {
             } else if ($entityType == 'media') {
                 $replace = sprintf(
                     "<img src=\"%s:%s\" alt=\"%s\" height=\"%s\" width=\"%s\" />",
-                    $entity['media_url'],
+                    $entity['media_url_https'],
                     'large',
                     $entity['display_url'],
                     $entity['sizes']['large']['h'],
