@@ -65,21 +65,6 @@ class MysqlGithubRepository implements GithubRepositoryInterface
             ->fetchOne($query, $bindings);
     }
 
-    public function getGithubsUpdatedSince(DateTime $datetime)
-    {
-        $query = "
-            SELECT *
-            FROM `jpemeric_stream`.`github`
-            WHERE `updated_at` >= :last_update";
-        $bindings = [
-            'last_update' => $datetime->format('Y-m-d H:i:s'),
-        ];
-        return $this
-            ->connections
-            ->getRead()
-            ->fetchAll($query, $bindings);
-    }
-
     /**
      * @param integer  $eventId
      * @param string   $eventType
