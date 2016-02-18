@@ -13,9 +13,7 @@
   ],
   "require": {
     "php": ">=5.4",
-    "abraham/twitteroauth": "^0.6.2",
     "aura/sql": "^2.4",
-    "knplabs/github-api": "^1.5",
     "jacobemerick/monolog-pqp": "^0.1",
     "madcoda/php-youtube-api": "^1.2",
     "monolog/monolog": "^1.17",
