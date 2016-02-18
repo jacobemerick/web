@@ -15,7 +15,6 @@
     "php": ">=5.4",
     "aura/sql": "^2.4",
     "jacobemerick/monolog-pqp": "^0.1",
-    "madcoda/php-youtube-api": "^1.2",
     "monolog/monolog": "^1.17",
     "particletree/pqp": "^1.1",
     "pimple/pimple": "^3.0",
