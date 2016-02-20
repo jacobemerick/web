@@ -1,8 +1,11 @@
 <?php
 
+namespace Jacobemerick\Web\Domain\Blog\Post;
+
 use Aura\Sql\ConnectionLocator;
 use Aura\Sql\ExtendedPdo;
-use Jacobemerick\Web\Domain\Blog\Post\MysqlPostRepository;
+use DateTime;
+use PHPUnit_Framework_Testcase;
 
 class MysqlPostRepositoryTest extends PHPUnit_Framework_TestCase
 {

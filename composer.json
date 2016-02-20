@@ -33,5 +33,10 @@
     "psr-4": {
       "Jacobemerick\\Web\\": "src/"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Jacobemerick\\Web\\": "tests/unit/"
+    }
   }
 }
