@@ -105,18 +105,13 @@ class MysqlSeriesRepositoryTest extends PHPUnit_Framework_TestCase
             ],
         ];
 
-        $testSeriesPostData = [
-            [
+        $testSeriesPostData = [];
+        foreach ($testPostData as $testPostDataRow) {
+            array_push($testSeriesPostData, [
                 'series' => reset($testSeriesData)['id'],
-                'post' => $testPostData[0]['id'],
-                'order' => 1,
-            ],
-            [
-                'series' => reset($testSeriesData)['id'],
-                'post' => $testPostData[1]['id'],
-                'order' => 2,
-            ],
-        ];
+                'post' => $testPostDataRow['id'],
+            ]);
+        }
 
         array_walk($testPostData, [$this, 'insertPostData']);
         array_walk($testSeriesData, [$this, 'insertSeriesData']);
@@ -144,17 +139,201 @@ class MysqlSeriesRepositoryTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testGetSeriesForPostOrder() {}
+    public function testGetSeriesForPostOrder()
+    {
+        $testPostData = [
+            [
+                'id' => rand(1, 100),
+                'display' => 1,
+            ],
+            [
+                'id' => rand(101, 200),
+                'display' => 1,
+            ],
+            [
+                'id' => rand(201, 300),
+                'display' => 1,
+            ],
+        ];
 
-    public function testGetSeriesForPostSeriesFilter() {}
+        $testSeriesData = [
+            [
+                'id' => rand(1, 100),
+            ],
+        ];
 
-    public function testGetSeriesForPostInactive() {}
+        $order = [1, 2, 3];
+        shuffle($order);
+        $testSeriesPostData = [];
+        foreach ($testPostData as $key => $testPostDataRow) {
+            array_push($testSeriesPostData, [
+                'series' => reset($testSeriesData)['id'],
+                'post' => $testPostDataRow['id'],
+                'order' => $order[$key],
+            ]);
+        }
 
-    public function testGetSeriesForPostFailure() {}
+        array_walk($testPostData, [$this, 'insertPostData']);
+        array_walk($testSeriesData, [$this, 'insertSeriesData']);
+        array_walk($testSeriesPostData, [$this, 'insertSeriesPostData']);
+
+        $repository = new MysqlSeriesRepository(self::$connection);
+        $data = $repository->getSeriesForPost(reset($testPostData)['id']);
+
+        usort($testPostData, function ($rowA, $rowB) use ($testSeriesPostData) {
+            $seriesA = array_filter($testSeriesPostData, function ($row) use ($rowA) {
+                return ($rowA['id'] == $row['post']);
+            });
+            $seriesB = array_filter($testSeriesPostData, function ($row) use ($rowB) {
+                return ($rowB['id'] == $row['post']);
+            });
+
+            return (reset($seriesA)['order'] > reset($seriesB)['order']);
+        });
+
+        $this->assertNotFalse($data);
+        $this->assertInternalType('array', $data);
+        foreach ($testPostData as $key => $testPostRow) {
+            $this->assertInternalType('array', $data[$key]);
+            $this->assertArrayHasKey('post', $data[$key]);
+            $this->assertEquals($testPostRow['id'], $data[$key]['post']);
+        }
+    }
+ 
+    public function testGetSeriesForPostSeriesFilter()
+    {
+        $testPostAData = [
+            [
+                'id' => rand(1, 100),
+                'display' => 1,
+            ],
+            [
+                'id' => rand(101, 200),
+                'display' => 1,
+            ],
+        ];
+
+        $testPostBData = [
+            [
+                'id' => rand(501, 600),
+                'display' => 1,
+            ],
+            [
+                'id' => rand(601, 700),
+                'display' => 1,
+            ],
+        ];
+
+        $testSeriesData = [
+            [
+                'id' => rand(1, 100),
+            ],
+            [
+                'id' => rand(101, 200),
+            ],
+        ];
+
+        $testSeriesPostData = [];
+        foreach ($testPostAData as $testPostDataRow) {
+            array_push($testSeriesPostData, [
+                'series' => $testSeriesData[0]['id'],
+                'post' => $testPostDataRow['id'],
+            ]);
+        }
+        foreach ($testPostBData as $testPostDataRow) {
+            array_push($testSeriesPostData, [
+                'series' => $testSeriesData[1]['id'],
+                'post' => $testPostDataRow['id'],
+            ]);
+        }
+
+        $testPostData = array_merge($testPostAData, $testPostBData);
+        array_walk($testPostData, [$this, 'insertPostData']);
+        array_walk($testSeriesData, [$this, 'insertSeriesData']);
+        array_walk($testSeriesPostData, [$this, 'insertSeriesPostData']);
+
+        $repository = new MysqlSeriesRepository(self::$connection);
+        $data = $repository->getSeriesForPost(reset($testPostAData)['id']);
+
+        $this->assertNotFalse($data);
+        $this->assertInternalType('array', $data);
+
+        $testPosts = array_column($testPostAData, 'id');
+        $dataPosts = array_column($data, 'post');
+
+        $this->assertEmpty(array_merge(
+            array_diff($testPosts, $dataPosts),
+            array_diff($dataPosts, $testPosts)
+        ));
+    }
+ 
+    public function testGetSeriesForPostInactive()
+    {
+        $testPostData = [
+            [
+                'id' => rand(1, 100),
+                'display' => 1,
+            ],
+            [
+                'id' => rand(101, 200),
+                'display' => 0,
+            ],
+            [
+                'id' => rand(201, 300),
+                'display' => 0,
+            ],
+        ];
+
+        $testSeriesData = [
+            [
+                'id' => rand(1, 100),
+            ],
+        ];
+
+        $testSeriesPostData = [];
+        foreach ($testPostData as $testPostDataRow) {
+            array_push($testSeriesPostData, [
+                'series' => reset($testSeriesData)['id'],
+                'post' => $testPostDataRow['id'],
+            ]);
+        }
+
+        array_walk($testPostData, [$this, 'insertPostData']);
+        array_walk($testSeriesData, [$this, 'insertSeriesData']);
+        array_walk($testSeriesPostData, [$this, 'insertSeriesPostData']);
+
+        $repository = new MysqlSeriesRepository(self::$connection);
+        $data = $repository->getSeriesForPost(reset($testPostData)['id']);
+
+        $this->assertNotFalse($data);
+        $this->assertInternalType('array', $data);
+
+        $testPostData = array_filter($testPostData, function ($row) {
+            return ($row['display'] == 1);
+        });
+        $testPosts = array_column($testPostData, 'id');
+        $dataPosts = array_column($data, 'post');
+
+        $this->assertEmpty(array_merge(
+            array_diff($testPosts, $dataPosts),
+            array_diff($dataPosts, $testPosts)
+        ));
+    }
+
+    public function testGetSeriesForPostFailure()
+    {
+        $repository = new MysqlSeriesRepository(self::$connection);
+        $data = $repository->getSeriesForPost(rand(1, 100));
+
+        $this->assertEmpty($data);
+        $this->assertInternalType('array', $data);
+    }
 
     protected function tearDown()
     {
+        self::$connection->getDefault()->perform("DELETE FROM `jpemeric_blog`.`post`");
         self::$connection->getDefault()->perform("DELETE FROM `jpemeric_blog`.`series`");
+        self::$connection->getDefault()->perform("DELETE FROM `jpemeric_blog`.`series_post`");
     }
 
     public static function tearDownAfterClass()
