@@ -27,7 +27,7 @@ class MysqlChangelogRepository implements ChangelogRepositoryInterface
     public function getChanges($limit = null, $offset = 0)
     {
         $query = "
-            SELECT `message`, `message_short`, `datetime`, `commit_link`
+            SELECT `id`, `message`, `message_short`, `datetime`, `commit_link`
             FROM `jpemeric_stream`.`changelog`
             ORDER BY `datetime` DESC";
         if (!is_null($limit)) {
