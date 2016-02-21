@@ -15,17 +15,18 @@ class MysqlActivityRepositoryTest extends PHPUnit_Framework_TestCase
     {
         $extendedPdo = new ExtendedPdo('sqlite::memory:');
         $extendedPdo->exec("ATTACH DATABASE `jpemeric_stream.db` AS `jpemeric_stream`");
+
         $extendedPdo->exec("
             CREATE TABLE IF NOT EXISTS `jpemeric_stream`.`activity` (
-              `id` integer PRIMARY KEY AUTOINCREMENT,
-              `message` text NOT NULL,
-              `message_long` text NOT NULL,
-              `datetime` datetime NOT NULL,
-              `metadata` text NOT NULL,
-              `type` varchar(10) NOT NULL,
-              `type_id` integer NOT NULL,
-              `created_at` datetime,
-              `updated_at` datetime
+                `id` integer PRIMARY KEY AUTOINCREMENT,
+                `message` text NOT NULL,
+                `message_long` text NOT NULL,
+                `datetime` datetime NOT NULL,
+                `metadata` text NOT NULL,
+                `type` varchar(10) NOT NULL,
+                `type_id` integer NOT NULL,
+                `created_at` datetime,
+                `updated_at` datetime
             )"
         );
 
@@ -118,7 +119,7 @@ class MysqlActivityRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertNotFalse($data);
         $this->assertInternalType('array', $data);
         foreach ($testData as $key => $testRow) {
-            $this->assertInternalType('array', $testRow);
+            $this->assertInternalType('array', $data[$key]);
             $this->assertArraySubset($testRow, $data[$key]);
         }
     }
@@ -161,7 +162,7 @@ class MysqlActivityRepositoryTest extends PHPUnit_Framework_TestCase
         $testData = array_slice($testData, 1, 2);
 
         foreach ($testData as $key => $testRow) {
-            $this->assertInternalType('array', $testRow);
+            $this->assertInternalType('array', $data[$key]);
             $this->assertArraySubset($testRow, $data[$key]);
         }
     }
@@ -255,7 +256,7 @@ class MysqlActivityRepositoryTest extends PHPUnit_Framework_TestCase
         $testData = array_values($testData);
 
         foreach ($testData as $key => $testRow) {
-            $this->assertInternalType('array', $testRow);
+            $this->assertInternalType('array', $data[$key]);
             $this->assertArraySubset($testRow, $data[$key]);
         }
     }
@@ -325,7 +326,7 @@ class MysqlActivityRepositoryTest extends PHPUnit_Framework_TestCase
         $testData = array_slice($testData, 1, 2);
 
         foreach ($testData as $key => $testRow) {
-            $this->assertInternalType('array', $testRow);
+            $this->assertInternalType('array', $data[$key]);
             $this->assertArraySubset($testRow, $data[$key]);
         }
     }

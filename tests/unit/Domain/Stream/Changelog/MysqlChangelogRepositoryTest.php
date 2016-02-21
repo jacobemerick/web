@@ -15,17 +15,18 @@ class MysqlChangelogRepositoryTest extends PHPUnit_Framework_TestCase
     {
         $extendedPdo = new ExtendedPdo('sqlite::memory:');
         $extendedPdo->exec("ATTACH DATABASE `jpemeric_stream.db` AS `jpemeric_stream`");
+
         $extendedPdo->exec("
             CREATE TABLE IF NOT EXISTS `jpemeric_stream`.`changelog` (
-              `id` integer PRIMARY KEY AUTOINCREMENT,
-              `hash` char(40) NOT NULL,
-              `message` text,
-              `message_short` varchar(100),
-              `datetime` datetime NOT NULL,
-              `author` varchar(50) NOT NULL,
-              `commit_link` varchar(100) NOT NULL,
-              `created_at` datetime,
-              `updated_at` datetime
+                `id` integer PRIMARY KEY AUTOINCREMENT,
+                `hash` char(40) NOT NULL,
+                `message` text,
+                `message_short` varchar(100),
+                `datetime` datetime NOT NULL,
+                `author` varchar(50) NOT NULL,
+                `commit_link` varchar(100) NOT NULL,
+                `created_at` datetime,
+                `updated_at` datetime
             )"
         );
 
@@ -86,7 +87,7 @@ class MysqlChangelogRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertNotFalse($data);
         $this->assertInternalType('array', $data);
         foreach ($testData as $key => $testRow) {
-            $this->assertInternalType('array', $testRow);
+            $this->assertInternalType('array', $data[$key]);
             $this->assertArraySubset($testRow, $data[$key]);
             $this->assertArrayHasKey('id', $data[$key]);
             $this->assertArrayHasKey('message', $data[$key]);

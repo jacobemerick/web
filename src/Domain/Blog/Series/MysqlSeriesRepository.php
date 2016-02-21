@@ -26,10 +26,10 @@ class MysqlSeriesRepository implements SeriesRepositoryInterface
     public function getSeriesForPost($post)
     {
         $query = "
-            SELECT `series`.`title` AS `series_title`, `series`.`description` AS `series_descriptions`,
-                   `post.id` AS `post`, `post`.`title`, `post`.`category`, `post`.`path`
+            SELECT `series`.`title` AS `series_title`, `series`.`description` AS `series_description`,
+                   `post`.`id` AS `post`, `post`.`title`, `post`.`category`, `post`.`path`
             FROM `jpemeric_blog`.`series`
-            INNER JOIN `jpemeric_blog`.`series_post` ON `series_post`.`series` = `series.`id`
+            INNER JOIN `jpemeric_blog`.`series_post` ON `series_post`.`series` = `series`.`id`
             INNER JOIN `jpemeric_blog`.`post` ON `post`.`id` = `series_post`.`post` AND
                                                  `post`.`display` = :is_active
             WHERE `series`.`id` = (
