@@ -110,8 +110,7 @@ class MysqlActivityRepositoryTest extends PHPUnit_Framework_TestCase
             ],
         ];
 
-        $this->insertData($testData[0]);
-        $this->insertData($testData[1]);
+        array_walk($testData, [$this, 'insertData']);
 
         $repository = new MysqlActivityRepository(self::$connection);
         $data = $repository->getActivities();
@@ -133,9 +132,61 @@ class MysqlActivityRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('array', $data);
     }
 
-    public function testGetActivitiesRange() {}
+    public function testGetActivitiesRange()
+    {
+        $testData = [
+            [
+                'id' => rand(1, 100),
+                'message' => 'test one',
+            ],
+            [
+                'id' => rand(101, 200),
+                'message' => 'test two',
+            ],
+            [
+                'id' => rand(201, 300),
+                'message' => 'test three',
+            ],
+        ];
 
-    public function testGetActivitiesRangeFailure() {}
+        array_walk($testData, [$this, 'insertData']);
+
+        $repository = new MysqlActivityRepository(self::$connection);
+        $data = $repository->getActivities(2, 1);
+
+        $this->assertNotFalse($data);
+        $this->assertInternalType('array', $data);
+        $this->assertCount(2, $data);
+
+        $testData = array_slice($testData, 1, 2);
+
+        foreach ($testData as $key => $testRow) {
+            $this->assertInternalType('array', $testRow);
+            $this->assertArraySubset($testRow, $data[$key]);
+        }
+    }
+
+    public function testGetActivitiesRangeFailure()
+    {
+        $testData = [
+            [
+                'id' => rand(1, 100),
+                'message' => 'test one',
+            ],
+            [
+                'id' => rand(101, 200),
+                'message' => 'test two',
+            ],
+        ];
+
+        array_walk($testData, [$this, 'insertData']);
+
+        $repository = new MysqlActivityRepository(self::$connection);
+        $data = $repository->getActivities(1, 3);
+
+        $this->assertEmpty($data);
+        $this->assertInternalType('array', $data);
+    }
 
     public function testGetActivitiesCount()
     {
@@ -150,8 +201,7 @@ class MysqlActivityRepositoryTest extends PHPUnit_Framework_TestCase
             ],
         ];
 
-        $this->insertData($testData[0]);
-        $this->insertData($testData[1]);
+        array_walk($testData, [$this, 'insertData']);
 
         $repository = new MysqlActivityRepository(self::$connection);
         $data = $repository->getActivitiesCount();
@@ -171,17 +221,202 @@ class MysqlActivityRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('0', $data);
     }
 
-    public function testGetActivitiesByType() {}
+    public function testGetActivitiesByType()
+    {
+        $testData = [
+            [
+                'id' => rand(1, 100),
+                'message' => 'test one',
+                'type' => 'type one',
+            ],
+            [
+                'id' => rand(101, 200),
+                'message' => 'test two',
+                'type' => 'type two',
+            ],
+            [
+                'id' => rand(201, 300),
+                'message' => 'test three',
+                'type' => 'type one',
+            ],
+        ];
 
-    public function testGetActivitiesByTypeFailure() {}
+        array_walk($testData, [$this, 'insertData']);
 
-    public function testGetActivitiesByTypeRange() {}
+        $repository = new MysqlActivityRepository(self::$connection);
+        $data = $repository->getActivitiesByType('type one');
 
-    public function testGetActivitiesByTypeRangeFailure() {}
+        $this->assertNotFalse($data);
+        $this->assertInternalType('array', $data);
 
-    public function testGetActivitiesByTypeCount() {}
+        $testData = array_filter($testData, function ($row) {
+            return ($row['type'] == 'type one');
+        });
+        $testData = array_values($testData);
 
-    public function testGetActivitiesByTypeCountEmpty() {}
+        foreach ($testData as $key => $testRow) {
+            $this->assertInternalType('array', $testRow);
+            $this->assertArraySubset($testRow, $data[$key]);
+        }
+    }
+
+    public function testGetActivitiesByTypeFailure()
+    {
+        $testData = [
+            [
+                'id' => rand(1, 100),
+                'message' => 'test one',
+                'type' => 'type one',
+            ],
+            [
+                'id' => rand(101, 200),
+                'message' => 'test two',
+                'type' => 'type one',
+            ],
+        ];
+
+        array_walk($testData, [$this, 'insertData']);
+
+        $repository = new MysqlActivityRepository(self::$connection);
+        $data = $repository->getActivitiesByType('type two');
+
+        $this->assertEmpty($data);
+        $this->assertInternalType('array', $data);
+    }
+
+    public function testGetActivitiesByTypeRange()
+    {
+        $testData = [
+            [
+                'id' => rand(1, 100),
+                'message' => 'test one',
+                'type' => 'type one',
+            ],
+            [
+                'id' => rand(101, 200),
+                'message' => 'test two',
+                'type' => 'type two',
+            ],
+            [
+                'id' => rand(201, 300),
+                'message' => 'test three',
+                'type' => 'type one',
+            ],
+            [
+                'id' => rand(301, 400),
+                'message' => 'test four',
+                'type' => 'type one',
+            ],
+        ];
+
+        array_walk($testData, [$this, 'insertData']);
+
+        $repository = new MysqlActivityRepository(self::$connection);
+        $data = $repository->getActivitiesByType('type one', 2, 1);
+
+        $this->assertNotFalse($data);
+        $this->assertInternalType('array', $data);
+        $this->assertCount(2, $data);
+
+        $testData = array_filter($testData, function ($row) {
+            return ($row['type'] == 'type one');
+        });
+        $testData = array_values($testData);
+        $testData = array_slice($testData, 1, 2);
+
+        foreach ($testData as $key => $testRow) {
+            $this->assertInternalType('array', $testRow);
+            $this->assertArraySubset($testRow, $data[$key]);
+        }
+    }
+
+    public function testGetActivitiesByTypeRangeFailure()
+    {
+        $testData = [
+            [
+                'id' => rand(1, 100),
+                'message' => 'test one',
+                'type' => 'type one',
+            ],
+            [
+                'id' => rand(101, 200),
+                'message' => 'test two',
+                'type' => 'type one',
+            ],
+            [
+                'id' => rand(201, 300),
+                'message' => 'test three',
+                'type' => 'type one',
+            ],
+        ];
+
+        array_walk($testData, [$this, 'insertData']);
+
+        $repository = new MysqlActivityRepository(self::$connection);
+        $data = $repository->getActivitiesByType('type two', 2, 1);
+
+        $this->assertEmpty($data);
+        $this->assertInternalType('array', $data);
+    }
+
+    public function testGetActivitiesByTypeCount()
+    {
+        $testData = [
+            [
+                'id' => rand(1, 100),
+                'message' => 'test one',
+                'type' => 'type one',
+            ],
+            [
+                'id' => rand(101, 200),
+                'message' => 'test two',
+                'type' => 'type two',
+            ],
+            [
+                'id' => rand(201, 300),
+                'message' => 'test three',
+                'type' => 'type one',
+            ],
+        ];
+
+        array_walk($testData, [$this, 'insertData']);
+
+        $repository = new MysqlActivityRepository(self::$connection);
+        $data = $repository->getActivitiesByTypeCount('type one');
+
+        $testData = array_filter($testData, function ($row) {
+            return ($row['type'] == 'type one');
+        });
+
+        $this->assertNotFalse($data);
+        $this->assertStringMatchesFormat('%d', $data);
+        $this->assertEquals(count($testData), $data);
+    }
+
+    public function testGetActivitiesByTypeCountEmpty()
+    {
+        $testData = [
+            [
+                'id' => rand(1, 100),
+                'message' => 'test one',
+                'type' => 'type one',
+            ],
+            [
+                'id' => rand(101, 200),
+                'message' => 'test two',
+                'type' => 'type one',
+            ],
+        ];
+
+        array_walk($testData, [$this, 'insertData']);
+
+        $repository = new MysqlActivityRepository(self::$connection);
+        $data = $repository->getActivitiesByTypeCount('type two');
+
+        $this->assertNotFalse($data);
+        $this->assertStringMatchesFormat('%d', $data);
+        $this->assertEquals('0', $data);
+    }
 
     protected function tearDown()
     {
