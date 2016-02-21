@@ -88,6 +88,11 @@ class MysqlChangelogRepositoryTest extends PHPUnit_Framework_TestCase
         foreach ($testData as $key => $testRow) {
             $this->assertInternalType('array', $testRow);
             $this->assertArraySubset($testRow, $data[$key]);
+            $this->assertArrayHasKey('id', $data[$key]);
+            $this->assertArrayHasKey('message', $data[$key]);
+            $this->assertArrayHasKey('message_short', $data[$key]);
+            $this->assertArrayHasKey('datetime', $data[$key]);
+            $this->assertArrayHasKey('commit_link', $data[$key]);
         }
     }
 
