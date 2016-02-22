@@ -10,20 +10,13 @@ use PHPUnit_Framework_TestCase;
 class MysqlPostRepositoryTest extends PHPUnit_Framework_TestCase
 {
 
-    protected $connections;
+    protected static $connection;
 
-    public function __construct()
-    {
-        $extendedPdo = $this->newExtendedPdo();
-        $this->connections = new ConnectionLocator(function () use ($extendedPdo) {
-            return $extendedPdo;
-        });
-    }
-
-    protected function newExtendedPdo()
+    public static function setUpBeforeClass()
     {
         $extendedPdo = new ExtendedPdo('sqlite::memory:');
         $extendedPdo->exec('ATTACH DATABASE `jpemeric_blog.db` AS `jpemeric_blog`');
+
         $extendedPdo->exec("
             CREATE TABLE IF NOT EXISTS `jpemeric_blog`.`post` (
               `id` integer PRIMARY KEY AUTOINCREMENT,
@@ -35,18 +28,21 @@ class MysqlPostRepositoryTest extends PHPUnit_Framework_TestCase
               `display` integer NOT NULL
             )"
         );
-        return $extendedPdo;
+
+        self::$connection = new ConnectionLocator(function () use ($extendedPdo) {
+            return $extendedPdo;
+        });
     }
 
     public function newMysqlPostRepository()
     {
-        return new MysqlPostRepository($this->connections);
+        return new MysqlPostRepository(self::$connection);
     }
 
     public function testConstructSetsConnections()
     {
         $this->assertAttributeEquals(
-            $this->connections,
+            self::$connection,
             'connections',
             $this->newMysqlPostRepository()
         );
@@ -63,7 +59,7 @@ class MysqlPostRepositoryTest extends PHPUnit_Framework_TestCase
             'display'   => 1
         );
 
-        $this->connections->getDefault()->perform("
+        self::$connection->getDefault()->perform("
             INSERT INTO jpemeric_blog.post
                 (title, path, category, date, body, display)
             VALUES
@@ -85,7 +81,7 @@ class MysqlPostRepositoryTest extends PHPUnit_Framework_TestCase
             'display'   => 0
         );
 
-        $this->connections->getDefault()->perform("
+        self::$connection->getDefault()->perform("
             INSERT INTO jpemeric_blog.post
                 (title, path, category, date, body, display)
             VALUES
@@ -115,7 +111,7 @@ class MysqlPostRepositoryTest extends PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-//        $this->connections->getDefault()->disconnect();
+        self::$connection->getDefault()->disconnect();
         unlink('jpemeric_blog.db');
     }
 }
