@@ -123,17 +123,6 @@ class MysqlIntroductionRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($data);
     }
 
-    protected function tearDown()
-    {
-        self::$connection->getDefault()->perform("DELETE FROM `jpemeric_blog`.`introduction`");
-    }
-
-    public static function tearDownAfterClass()
-    {
-        self::$connection->getDefault()->disconnect();
-        unlink('jpemeric_blog.db');
-    }
-
     protected function insertData(array $data)
     {
         $defaultData = [
@@ -154,5 +143,16 @@ class MysqlIntroductionRepositoryTest extends PHPUnit_Framework_TestCase
                 (:id, :type, :value, :title, :content, :image)",
             $data
         );
+    }
+
+    protected function tearDown()
+    {
+        self::$connection->getDefault()->perform("DELETE FROM `jpemeric_blog`.`introduction`");
+    }
+
+    public static function tearDownAfterClass()
+    {
+        self::$connection->getDefault()->disconnect();
+        unlink('jpemeric_blog.db');
     }
 }

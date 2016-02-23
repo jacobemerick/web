@@ -329,19 +329,6 @@ class MysqlSeriesRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('array', $data);
     }
 
-    protected function tearDown()
-    {
-        self::$connection->getDefault()->perform("DELETE FROM `jpemeric_blog`.`post`");
-        self::$connection->getDefault()->perform("DELETE FROM `jpemeric_blog`.`series`");
-        self::$connection->getDefault()->perform("DELETE FROM `jpemeric_blog`.`series_post`");
-    }
-
-    public static function tearDownAfterClass()
-    {
-        self::$connection->getDefault()->disconnect();
-        unlink('jpemeric_blog.db');
-    }
-
     protected function insertPostData(array $data)
     {
         $defaultData = [
@@ -401,5 +388,18 @@ class MysqlSeriesRepositoryTest extends PHPUnit_Framework_TestCase
                 (:series, :post, :order)",
             $data
         );
+    }
+
+    protected function tearDown()
+    {
+        self::$connection->getDefault()->perform("DELETE FROM `jpemeric_blog`.`post`");
+        self::$connection->getDefault()->perform("DELETE FROM `jpemeric_blog`.`series`");
+        self::$connection->getDefault()->perform("DELETE FROM `jpemeric_blog`.`series_post`");
+    }
+
+    public static function tearDownAfterClass()
+    {
+        self::$connection->getDefault()->disconnect();
+        unlink('jpemeric_blog.db');
     }
 }

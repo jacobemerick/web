@@ -419,17 +419,6 @@ class MysqlActivityRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('0', $data);
     }
 
-    protected function tearDown()
-    {
-        self::$connection->getDefault()->perform("DELETE FROM `jpemeric_stream`.`activity`");
-    }
-
-    public static function tearDownAfterClass()
-    {
-        self::$connection->getDefault()->disconnect();
-        unlink('jpemeric_stream.db');
-    }
-
     protected function insertData(array $data)
     {
         $defaultData = [
@@ -451,5 +440,16 @@ class MysqlActivityRepositoryTest extends PHPUnit_Framework_TestCase
                 (:id, :message, :message_long, :datetime, :metadata, :type, :type_id)",
             $data
         );
+    }
+
+    protected function tearDown()
+    {
+        self::$connection->getDefault()->perform("DELETE FROM `jpemeric_stream`.`activity`");
+    }
+
+    public static function tearDownAfterClass()
+    {
+        self::$connection->getDefault()->disconnect();
+        unlink('jpemeric_stream.db');
     }
 }

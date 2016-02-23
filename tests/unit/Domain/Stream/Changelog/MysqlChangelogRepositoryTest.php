@@ -162,17 +162,6 @@ class MysqlChangelogRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('array', $data);
     }
 
-    protected function tearDown()
-    {
-        self::$connection->getDefault()->perform("DELETE FROM `jpemeric_stream`.`changelog`");
-    }
-
-    public static function tearDownAfterClass()
-    {
-        self::$connection->getDefault()->disconnect();
-        unlink('jpemeric_stream.db');
-    }
-
     protected function insertData(array $data)
     {
         $defaultData = [
@@ -194,5 +183,16 @@ class MysqlChangelogRepositoryTest extends PHPUnit_Framework_TestCase
                 (:id, :hash, :message, :message_short, :datetime, :author, :commit_link)",
             $data
         );
+    }
+
+    protected function tearDown()
+    {
+        self::$connection->getDefault()->perform("DELETE FROM `jpemeric_stream`.`changelog`");
+    }
+
+    public static function tearDownAfterClass()
+    {
+        self::$connection->getDefault()->disconnect();
+        unlink('jpemeric_stream.db');
     }
 }
