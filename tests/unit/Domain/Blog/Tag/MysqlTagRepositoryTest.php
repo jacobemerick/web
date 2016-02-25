@@ -29,8 +29,8 @@ class MysqlTagRepositoryTest extends PHPUnit_Framework_TestCase
         );
         $extendedPdo->exec("
             CREATE TABLE IF NOT EXISTS `jpemeric_blog`.`ptlink` (
-                `post` integer NOT NULL,
-                `tag` integer NOT NULL
+                `post_id` integer NOT NULL,
+                `tag_id` integer NOT NULL
             )"
         );
         $extendedPdo->exec("
@@ -91,6 +91,8 @@ class MysqlTagRepositoryTest extends PHPUnit_Framework_TestCase
 
         array_walk($testData, [$this, 'insertTagData']);
 
+        shuffle($testData);
+
         $repository = new MysqlTagRepository(self::$connection);
         $data = $repository->findTagByTitle(reset($testData)['tag']);
 
@@ -110,11 +112,88 @@ class MysqlTagRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($data);
     }
 
-    public function testGetAllTags() {}
+    public function testGetAllTags()
+    {
+        $testData = [
+            [
+                'id' => rand(1, 100),
+                'tag' => 'test one',
+            ],
+            [
+                'id' => rand(101, 200),
+                'tag' => 'test two',
+            ],
+        ];
 
-    public function testGetAllTagsFailure() {}
+        array_walk($testData, [$this, 'insertTagData']);
 
-    public function testGetTagCloud() {}
+        $repository = new MysqlTagRepository(self::$connection);
+        $data = $repository->getAllTags();
+
+        $this->assertNotFalse($data);
+        $this->assertInternalType('array', $data);
+        $this->assertCount(count($testData), $data);
+        foreach ($testData as $key => $testDataRow) {
+            $this->assertArrayHasKey('id', $data[$key]);
+            $this->assertEquals($testDataRow['id'], $data[$key]['id']);
+            $this->assertArrayHasKey('tag', $data[$key]);
+            $this->assertEquals($testDataRow['tag'], $data[$key]['tag']);
+        }
+    }
+ 
+    public function testGetAllTagsFailure()
+    {
+        $repository = new MysqlTagRepository(self::$connection);
+        $data = $repository->getAllTags();
+
+        $this->assertEmpty($data);
+        $this->assertInternalType('array', $data);
+    }
+
+    public function testGetTagCloud()
+    {
+        $testPostData = [
+            [
+                'id' => rand(1, 100),
+            ],
+            [
+                'id' => rand(101, 200),
+            ],
+        ];
+
+        $testTagData = [
+            [
+                'id' => rand(1, 100),
+                'tag' => 'test one',
+            ],
+            [
+                'id' => rand(101, 200),
+                'tag' => 'test two',
+            ],
+            [
+                'id' => rand(201, 300),
+                'tag' => 'test three',
+            ],
+        ];
+
+        $testPTLinkData = [];
+        foreach ($testPostData as $testPostRow) {
+            $tempTagData = $testTagData;
+            shuffle($tempTagData);
+            for ($i = 0; $i < 2; $i++) {
+                array_push($testPTLinkData, [
+                    'post_id' => $testPostRow['id'],
+                    'tag_id' => $tempTagData[$i]['id'],
+                ]);
+            }
+        }
+
+        array_walk($testPostData, [$this, 'insertPostData']);
+        array_walk($testPTLinkData, [$this, 'insertPTLinkData']);
+        array_walk($testTagData, [$this, 'insertTagData']);
+
+        // todo assert stuff, I guess
+    }
 
     public function testGetTagCloudInactive() {}
 
@@ -124,7 +203,27 @@ class MysqlTagRepositoryTest extends PHPUnit_Framework_TestCase
 
     public function testGetTagsForPostOrder() {}
 
-    public function testGetTagsForPostFailure() {}
+    public function testGetTagsForPostFailure()
+    {
+        $testData = [
+            [
+                'id' => rand(1, 100),
+                'tag' => 'test one',
+            ],
+            [
+                'id' => rand(101, 200),
+                'tag' => 'test two',
+            ],
+        ];
+
+        array_walk($testData, [$this, 'insertTagData']);
+
+        $repository = new MysqlTagRepository(self::$connection);
+        $data = $repository->getTagsForPost(rand(1, 10));
+
+        $this->assertEmpty($data);
+        $this->assertInternalType('array', $data);
+    }
 
     protected function insertPostData(array $data)
     {
@@ -160,9 +259,9 @@ class MysqlTagRepositoryTest extends PHPUnit_Framework_TestCase
 
         return self::$connection->getDefault()->perform("
             INSERT INTO `jpemeric_blog`.`ptlink`
-                (post, tag)
+                (post_id, tag_id)
             VALUES
-                (:post, :tag)",
+                (:post_id, :tag_id)",
             $data
         );
     }

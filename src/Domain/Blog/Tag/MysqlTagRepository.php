@@ -77,7 +77,7 @@ class MysqlTagRepository implements TagRepositoryInterface
         $query = "
             SELECT `tag`.*
             FROM `jpemeric_blog`.`tag`
-            INNER JOIN `jpemeric_blog`.`ptlink` ON `ptlink`.`tag_id` AND `post_id` = :post
+            INNER JOIN `jpemeric_blog`.`ptlink` ON `ptlink`.`tag_id` AND `ptlink`.`post_id` = :post
             ORDER BY `tag`";
         $bindings = [
             'post' => $post,
