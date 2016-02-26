@@ -155,9 +155,11 @@ class MysqlTagRepositoryTest extends PHPUnit_Framework_TestCase
         $testPostData = [
             [
                 'id' => rand(1, 100),
+                'display' => 1,
             ],
             [
                 'id' => rand(101, 200),
+                'display' => 1,
             ],
         ];
 
@@ -192,7 +194,54 @@ class MysqlTagRepositoryTest extends PHPUnit_Framework_TestCase
         array_walk($testPTLinkData, [$this, 'insertPTLinkData']);
         array_walk($testTagData, [$this, 'insertTagData']);
 
-        // todo assert stuff, I guess
+        $repository = new MysqlTagRepository(self::$connection);
+        $data = $repository->getTagCloud();
+
+        $this->assertNotFalse($data);
+        $this->assertInternalType('array', $data);
+
+        $tagCountData = array_map(function ($row) use ($testTagData) {
+            $tag = $row['tag_id'];
+            $tag = array_filter($testTagData, function ($row) use ($tag) {
+                return ($tag == $row['id']);
+            });
+            $tag = current($tag)['tag'];
+            return $tag;
+        }, $testPTLinkData);
+
+        $testCountData = [];
+        foreach ($tagCountData as $tagCountRow) {
+            $incremented = false;
+            foreach ($testCountData as $key => $testCountRow) {
+                if ($tagCountRow == $testCountRow['tag']) {
+                    $testCountData[$key]['count']++;
+                    $incremented = true;
+                    break;
+                }
+            }
+            if (!$incremented) {
+                array_push($testCountData, [
+                    'count' => 1,
+                    'tag' => $tagCountRow,
+                ]);
+            }
+        }
+
+        $this->assertCount(count($testCountData), $data);
+
+        usort($testCountData, function ($rowA, $rowB) {
+            return ($rowA['tag'] > $rowB['tag']);
+        });
+        usort($data, function ($rowA, $rowB) {
+            return ($rowA['tag'] > $rowB['tag']);
+        });
+
+        foreach ($testCountData as $key => $testCountRow) {
+            $this->assertArrayHasKey('count', $data[$key]);
+            $this->assertEquals($testCountRow['count'], $data[$key]['count']);
+            $this->assertArrayHasKey('tag', $data[$key]);
+            $this->assertEquals($testCountRow['tag'], $data[$key]['tag']);
+        }
     }
 
     public function testGetTagCloudInactive() {}
