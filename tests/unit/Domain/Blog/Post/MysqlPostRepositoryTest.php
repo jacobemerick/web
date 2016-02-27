@@ -34,79 +34,121 @@ class MysqlPostRepositoryTest extends PHPUnit_Framework_TestCase
         });
     }
 
-    public function newMysqlPostRepository()
+    public function testIsInstanceOfPostRepository()
     {
-        return new MysqlPostRepository(self::$connection);
+        $repository = new MysqlPostRepository(self::$connection);
+
+        $this->assertInstanceOf(
+            'Jacobemerick\Web\Domain\Blog\Post\MysqlPostRepository',
+            $repository
+        );
+    }
+
+    public function testImplementsPostInterface()
+    {
+        $repository = new MysqlPostRepository(self::$connection);
+
+        $this->assertInstanceOf(
+            'Jacobemerick\Web\Domain\Blog\Post\PostRepositoryInterface',
+            $repository
+        );
     }
 
     public function testConstructSetsConnections()
     {
-        $this->assertAttributeEquals(
+        $respository = new MysqlPostRepository(self::$connection);
+
+        $this->assertAttributeSame(
             self::$connection,
             'connections',
-            $this->newMysqlPostRepository()
+            $respository
         );
     }
 
     public function testFindPostByPath()
     {
-        $test_active_post = array(
-            'title'     => 'test findByPath active',
-            'path'      => 'test-findbypath-active',
-            'category'  => 'test-category',
-            'date'      => (new DateTime())->format('Y-m-d H:i:s'),
-            'body'      => 'test content',
-            'display'   => 1
-        );
+        $testData = [
+            'id'       => rand(1, 100),
+            'title'    => 'test title',
+            'path'     => 'test-path',
+            'category' => 'test category',
+            'date'     => (new DateTime())->format('Y-m-d H:i:s'),
+            'body'     => 'test body',
+            'display'  => 1
+        ];
 
-        self::$connection->getDefault()->perform("
-            INSERT INTO jpemeric_blog.post
-                (title, path, category, date, body, display)
-            VALUES
-                (:title, :path, :category, :date, :body, :display)",
-            $test_active_post);
+        $this->insertPostData($testData);
 
-        $active_post = $this->newMysqlPostRepository()->findPostByPath(
-            $test_active_post['category'],
-            $test_active_post['path']
-        );
-        $this->assertSame($test_active_post['title'], $active_post['title']);
+        $repository = new MysqlPostRepository(self::$connection);
+        $data = $repository->findPostByPath($testData['category'], $testData['path']);
 
-        $test_inactive_post = array(
-            'title'     => 'test findByPath inactive',
-            'path'      => 'test-findbypath-inactive',
-            'category'  => 'test-category',
-            'date'      => (new DateTime())->format('Y-m-d H:i:s'),
-            'body'      => 'test content',
-            'display'   => 0
-        );
+        $this->assertNotFalse($data);
+        $this->assertInternalType('array', $data);
+        $this->assertArrayHasKey('id', $data);
+        $this->assertEquals($testData['id'], $data['id']);
+        $this->assertArrayHasKey('title', $data);
+        $this->assertEquals($testData['title'], $data['title']);
+        $this->assertArrayHasKey('path', $data);
+        $this->assertEquals($testData['path'], $data['path']);
+        $this->assertArrayHasKey('date', $data);
+        $this->assertEquals($testData['date'], $data['date']);
+        $this->assertArrayHasKey('body', $data);
+        $this->assertEquals($testData['body'], $data['body']);
+        $this->assertArrayHasKey('category', $data);
+        $this->assertEquals($testData['category'], $data['category']);
+    }
 
-        self::$connection->getDefault()->perform("
-            INSERT INTO jpemeric_blog.post
-                (title, path, category, date, body, display)
-            VALUES
-                (:title, :path, :category, :date, :body, :display)",
-            $test_inactive_post);
-
-        $inactive_post = $this->newMysqlPostRepository()->findPostByPath(
-            $test_inactive_post['category'],
-            $test_inactive_post['path']
-        );
-        $this->assertFalse($inactive_post);
-
-        $nonexistant_post = $this->newMysqlPostRepository()->findPostByPath(
-            'test-category',
-            'test-findbypath-nonexistant'
-        );
-        $this->assertFalse($nonexistant_post);
-   }
-
-    public function testIsInstanceOfPostRepository()
+    public function testFindPostByPathInactive()
     {
-        $this->assertInstanceOf(
-            'Jacobemerick\Web\Domain\Blog\Post\PostRepositoryInterface',
-            $this->newMysqlPostRepository()
+        $testData = [
+            'id'       => rand(1, 100),
+            'path'     => 'test-path',
+            'category' => 'test category',
+            'display'   => 0
+        ];
+
+        $this->insertPostData($testData);
+
+        $repository = new MysqlPostRepository(self::$connection);
+        $data = $repository->findPostByPath($testData['category'], $testData['path']);
+
+        $this->assertFalse($data);
+    }
+
+    public function testFindPostByPathFailure()
+    {
+        $repository = new MysqlPostRepository(self::$connection);
+        $data = $repository->findPostByPath('', '');
+
+        $this->assertFalse($data);
+    }
+
+    protected function insertPostData(array $data)
+    {
+        $defaultData = [
+            'id' => null,
+            'title' => '',
+            'path' => '',
+            'category' => '',
+            'date' => '',
+            'body' => '',
+            'display' => 0,
+        ];
+
+        $data = array_merge($defaultData, $data);
+
+        return self::$connection->getDefault()->perform("
+            INSERT INTO `jpemeric_blog`.`post`
+                (id, title, path, category, date, body, display)
+            VALUES
+                (:id, :title, :path, :category, :date, :body, :display)",
+            $data
         );
+    }
+
+    protected function tearDown()
+    {
+        self::$connection->getDefault()->perform("DELETE FROM `jpemeric_blog`.`post`");
     }
 
     public static function tearDownAfterClass()
