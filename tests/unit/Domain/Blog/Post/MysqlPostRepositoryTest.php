@@ -123,6 +123,159 @@ class MysqlPostRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($data);
     }
 
+    public function testGetActivePosts()
+    {
+        $testData = [
+            [
+                'id'       => rand(1, 100),
+                'title'    => 'title one',
+                'path'     => 'path-one',
+                'category' => 'test category',
+                'date'     => (new DateTime('-1 day'))->format('Y-m-d H:i:s'),
+                'body'     => 'body one',
+                'display'  => 1,
+            ],
+            [
+                'id'       => rand(101, 200),
+                'title'    => 'title two',
+                'path'     => 'path-two',
+                'category' => 'test category',
+                'date'     => (new DateTime())->format('Y-m-d H:i:s'),
+                'body'     => 'body one',
+                'display'  => 1,
+            ],
+        ];
+
+        array_walk($testData, [$this, 'insertPostData']);
+
+        $repository = new MysqlPostRepository(self::$connection);
+        $data = $repository->getActivePosts();
+
+        $this->assertNotFalse($data);
+        $this->assertInternalType('array', $data);
+        $this->assertCount(count($testData), $data);
+
+        usort($testData, function ($rowA, $rowB) {
+            return ((new DateTime($rowA['date'])) < (new DateTime($rowB['date'])));
+        });
+
+        foreach ($testData as $key => $testRow) {
+            $this->assertArrayHasKey('id', $data[$key]);
+            $this->assertEquals($testRow['id'], $data[$key]['id']);
+            $this->assertArrayHasKey('title', $data[$key]);
+            $this->assertEquals($testRow['title'], $data[$key]['title']);
+            $this->assertArrayHasKey('path', $data[$key]);
+            $this->assertEquals($testRow['path'], $data[$key]['path']);
+            $this->assertArrayHasKey('date', $data[$key]);
+            $this->assertEquals($testRow['date'], $data[$key]['date']);
+            $this->assertArrayHasKey('body', $data[$key]);
+            $this->assertEquals($testRow['body'], $data[$key]['body']);
+            $this->assertArrayHasKey('category', $data[$key]);
+            $this->assertEquals($testRow['category'], $data[$key]['category']);
+        }
+    }
+ 
+    public function testGetActivePostsInactive()
+    {
+        $testData = [
+            [
+                'id'       => rand(1, 100),
+                'display'  => 1,
+            ],
+            [
+                'id'       => rand(101, 200),
+                'display'  => 0,
+            ],
+            [
+                'id'       => rand(201, 300),
+                'display'  => 1,
+            ],
+        ];
+
+        array_walk($testData, [$this, 'insertPostData']);
+
+        $repository = new MysqlPostRepository(self::$connection);
+        $data = $repository->getActivePosts();
+
+        $this->assertNotFalse($data);
+        $this->assertInternalType('array', $data);
+
+        $testData = array_filter($testData, function ($row) {
+            return ($row['display'] == 1);
+        });
+
+        $this->assertCount(count($testData), $data);
+
+        $testIds = array_column($testData, 'ids');
+        $dataIds = array_column($data, 'ids');
+
+        $this->assertEmpty(array_merge(
+            array_diff($testIds, $dataIds),
+            array_diff($dataIds, $testIds)
+        ));
+    }
+ 
+    public function testGetActivePostsFailure()
+    {
+        $repository = new MysqlPostRepository(self::$connection);
+        $data = $repository->getActivePosts();
+
+        $this->assertEmpty($data);
+        $this->assertInternalType('array', $data);
+    }
+
+    public function testGetActivePostsRange() {}
+
+    public function testGetActivePostsRangeFailure() {}
+
+    public function testGetActivePostsCount() {}
+
+    public function testGetActivePostsCountInactive() {}
+
+    public function testGetActivePostsCountFailure() {}
+
+    public function testGetActivePostsByTag() {}
+
+    public function testGetActivePostsByTagInactive() {}
+
+    public function testGetActivePostsByTagFailure() {}
+
+    public function testGetActivePostsByTagRange() {}
+
+    public function testGetActivePostsByTagRangeFailure() {}
+
+    public function testGetActivePostsCountByTag() {}
+
+    public function testGetActivePostsCountByTagInactive() {}
+
+    public function testGetActivePostsCountByTagFailure() {}
+
+    public function testGetActivePostsByCategory() {}
+
+    public function testGetActivePostsByCategoryInactive() {}
+
+    public function testGetActivePostsByCategoryFailure() {}
+
+    public function testGetActivePostsByCategoryRange() {}
+
+    public function testGetActivePostsByCategoryRangeFailure() {}
+
+    public function testGetActivePostsCountByCategory() {}
+
+    public function testGetActivePostsCountByCategoryInactive() {}
+
+    public function testGetActivePostsCountByCategoryFailure() {}
+
+    public function testGetActivePostsByRelatedTags() {}
+
+    public function testGetActivePostsByRelatedTagsLimit() {}
+
+    public function testGetActivePostsByRelatedTagsInactive() {}
+
+    public function testGetActivePostsByRelatedTagsExcludeSeries() {}
+
+    public function testGetActivePostsByRelatedTagsFailure() {}
+
     protected function insertPostData(array $data)
     {
         $defaultData = [
