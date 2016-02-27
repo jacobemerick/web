@@ -244,14 +244,188 @@ class MysqlTagRepositoryTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testGetTagCloudInactive() {}
+    public function testGetTagCloudInactive()
+    {
+        $testPostData = [
+            [
+                'id' => rand(1, 100),
+                'display' => 1,
+            ],
+            [
+                'id' => rand(101, 200),
+                'display' => 1,
+            ],
+            [
+                'id' => rand(201, 300),
+                'display' => 0,
+            ],
+        ];
 
-    public function testGetTagCloudFailure() {}
+        $testTagData = [
+            [
+                'id' => rand(1, 100),
+                'tag' => 'test one',
+            ],
+            [
+                'id' => rand(101, 200),
+                'tag' => 'test two',
+            ],
+            [
+                'id' => rand(201, 300),
+                'tag' => 'test three',
+            ],
+        ];
 
-    public function testGetTagsForPost() {}
+        $testPTLinkData = [];
+        foreach ($testPostData as $testPostRow) {
+            $tempTagData = $testTagData;
+            shuffle($tempTagData);
+            for ($i = 0; $i < 2; $i++) {
+                array_push($testPTLinkData, [
+                    'post_id' => $testPostRow['id'],
+                    'tag_id' => $tempTagData[$i]['id'],
+                ]);
+            }
+        }
 
-    public function testGetTagsForPostOrder() {}
+        array_walk($testPostData, [$this, 'insertPostData']);
+        array_walk($testPTLinkData, [$this, 'insertPTLinkData']);
+        array_walk($testTagData, [$this, 'insertTagData']);
 
+        $repository = new MysqlTagRepository(self::$connection);
+        $data = $repository->getTagCloud();
+
+        $this->assertNotFalse($data);
+        $this->assertInternalType('array', $data);
+
+        $testPTLinkData = array_filter($testPTLinkData, function ($row) use ($testPostData) {
+            $post = $row['post_id'];
+            $post = array_filter($testPostData, function ($row) use ($post) {
+                return ($post == $row['id']);
+            });
+            $post = current($post);
+            return ($post['display'] == 1);
+        });
+
+        $tagCountData = array_map(function ($row) use ($testTagData) {
+            $tag = $row['tag_id'];
+            $tag = array_filter($testTagData, function ($row) use ($tag) {
+                return ($tag == $row['id']);
+            });
+            $tag = current($tag)['tag'];
+            return $tag;
+        }, $testPTLinkData);
+
+        $testCountData = [];
+        foreach ($tagCountData as $tagCountRow) {
+            $incremented = false;
+            foreach ($testCountData as $key => $testCountRow) {
+                if ($tagCountRow == $testCountRow['tag']) {
+                    $testCountData[$key]['count']++;
+                    $incremented = true;
+                    break;
+                }
+            }
+            if (!$incremented) {
+                array_push($testCountData, [
+                    'count' => 1,
+                    'tag' => $tagCountRow,
+                ]);
+            }
+        }
+
+        $this->assertCount(count($testCountData), $data);
+
+        usort($testCountData, function ($rowA, $rowB) {
+            return ($rowA['tag'] > $rowB['tag']);
+        });
+        usort($data, function ($rowA, $rowB) {
+            return ($rowA['tag'] > $rowB['tag']);
+        });
+
+        foreach ($testCountData as $key => $testCountRow) {
+            $this->assertArrayHasKey('count', $data[$key]);
+            $this->assertEquals($testCountRow['count'], $data[$key]['count']);
+            $this->assertArrayHasKey('tag', $data[$key]);
+            $this->assertEquals($testCountRow['tag'], $data[$key]['tag']);
+        }
+    }
+
+    public function testGetTagCloudFailure()
+    {
+        $testData = [
+            [
+                'id' => rand(1, 100),
+                'tag' => 'test one',
+            ],
+            [
+                'id' => rand(101, 200),
+                'tag' => 'test two',
+            ],
+        ];
+
+        array_walk($testData, [$this, 'insertTagData']);
+
+        $repository = new MysqlTagRepository(self::$connection);
+        $data = $repository->getTagCloud();
+
+        $this->assertEmpty($data);
+        $this->assertInternalType('array', $data);
+    }
+ 
+    public function testGetTagsForPost()
+    {
+        $testPostData = [
+            'id' => rand(1, 100),
+            'display' => 1,
+        ];
+
+        $testTagData = [
+            [
+                'id' => rand(1, 100),
+                'tag' => 'test one',
+            ],
+            [
+                'id' => rand(101, 200),
+                'tag' => 'test two',
+            ],
+            [
+                'id' => rand(201, 300),
+                'tag' => 'test three',
+            ],
+        ];
+
+        $testPTLinkData = [];
+        foreach ($testTagData as $testTagRow) {
+            array_push($testPTLinkData, [
+                'post_id' => $testPostData['id'],
+                'tag_id' => $testTagRow['id'],
+            ]);
+        }
+
+        $this->insertPostData($testPostData);
+        array_walk($testPTLinkData, [$this, 'insertPTLinkData']);
+        array_walk($testTagData, [$this, 'insertTagData']);
+
+        $repository = new MysqlTagRepository(self::$connection);
+        $data = $repository->getTagsForPost($testPostData['id']);
+
+        $this->assertNotFalse($data);
+        $this->assertInternalType('array', $data);
+        $this->assertCount(count($testTagData), $data);
+
+        usort($testTagData, function ($rowA, $rowB) {
+            return ($rowA['tag'] > $rowB['tag']);
+        });
+
+        foreach ($testTagData as $key => $testTagRow) {
+            $this->assertArrayHasKey('id', $data[$key]);
+            $this->assertEquals($testTagRow['id'], $data[$key]['id']);
+            $this->assertArrayHasKey('tag', $data[$key]);
+            $this->assertEquals($testTagRow['tag'], $data[$key]['tag']);
+        }
+    }
+ 
     public function testGetTagsForPostFailure()
     {
         $testData = [
