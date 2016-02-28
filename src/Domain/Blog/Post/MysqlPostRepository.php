@@ -177,7 +177,7 @@ class MysqlPostRepository implements PostRepositoryInterface
             WHERE `id` <> :post AND `id` NOT IN (
                 SELECT `post`
                 FROM `jpemeric_blog`.`series_post`
-                WHERE `id` = (
+                WHERE `series` = (
                     SELECT `series`
                     FROM `jpemeric_blog`.`series_post`
                     WHERE `post` = :post
