@@ -19,13 +19,25 @@ class MysqlPostRepositoryTest extends PHPUnit_Framework_TestCase
 
         $extendedPdo->exec("
             CREATE TABLE IF NOT EXISTS `jpemeric_blog`.`post` (
-              `id` integer PRIMARY KEY AUTOINCREMENT,
-              `title` varchar(60) NOT NULL,
-              `path` varchar(60) NOT NULL,
-              `category` varchar(20) NOT NULL,
-              `date` date NOT NULL,
-              `body` text NOT NULL,
-              `display` integer NOT NULL
+                `id` integer PRIMARY KEY AUTOINCREMENT,
+                `title` varchar(60) NOT NULL,
+                `path` varchar(60) NOT NULL,
+                `category` varchar(15) NOT NULL,
+                `date` datetime,
+                `body` text,
+                `display` integer(1) NOT NULL
+            )"
+        );
+        $extendedPdo->exec("
+            CREATE TABLE IF NOT EXISTS `jpemeric_blog`.`ptlink` (
+                `post_id` integer NOT NULL,
+                `tag_id` integer NOT NULL
+            )"
+        );
+        $extendedPdo->exec("
+            CREATE TABLE IF NOT EXISTS `jpemeric_blog`.`tag` (
+                `id` integer PRIMARY KEY AUTOINCREMENT,
+                `tag` varchar(25) NOT NULL
             )"
         );
 
@@ -104,7 +116,7 @@ class MysqlPostRepositoryTest extends PHPUnit_Framework_TestCase
             'id'       => rand(1, 100),
             'path'     => 'test-path',
             'category' => 'test category',
-            'display'   => 0
+            'display'  => 0
         ];
 
         $this->insertPostData($testData);
@@ -179,16 +191,16 @@ class MysqlPostRepositoryTest extends PHPUnit_Framework_TestCase
     {
         $testData = [
             [
-                'id'       => rand(1, 100),
-                'display'  => 1,
+                'id'      => rand(1, 100),
+                'display' => 1,
             ],
             [
-                'id'       => rand(101, 200),
-                'display'  => 0,
+                'id'      => rand(101, 200),
+                'display' => 0,
             ],
             [
-                'id'       => rand(201, 300),
-                'display'  => 1,
+                'id'      => rand(201, 300),
+                'display' => 1,
             ],
         ];
 
@@ -224,32 +236,457 @@ class MysqlPostRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('array', $data);
     }
 
-    public function testGetActivePostsRange() {}
+    public function testGetActivePostsRange()
+    {
+        $testData = [
+            [
+                'id'      => rand(1, 100),
+                'display' => 1,
+            ],
+            [
+                'id'      => rand(101, 200),
+                'display' => 1,
+            ],
+            [
+                'id'      => rand(201, 300),
+                'display' => 1,
+            ],
+        ];
 
-    public function testGetActivePostsRangeFailure() {}
+        array_walk($testData, [$this, 'insertPostData']);
 
-    public function testGetActivePostsCount() {}
+        $repository = new MysqlPostRepository(self::$connection);
+        $data = $repository->getActivePosts(2, 1);
 
-    public function testGetActivePostsCountInactive() {}
+        $this->assertNotFalse($data);
+        $this->assertInternalType('array', $data);
+        $this->assertCount(2, $data);
 
-    public function testGetActivePostsCountFailure() {}
+        $testData = array_slice($testData, 2, 1);
 
-    public function testGetActivePostsByTag() {}
+        $testIds = array_column($testData, 'ids');
+        $dataIds = array_column($data, 'ids');
 
-    public function testGetActivePostsByTagInactive() {}
+        $this->assertEmpty(array_merge(
+            array_diff($testIds, $dataIds),
+            array_diff($dataIds, $testIds)
+        ));
+    }
 
-    public function testGetActivePostsByTagFailure() {}
+    public function testGetActivePostsRangeFailure()
+    {
+        $testData = [
+            [
+                'id'      => rand(1, 100),
+                'display' => 1,
+            ],
+            [
+                'id'      => rand(101, 200),
+                'display' => 1,
+            ],
+            [
+                'id'      => rand(201, 300),
+                'display' => 1,
+            ],
+        ];
 
-    public function testGetActivePostsByTagRange() {}
+        array_walk($testData, [$this, 'insertPostData']);
 
-    public function testGetActivePostsByTagRangeFailure() {}
+        $repository = new MysqlPostRepository(self::$connection);
+        $data = $repository->getActivePosts(1, 3);
 
-    public function testGetActivePostsCountByTag() {}
+        $this->assertEmpty($data);
+        $this->assertInternalType('array', $data);
+    }
 
-    public function testGetActivePostsCountByTagInactive() {}
+    public function testGetActivePostsCount()
+    {
+        $testData = [
+            [
+                'id'      => rand(1, 100),
+                'display' => 1,
+            ],
+            [
+                'id'      => rand(101, 200),
+                'display' => 1,
+            ],
+        ];
 
-    public function testGetActivePostsCountByTagFailure() {}
+        array_walk($testData, [$this, 'insertPostData']);
 
+        $repository = new MysqlPostRepository(self::$connection);
+        $data = $repository->getActivePostsCount();
+
+        $this->assertNotFalse($data);
+        $this->assertStringMatchesFormat('%d', $data);
+        $this->assertEquals(count($testData), $data);
+    }
+
+    public function testGetActivePostsCountInactive()
+    {
+        $testData = [
+            [
+                'id'      => rand(1, 100),
+                'display' => 1,
+            ],
+            [
+                'id'      => rand(101, 200),
+                'display' => 1,
+            ],
+            [
+                'id'      => rand(201, 300),
+                'display' => 0,
+            ],
+        ];
+
+        array_walk($testData, [$this, 'insertPostData']);
+
+        $repository = new MysqlPostRepository(self::$connection);
+        $data = $repository->getActivePostsCount();
+
+        $this->assertNotFalse($data);
+        $this->assertStringMatchesFormat('%d', $data);
+
+        $testData = array_filter($testData, function ($row) {
+            return ($row['display'] == 1);
+        });
+
+        $this->assertEquals(count($testData), $data);
+    }
+
+    public function testGetActivePostsCountFailure()
+    {
+        $repository = new MysqlPostRepository(self::$connection);
+        $data = $repository->getActivePostsCount();
+
+        $this->assertNotFalse($data);
+        $this->assertStringMatchesFormat('%d', $data);
+        $this->assertEquals('0', $data);
+    }
+
+    public function testGetActivePostsByTag()
+    {
+        $testPostData = [
+            [
+                'id'       => rand(1, 100),
+                'title'    => 'title one',
+                'path'     => 'path-one',
+                'category' => 'test category',
+                'date'     => (new DateTime('-1 day'))->format('Y-m-d H:i:s'),
+                'body'     => 'body one',
+                'display'  => 1,
+            ],
+            [
+                'id'       => rand(101, 200),
+                'title'    => 'title two',
+                'path'     => 'path-two',
+                'category' => 'test category',
+                'date'     => (new DateTime())->format('Y-m-d H:i:s'),
+                'body'     => 'body one',
+                'display'  => 1,
+            ],
+        ];
+
+        $testTagData = [
+            'id' => rand(1, 100),
+        ];
+
+        $testPTLinkData = [];
+        foreach ($testPostData as $testPostRow) {
+            array_push($testPTLinkData, [
+                'post_id' => $testPostRow['id'],
+                'tag_id' => $testTagData['id'],
+            ]);
+        }
+
+        array_walk($testPostData, [$this, 'insertPostData']);
+        array_walk($testPTLinkData, [$this, 'insertPTLinkData']);
+        $this->insertTagData($testTagData);
+
+        $repository = new MysqlPostRepository(self::$connection);
+        $data = $repository->getActivePostsByTag($testTagData['id']);
+
+        $this->assertNotFalse($data);
+        $this->assertInternalType('array', $data);
+        $this->assertCount(count($testPostData), $data);
+        foreach ($testPostData as $key => $testPostRow) {
+            $this->assertArrayHasKey('id', $data[$key]);
+            $this->assertEquals($testPostRow['id'], $data[$key]['id']);
+            $this->assertArrayHasKey('title', $data[$key]);
+            $this->assertEquals($testPostRow['title'], $data[$key]['title']);
+            $this->assertArrayHasKey('path', $data[$key]);
+            $this->assertEquals($testPostRow['path'], $data[$key]['path']);
+            $this->assertArrayHasKey('date', $data[$key]);
+            $this->assertEquals($testPostRow['date'], $data[$key]['date']);
+            $this->assertArrayHasKey('body', $data[$key]);
+            $this->assertEquals($testPostRow['body'], $data[$key]['body']);
+            $this->assertArrayHasKey('category', $data[$key]);
+            $this->assertEquals($testPostRow['category'], $data[$key]['category']);
+       }
+    }
+
+    public function testGetActivePostsByTagInactive()
+    {
+        $testPostData = [
+            [
+                'id'      => rand(1, 100),
+                'display' => 1,
+            ],
+            [
+                'id'      => rand(101, 200),
+                'display' => 0,
+            ],
+            [
+                'id'      => rand(201, 300),
+                'display' => 1,
+            ],
+        ];
+
+        $testTagData = [
+            'id' => rand(1, 100),
+        ];
+
+        $testPTLinkData = [];
+        foreach ($testPostData as $testPostRow) {
+            array_push($testPTLinkData, [
+                'post_id' => $testPostRow['id'],
+                'tag_id' => $testTagData['id'],
+            ]);
+        }
+
+        array_walk($testPostData, [$this, 'insertPostData']);
+        array_walk($testPTLinkData, [$this, 'insertPTLinkData']);
+        $this->insertTagData($testTagData);
+
+        $repository = new MysqlPostRepository(self::$connection);
+        $data = $repository->getActivePostsByTag($testTagData['id']);
+
+        $this->assertNotFalse($data);
+        $this->assertInternalType('array', $data);
+
+        $testPostData = array_filter($testPostData, function ($row) {
+            return ($row['display'] == 1);
+        });
+
+        $this->assertCount(count($testPostData), $data);
+
+        $testIds = array_column($testPostData, 'ids');
+        $dataIds = array_column($data, 'ids');
+
+        $this->assertEmpty(array_merge(
+            array_diff($testIds, $dataIds),
+            array_diff($dataIds, $testIds)
+        ));
+    }
+ 
+    public function testGetActivePostsByTagFailure()
+    {
+        $testTagData = [
+            'id' => rand(1, 100),
+        ];
+
+        $repository = new MysqlPostRepository(self::$connection);
+        $data = $repository->getActivePostsByTag($testTagData['id']);
+
+        $this->assertEmpty($data);
+        $this->assertInternalType('array', $data);
+    }
+
+    public function testGetActivePostsByTagRange()
+    {
+        $testPostData = [
+            [
+                'id'      => rand(1, 100),
+                'display' => 1,
+            ],
+            [
+                'id'      => rand(101, 200),
+                'display' => 1,
+            ],
+            [
+                'id'      => rand(201, 300),
+                'display' => 1,
+            ],
+        ];
+
+        $testTagData = [
+            'id' => rand(1, 100),
+        ];
+
+        $testPTLinkData = [];
+        foreach ($testPostData as $testPostRow) {
+            array_push($testPTLinkData, [
+                'post_id' => $testPostRow['id'],
+                'tag_id' => $testTagData['id'],
+            ]);
+        }
+
+        array_walk($testPostData, [$this, 'insertPostData']);
+        array_walk($testPTLinkData, [$this, 'insertPTLinkData']);
+        $this->insertTagData($testTagData);
+
+        $repository = new MysqlPostRepository(self::$connection);
+        $data = $repository->getActivePostsByTag($testTagData['id'], 2, 1);
+
+        $this->assertNotFalse($data);
+        $this->assertInternalType('array', $data);
+
+        $testPostData = array_slice($testPostData, 1, 2);
+
+        $this->assertCount(count($testPostData), $data);
+
+        $testIds = array_column($testPostData, 'ids');
+        $dataIds = array_column($data, 'ids');
+
+        $this->assertEmpty(array_merge(
+            array_diff($testIds, $dataIds),
+            array_diff($dataIds, $testIds)
+        ));
+    }
+
+    public function testGetActivePostsByTagRangeFailure()
+    {
+        $testPostData = [
+            [
+                'id'      => rand(1, 100),
+                'display' => 1,
+            ],
+            [
+                'id'      => rand(101, 200),
+                'display' => 1,
+            ],
+            [
+                'id'      => rand(201, 300),
+                'display' => 1,
+            ],
+        ];
+
+        $testTagData = [
+            'id' => rand(1, 100),
+        ];
+
+        $testPTLinkData = [];
+        foreach ($testPostData as $testPostRow) {
+            array_push($testPTLinkData, [
+                'post_id' => $testPostRow['id'],
+                'tag_id' => $testTagData['id'],
+            ]);
+        }
+
+        array_walk($testPostData, [$this, 'insertPostData']);
+        array_walk($testPTLinkData, [$this, 'insertPTLinkData']);
+        $this->insertTagData($testTagData);
+
+        $repository = new MysqlPostRepository(self::$connection);
+        $data = $repository->getActivePostsByTag($testTagData['id'], 1, 3);
+
+        $this->assertEmpty($data);
+        $this->assertInternalType('array', $data);
+    }
+
+    public function testGetActivePostsCountByTag()
+    {
+        $testPostData = [
+            [
+                'id'      => rand(1, 100),
+                'display' => 1,
+            ],
+            [
+                'id'      => rand(101, 200),
+                'display' => 1,
+            ],
+            [
+                'id'      => rand(201, 300),
+                'display' => 1,
+            ],
+        ];
+
+        $testTagData = [
+            'id' => rand(1, 100),
+        ];
+
+        $testPTLinkData = [];
+        foreach ($testPostData as $testPostRow) {
+            array_push($testPTLinkData, [
+                'post_id' => $testPostRow['id'],
+                'tag_id' => $testTagData['id'],
+            ]);
+        }
+
+        array_walk($testPostData, [$this, 'insertPostData']);
+        array_walk($testPTLinkData, [$this, 'insertPTLinkData']);
+        $this->insertTagData($testTagData);
+
+        $repository = new MysqlPostRepository(self::$connection);
+        $data = $repository->getActivePostsCountByTag($testTagData['id']);
+
+        $this->assertNotFalse($data);
+        $this->assertStringMatchesFormat('%d', $data);
+        $this->assertEquals(count($testPostData), $data);
+    }
+
+    public function testGetActivePostsCountByTagInactive()
+    {
+        $testPostData = [
+            [
+                'id'      => rand(1, 100),
+                'display' => 1,
+            ],
+            [
+                'id'      => rand(101, 200),
+                'display' => 0,
+            ],
+            [
+                'id'      => rand(201, 300),
+                'display' => 1,
+            ],
+        ];
+
+        $testTagData = [
+            'id' => rand(1, 100),
+        ];
+
+        $testPTLinkData = [];
+        foreach ($testPostData as $testPostRow) {
+            array_push($testPTLinkData, [
+                'post_id' => $testPostRow['id'],
+                'tag_id' => $testTagData['id'],
+            ]);
+        }
+
+        array_walk($testPostData, [$this, 'insertPostData']);
+        array_walk($testPTLinkData, [$this, 'insertPTLinkData']);
+        $this->insertTagData($testTagData);
+
+        $repository = new MysqlPostRepository(self::$connection);
+        $data = $repository->getActivePostsCountByTag($testTagData['id']);
+
+        $this->assertNotFalse($data);
+        $this->assertStringMatchesFormat('%d', $data);
+
+        $testPostData = array_filter($testPostData, function ($row) {
+            return ($row['display'] == 1);
+        });
+
+        $this->assertEquals(count($testPostData), $data);
+    }
+ 
+    public function testGetActivePostsCountByTagFailure()
+    {
+        $testTagData = [
+            'id' => rand(1, 100),
+        ];
+
+        $this->insertTagData($testTagData);
+
+        $repository = new MysqlPostRepository(self::$connection);
+        $data = $repository->getActivePostsCountByTag($testTagData['id']);
+
+        $this->assertNotFalse($data);
+        $this->assertStringMatchesFormat('%d', $data);
+        $this->assertEquals('0', $data);
+    }
+ 
     public function testGetActivePostsByCategory() {}
 
     public function testGetActivePostsByCategoryInactive() {}
@@ -299,9 +736,47 @@ class MysqlPostRepositoryTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    protected function insertPTLinkData(array $data)
+    {
+        $defaultData = [
+            'post' => null,
+            'tag' => null,
+        ];
+
+        $data = array_merge($defaultData, $data);
+
+        return self::$connection->getDefault()->perform("
+            INSERT INTO `jpemeric_blog`.`ptlink`
+                (post_id, tag_id)
+            VALUES
+                (:post_id, :tag_id)",
+            $data
+        );
+    }
+
+    protected function insertTagData(array $data)
+    {
+        $defaultData = [
+            'id' => null,
+            'tag' => '',
+        ];
+
+        $data = array_merge($defaultData, $data);
+
+        return self::$connection->getDefault()->perform("
+            INSERT INTO `jpemeric_blog`.`tag`
+                (id, tag)
+            VALUES
+                (:id, :tag)",
+            $data
+        );
+    }
+
     protected function tearDown()
     {
         self::$connection->getDefault()->perform("DELETE FROM `jpemeric_blog`.`post`");
+        self::$connection->getDefault()->perform("DELETE FROM `jpemeric_blog`.`ptlink`");
+        self::$connection->getDefault()->perform("DELETE FROM `jpemeric_blog`.`tag`");
     }
 
     public static function tearDownAfterClass()
