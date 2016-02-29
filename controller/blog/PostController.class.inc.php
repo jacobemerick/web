@@ -1,7 +1,6 @@
 <?
 
 Loader::load('collector', array(
-	'blog/SeriesCollector',
 	'blog/TagCollector',
 	'waterfall/LogCollector'));
 Loader::load('controller', 'blog/DefaultPageController');
@@ -116,7 +115,7 @@ final class PostController extends DefaultPageController
 		$found_current_post = false;
 		foreach($series_posts as $post_row)
 		{
-			if($post_row->post == $this->post->id)
+			if($post_row['post'] == $this->post->id)
 			{
 				$found_current_post = true;
 				continue;
@@ -124,23 +123,23 @@ final class PostController extends DefaultPageController
 			
 			$post = new stdclass();
 
-      if (strpos($post_row->title, 'Rainy Supe Loop') === 0) {
-        $title = $post_row->title;
+      if (strpos($post_row['title'], 'Rainy Supe Loop') === 0) {
+        $title = $post_row['title'];
         $title = explode(':', $title);
         $title = array_pop($title);
         $title = trim($title);
         $post->title = $title;
-      } else if (strpos($post_row->title, 'Isle Royale') === 0) {
-				$title = $post_row->title;
+      } else if (strpos($post_row['title'], 'Isle Royale') === 0) {
+				$title = $post_row['title'];
 				$title = explode(',', $title);
 				$title = array_pop($title);
 				$title = trim($title);
 				$post->title = $title;
 			} else {
-				$post->title = $post_row->title;
+				$post->title = $post_row['title'];
 			}
 
-			$post->url = Loader::getRootUrl('blog') . "{$post_row->category}/{$post_row->path}/";
+			$post->url = Loader::getRootUrl('blog') . "{$post_row['category']}/{$post_row['path']}/";
 			
 			if(!$found_current_post)
 				$previous_post = $post;
@@ -152,8 +151,8 @@ final class PostController extends DefaultPageController
 		}
 		
 		return array(
-			'title' => $post_row->series_title,
-			'description' => Content::instance('FixInternalLink', $post_row->description)->activate(),
+			'title' => $post_row['series_title'],
+			'description' => Content::instance('FixInternalLink', $post_row['series_description'])->activate(),
 			'previous' => $previous_post,
 			'next' => $next_post);
 	}
@@ -161,9 +160,12 @@ final class PostController extends DefaultPageController
 	private $series_posts;
 	private function fetch_series_posts()
 	{
-		if(!isset($this->series_posts))
-			$this->series_posts = SeriesCollector::getSeriesForPost($this->post->id);
-		return $this->series_posts;
+      if(!isset($this->series_posts)) {
+          global $container;
+          $repository = new Jacobemerick\Web\Domain\Blog\Series\MysqlSeriesRepository($container['db_connection_locator']);
+          $this->series_posts = $repository->getSeriesForPost($this->post->id);
+      }
+      return $this->series_posts;
 	}
 
 	private function get_related_posts()
