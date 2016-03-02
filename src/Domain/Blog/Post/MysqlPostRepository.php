@@ -19,21 +19,19 @@ class MysqlPostRepository implements PostRepositoryInterface
     }
 
     /**
-     * @param string $category
      * @param string $path
      *
      * @return array|false
      */
-    public function findPostByPath($category, $path)
+    public function findPostByPath($path)
     {
         $query = "
             SELECT `id`, `title`, `path`, `date`, `body`, `category`
             FROM `jpemeric_blog`.`post`
-            WHERE `path` = :path AND `category` = :category AND `display` = :is_active
+            WHERE `path` = :path AND `display` = :is_active
             LIMIT 1";
         $bindings = [
             'path'      => $path,
-            'category'  => $category,
             'is_active' => 1,
         ];
 

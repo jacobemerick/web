@@ -99,7 +99,7 @@ class MysqlPostRepositoryTest extends PHPUnit_Framework_TestCase
         $this->insertPostData($testData);
 
         $repository = new MysqlPostRepository(self::$connection);
-        $data = $repository->findPostByPath($testData['category'], $testData['path']);
+        $data = $repository->findPostByPath($testData['path']);
 
         $this->assertNotFalse($data);
         $this->assertInternalType('array', $data);
@@ -122,14 +122,13 @@ class MysqlPostRepositoryTest extends PHPUnit_Framework_TestCase
         $testData = [
             'id'       => rand(1, 100),
             'path'     => 'test-path',
-            'category' => 'test category',
             'display'  => 0
         ];
 
         $this->insertPostData($testData);
 
         $repository = new MysqlPostRepository(self::$connection);
-        $data = $repository->findPostByPath($testData['category'], $testData['path']);
+        $data = $repository->findPostByPath($testData['path']);
 
         $this->assertFalse($data);
     }
@@ -137,7 +136,7 @@ class MysqlPostRepositoryTest extends PHPUnit_Framework_TestCase
     public function testFindPostByPathFailure()
     {
         $repository = new MysqlPostRepository(self::$connection);
-        $data = $repository->findPostByPath('', '');
+        $data = $repository->findPostByPath('');
 
         $this->assertFalse($data);
     }

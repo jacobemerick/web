@@ -47,8 +47,10 @@ class BlogRouter extends Router
 	{
 		if(preg_match('@^/post_([0-9]{4}-[0-9]{2}-[0-9]{2})_([a-z0-9-]+)(/?)$@', $uri, $matches))
 		{
-			Loader::load('collector', 'blog/PostCollector');
-			$post = PostCollector::getPostByURI($matches[2]);
+        global $container;
+        $repository = new Jacobemerick\Web\Domain\Blog\Post\MysqlPostRepository($container['db_connection_locator']);
+        $post = $repository->findPostByPath($matches[2]);
+
 			if(!$post)
 			{
 				Loader::loadNew('controller', '/Error404Controller')
@@ -56,20 +58,21 @@ class BlogRouter extends Router
 			}
 			
 			Loader::load('utility', 'Content');
-			$uri = Content::instance('URLSafe', "/{$post->category}/{$post->title_url}/")->activate();
+			$uri = Content::instance('URLSafe', "/{$post['category']}/{$post['path']}/")->activate();
 		}
 		else
 		{
 			$post_uri = URLDecode::getPiece(1);
 			if($post_uri !== null)
 			{
-				Loader::load('collector', 'blog/PostCollector');
-				$post = PostCollector::getPostByURI($post_uri);
-				
+        global $container;
+        $repository = new Jacobemerick\Web\Domain\Blog\Post\MysqlPostRepository($container['db_connection_locator']);
+        $post = $repository->findPostByPath($post_uri);
+
 				if($post != false)
 				{
 					Loader::load('utility', 'Content');
-					$uri = Content::instance('URLSafe', "/{$post->category}/{$post->title_url}/")->activate();
+					$uri = Content::instance('URLSafe', "/{$post['category']}/{$post['path']}/")->activate();
 				}
 			}
 		}

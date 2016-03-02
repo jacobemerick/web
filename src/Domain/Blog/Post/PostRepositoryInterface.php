@@ -4,7 +4,7 @@ namespace Jacobemerick\Web\Domain\Blog\Post;
 
 interface PostRepositoryInterface
 {
-    public function findPostByPath($category, $path);
+    public function findPostByPath($path);
     public function getActivePosts($limit = null, $offset= 0);
     public function getActivePostsCount();
     public function getActivePostsByTag($tag, $limit = null, $offset = 0);
