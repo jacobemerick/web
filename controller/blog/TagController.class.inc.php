@@ -1,6 +1,5 @@
 <?
 
-Loader::load('collector', 'blog/TagCollector');
 Loader::load('controller', 'blog/DefaultListController');
 
 final class TagController extends DefaultListController
@@ -26,12 +25,15 @@ final class TagController extends DefaultListController
 	{
 		$tag = URLDecode::getPiece(2);
 		$tag = str_replace('-', ' ', $tag);
-		
-		$tag_result = TagCollector::getSingleTag($tag);
+
+        global $container;
+        $repository = new Jacobemerick\Web\Domain\Blog\Tag\MysqlTagRepository($container['db_connection_locator']);
+        $tag_result = $repository->findTagByTitle($tag);
+
 		if($tag_result === false)
 			$this->eject();
 		
-		$this->tag = $tag_result;
+		$this->tag = (object) $tag_result;
 		
 		parent::__construct();
 	}

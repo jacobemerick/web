@@ -1,8 +1,6 @@
 <?
 
-Loader::load('collector', array(
-	'blog/TagCollector',
-	'waterfall/LogCollector'));
+Loader::load('collector', 'waterfall/LogCollector');
 Loader::load('controller', 'blog/DefaultPageController');
 
 final class PostController extends DefaultPageController
@@ -34,8 +32,12 @@ final class PostController extends DefaultPageController
 			$this->post->path,
 			Loader::getRootUrl('blog') . $this->post->category . '/' . $this->post->path . '/',
 			$this->post->title);
-		
-		$this->tags = TagCollector::getTagsForPost($this->post->id);
+
+        global $container;
+        $repository = new Jacobemerick\Web\Domain\Blog\Tag\MysqlTagRepository($container['db_connection_locator']);
+        $tag_result = $repository->getTagsForPost($this->post->id);
+
+        $this->tags = array_map(function ($row) { return (object) $row; }, $tag_result);
 	}
 
 	protected function set_head_data()

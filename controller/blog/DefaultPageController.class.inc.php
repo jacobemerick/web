@@ -89,15 +89,16 @@ abstract class DefaultPageController extends PageController
 
 	final private function get_tags_for_post($post)
 	{
-		Loader::load('collector', 'blog/TagCollector');
-		
-		$tag_result = TagCollector::getTagsForPost($post->id);
+        global $container;
+        $repository = new Jacobemerick\Web\Domain\Blog\Tag\MysqlTagRepository($container['db_connection_locator']);
+        $tag_result = $repository->getTagsForPost($post->id);
+
         $tag_array = array();
 		foreach($tag_result as $tag)
 		{
 			$tag_object = new stdclass();
-			$tag_object->name = $tag->tag;
-			$tag_object->link = Content::instance('URLSafe', "/tag/{$tag->tag}/")->activate();
+			$tag_object->name = $tag['tag'];
+			$tag_object->link = Content::instance('URLSafe', "/tag/{$tag['tag']}/")->activate();
 			$tag_array[] = $tag_object;
 		}
 		return $tag_array;
@@ -126,21 +127,22 @@ abstract class DefaultPageController extends PageController
 
 	final private function get_tag_cloud()
 	{
-		Loader::load('collector', 'blog/TagCollector');
-		$tag_result = TagCollector::getTagCloudGroup();
+        global $container;
+        $repository = new Jacobemerick\Web\Domain\Blog\Tag\MysqlTagRepository($container['db_connection_locator']);
+        $tag_result = $repository->getTagCloud();
 		
 		$maximum_tag_count = $this->get_maximum_tag_count($tag_result);
 		
 		$cloud_array = array();
 		foreach($tag_result as $tag)
 		{
-			if($tag->tag_count < self::$MINIMUM_TAG_COUNT)
+			if($tag['count'] < self::$MINIMUM_TAG_COUNT)
 				continue;
 			
 			$tag_object = new stdclass();
-			$tag_object->name = $tag->tag;
-			$tag_object->link = Content::instance('URLSafe', "/tag/{$tag->tag}/")->activate();
-			$tag_object->scalar = floor(($tag->tag_count - 1) * (9 / ($maximum_tag_count - self::$MINIMUM_TAG_COUNT)));
+			$tag_object->name = $tag['tag'];
+			$tag_object->link = Content::instance('URLSafe', "/tag/{$tag['tag']}/")->activate();
+			$tag_object->scalar = floor(($tag['count'] - 1) * (9 / ($maximum_tag_count - self::$MINIMUM_TAG_COUNT)));
 			$cloud_array[] = $tag_object;
 		}
 		
@@ -153,8 +155,8 @@ abstract class DefaultPageController extends PageController
 		
 		foreach($tag_result as $tag)
 		{
-			if($tag->tag_count > $maximum)
-				$maximum = $tag->tag_count;
+			if($tag['count'] > $maximum)
+				$maximum = $tag['count'];
 		}
 		return $maximum;
 	}
