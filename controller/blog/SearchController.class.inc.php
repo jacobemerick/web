@@ -87,7 +87,9 @@ final class SearchController extends DefaultListController
 	{
 		if(!isset($this->search_result))
 		{
-			$posts = PostCollector::getMainList(self::$MAXIMUM_SEARCH_POSTS);
+        global $container;
+        $repository = new Jacobemerick\Web\Domain\Blog\Post\MysqlPostRepository($container['db_connection_locator']);
+        $posts = $repository->getActivePosts();
 			
 			$this->search_result = Search::instance()
 				->setQuery($this->query)

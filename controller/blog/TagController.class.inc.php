@@ -33,7 +33,7 @@ final class TagController extends DefaultListController
 		if($tag_result === false)
 			$this->eject();
 		
-		$this->tag = (object) $tag_result;
+		$this->tag = $tag_result;
 		
 		parent::__construct();
 	}
@@ -44,31 +44,31 @@ final class TagController extends DefaultListController
 		
 		if($this->page == 1)
 		{
-			$this->set_title(sprintf(self::$TITLE_MAIN, ucwords($this->tag->tag)));
-			$this->set_description(sprintf(self::$DESCRIPTION_MAIN, ucwords($this->tag->tag)));
+			$this->set_title(sprintf(self::$TITLE_MAIN, ucwords($this->tag['tag'])));
+			$this->set_description(sprintf(self::$DESCRIPTION_MAIN, ucwords($this->tag['tag'])));
 		}
 		else
 		{
-			$this->set_title(sprintf(self::$TITLE_PAGINATED, ucwords($this->tag->tag), $this->page, $this->total_pages));
-			$this->set_description(sprintf(self::$DESCRIPTION_PAGINATED, $this->page, $this->total_pages, ucwords($this->tag->tag)));
+			$this->set_title(sprintf(self::$TITLE_PAGINATED, ucwords($this->tag['tag']), $this->page, $this->total_pages));
+			$this->set_description(sprintf(self::$DESCRIPTION_PAGINATED, $this->page, $this->total_pages, ucwords($this->tag['tag'])));
 		}
 		
 		$keyword_array = self::$KEYWORD_ARRAY;
-		array_unshift($keyword_array, $this->tag->tag);
+		array_unshift($keyword_array, $this->tag['tag']);
 		$this->set_keywords($keyword_array);
 	}
 
 	protected function get_introduction()
 	{
-		$tag = ucwords($this->tag->tag);
+		$tag = ucwords($this->tag['tag']);
 		
 		if($this->page == 1)
 		{
         global $container;
         $repository = new Jacobemerick\Web\Domain\Blog\Introduction\MysqlIntroductionRepository($container['db_connection_locator']);
-        $introduction_result = $repository->findByType('tag', $this->tag->tag);
+        $introduction_result = $repository->findByType('tag', $this->tag['tag']);
 			
-			if($introduction_result !== null)
+			if($introduction_result !== false)
 			{
 				$introduction = array();
 				$introduction['title'] = $introduction_result['title'];
@@ -96,7 +96,9 @@ final class TagController extends DefaultListController
 
 	protected function get_list_results()
 	{
-		return PostCollector::getPostsForTag($this->tag->id, self::$POSTS_PER_PAGE, $this->offset);
+        global $container;
+        $repository = new Jacobemerick\Web\Domain\Blog\Post\MysqlPostRepository($container['db_connection_locator']);
+        return $repository->getActivePostsByTag($this->tag['id'], self::$POSTS_PER_PAGE, $this->offset);
 	}
 
 	protected function get_list_description()
@@ -104,7 +106,7 @@ final class TagController extends DefaultListController
 		$start = $this->offset + 1;
 		$end = min($this->offset + self::$POSTS_PER_PAGE, $this->get_total_post_count());
 		
-		return sprintf(self::$LIST_DESCRIPTION, $start, $end, $this->get_total_post_count(), $this->tag->tag);
+		return sprintf(self::$LIST_DESCRIPTION, $start, $end, $this->get_total_post_count(), $this->tag['tag']);
 	}
 
 	protected function get_list_next_link()
@@ -112,22 +114,26 @@ final class TagController extends DefaultListController
 		if($this->page == 1)
 			return;
 		if($this->page == 2)
-			return Content::instance('URLSafe', "/tag/{$this->tag->tag}/")->activate();
-		return Content::instance('URLSafe', "/tag/{$this->tag->tag}/" . ($this->page - 1) . '/')->activate();
+			return Content::instance('URLSafe', "/tag/{$this->tag['tag']}/")->activate();
+		return Content::instance('URLSafe', "/tag/{$this->tag['tag']}/" . ($this->page - 1) . '/')->activate();
 	}
 
 	protected function get_list_prev_link()
 	{
 		if(($this->page * self::$POSTS_PER_PAGE) >= $this->get_total_post_count())
 			return;
-		return Content::instance('URLSafe', "/tag/{$this->tag->tag}/" . ($this->page + 1) . '/')->activate();
+		return Content::instance('URLSafe', "/tag/{$this->tag['tag']}/" . ($this->page + 1) . '/')->activate();
 	}
 
 	private $total_post_count;
 	protected function get_total_post_count()
 	{
-		if(!isset($this->total_post_count))
-			$this->total_post_count = PostCollector::getPostCountForTag($this->tag->id);
+		if(!isset($this->total_post_count)) {
+        global $container;
+        $repository = new Jacobemerick\Web\Domain\Blog\Post\MysqlPostRepository($container['db_connection_locator']);
+        $this->total_post_count = $repository->getActivePostsCountByTag($this->tag['id']);
+    }
+
 		return $this->total_post_count;
 	}
 

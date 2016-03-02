@@ -75,7 +75,9 @@ final class HomeController extends DefaultListController
 
 	protected function get_list_results()
 	{
-		return PostCollector::getMainList(self::$POSTS_PER_PAGE, $this->offset);
+        global $container;
+        $repository = new Jacobemerick\Web\Domain\Blog\Post\MysqlPostRepository($container['db_connection_locator']);
+        return $repository->getActivePosts(self::$POSTS_PER_PAGE, $this->offset);
 	}
 
 	protected function get_list_description()
@@ -105,8 +107,12 @@ final class HomeController extends DefaultListController
 	private $total_post_count;
 	protected function get_total_post_count()
 	{
-		if(!isset($this->total_post_count))
-			$this->total_post_count = PostCollector::getMainPostCount();
+      if(!isset($this->total_post_count)) {
+          global $container;
+          $repository = new Jacobemerick\Web\Domain\Blog\Post\MysqlPostRepository($container['db_connection_locator']);
+          $this->total_post_count = $repository->getActivePostsCount();
+      }
+
 		return $this->total_post_count;
 	}
 

@@ -32,17 +32,18 @@ final class FixInternalLinkContent extends Content
 		switch($type)
 		{
 			case 'blog' :
-				Loader::load('collector', 'blog/PostCollector');
-				$post = PostCollector::getPostByURI($uri);
-				
+        global $container;
+        $repository = new Jacobemerick\Web\Domain\Blog\Post\MysqlPostRepository($container['db_connection_locator']);
+        $post = $repository->findPostByPath($post_uri);
+
 				if($post === NULL)
 					return;
 				
 				$link .= ($is_absolute) ? Loader::getRootURL('blog') : '/';
-				$link .= "{$post->category}/{$post->path}/";
+				$link .= "{$post['category']}/{$post['path']}/";
 				
 				if($anchor == '')
-					$anchor = $post->title;
+					$anchor = $post['title'];
 				
 				break;
 			case 'blog-tag' :

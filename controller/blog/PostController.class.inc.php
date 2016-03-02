@@ -23,38 +23,39 @@ final class PostController extends DefaultPageController
 	{
 		parent::__construct();
 		
-		$this->post = PostCollector::getPostByURI(URLDecode::getPiece(2));
+        global $container;
+        $repository = new Jacobemerick\Web\Domain\Blog\Post\MysqlPostRepository($container['db_connection_locator']);
+        $this->post = $repository->findPostByPath(URLDecode::getPiece(2));
+
 		if($this->post == null)
 			$this->eject();
 		
 		$this->handle_comment_submit(
 			self::$BLOG_SITE_ID,
-			$this->post->path,
-			Loader::getRootUrl('blog') . $this->post->category . '/' . $this->post->path . '/',
-			$this->post->title);
+			$this->post['path'],
+			Loader::getRootUrl('blog') . $this->post['category'] . '/' . $this->post['path'] . '/',
+			$this->post['title']);
 
         global $container;
         $repository = new Jacobemerick\Web\Domain\Blog\Tag\MysqlTagRepository($container['db_connection_locator']);
-        $tag_result = $repository->getTagsForPost($this->post->id);
-
-        $this->tags = array_map(function ($row) { return (object) $row; }, $tag_result);
+        $this->tags = $repository->getTagsForPost($this->post['id']);
 	}
 
 	protected function set_head_data()
 	{
 		parent::set_head_data();
 		
-		$this->set_title(sprintf(self::$TITLE, $this->post->title));
+		$this->set_title(sprintf(self::$TITLE, $this->post['title']));
 		$this->set_description($this->get_post_description());
 		$this->set_keywords($this->get_post_keywords());
 		$this->set_author(self::$AUTHOR);
 
-    $photo = Content::instance('FetchFirstPhoto', $this->post->body)->activate(true);
+    $photo = Content::instance('FetchFirstPhoto', $this->post['body'])->activate(true);
     $photo = preg_match('/^<img src="([a-z-:\.\/]+)" [^>]+>$/', $photo, $matches);
     $this->set_head('thumbnail', $matches[1]);
 
-		if (array_key_exists($this->post->id, self::$DEPRECATED_BLOGS)) {
-			$log_id = self::$DEPRECATED_BLOGS[$this->post->id];
+		if (array_key_exists($this->post['id'], self::$DEPRECATED_BLOGS)) {
+			$log_id = self::$DEPRECATED_BLOGS[$this->post['id']];
 			$log = LogCollector::getById($log_id);
 			if (!empty($log)) {
 				$log_url = Loader::getRootUrl('waterfalls') . "journal/{$log->alias}/";
@@ -69,7 +70,7 @@ final class PostController extends DefaultPageController
 	{
 		parent::set_body_data();
 		
-		$this->set_body('title', $this->post->title);
+		$this->set_body('title', $this->post['title']);
 		$this->set_body('view', 'Post');
 		$this->set_body('data', array(
 			'post' => $this->format_post($this->post, false),
@@ -77,12 +78,12 @@ final class PostController extends DefaultPageController
 			'related_posts' => $this->get_related_posts(),
 			'author' => self::$AUTHOR,
 			'author_url' => self::$AUTHOR_URL,
-			'comment_array' => $this->get_comment_array(self::$BLOG_SITE_ID, $this->post->path)));
+			'comment_array' => $this->get_comment_array(self::$BLOG_SITE_ID, $this->post['path'])));
 	}
 
 	protected function get_post_description()
 	{
-		$description = $this->post->body;
+		$description = $this->post['body'];
 		$description = strip_tags($description);
 		$description = Content::instance('SmartTrim', $description)->activate(self::$PAGE_DESCRIPTION_LIMIT);
 		
@@ -96,7 +97,7 @@ final class PostController extends DefaultPageController
 		
 		foreach($keywords as $keyword)
 		{
-			$keyword_array[] = $keyword->tag;
+			$keyword_array[] = $keyword['tag'];
 		}
 		
 		$keyword_array[] = 'blog';
@@ -117,7 +118,7 @@ final class PostController extends DefaultPageController
 		$found_current_post = false;
 		foreach($series_posts as $post_row)
 		{
-			if($post_row['post'] == $this->post->id)
+			if($post_row['post'] == $this->post['id'])
 			{
 				$found_current_post = true;
 				continue;
@@ -165,7 +166,7 @@ final class PostController extends DefaultPageController
       if(!isset($this->series_posts)) {
           global $container;
           $repository = new Jacobemerick\Web\Domain\Blog\Series\MysqlSeriesRepository($container['db_connection_locator']);
-          $this->series_posts = $repository->getSeriesForPost($this->post->id);
+          $this->series_posts = $repository->getSeriesForPost($this->post['id']);
       }
       return $this->series_posts;
 	}
@@ -175,27 +176,30 @@ final class PostController extends DefaultPageController
 		$tag_array = array();
 		foreach($this->tags as $tag)
 		{
-			$tag_array[] = $tag->id;
+			$tag_array[] = $tag['id'];
 		}
 		
 		$series_posts = $this->fetch_series_posts();
 		$exclude_post_array = array();
 		foreach($series_posts as $series_post)
 		{
-			$exclude_post_array[] = $series_post->post;
+			$exclude_post_array[] = $series_post['post'];
 		}
-		
-		$post_array = array();
-		$post_result = PostCollector::getRelatedPosts($this->post->id, $tag_array, $exclude_post_array);
+
+        global $container;
+        $repository = new Jacobemerick\Web\Domain\Blog\Post\MysqlPostRepository($container['db_connection_locator']);
+        $post_result = $repository->getActivePostsByRelatedTags($this->post['id']);
+
+        $post_array = array();
 		
 		foreach($post_result as $post_row)
 		{
 			$post = new stdclass();
-			$post->title = $post_row->title;
-			$post->url = Loader::getRootUrl('blog') . "{$post_row->category}/{$post_row->path}/";
-			$post->category = ucwords(str_replace('-', ' ', $post_row->category));
-			$post->thumb = Content::instance('FetchFirstPhoto', $post_row->body)->activate();
-			$post->body = Content::instance('SmartTrim', $post_row->body)->activate(($post->thumb !== '') ? self::$POST_LENGTH_SHORT : self::$POST_LENGTH_LONG);
+			$post->title = $post_row['title'];
+			$post->url = Loader::getRootUrl('blog') . "{$post_row['category']}/{$post_row['path']}/";
+			$post->category = ucwords(str_replace('-', ' ', $post_row['category']));
+			$post->thumb = Content::instance('FetchFirstPhoto', $post_row['body'])->activate();
+			$post->body = Content::instance('SmartTrim', $post_row['body'])->activate(($post->thumb !== '') ? self::$POST_LENGTH_SHORT : self::$POST_LENGTH_LONG);
 			
 			$post_array[] = $post;
 		}

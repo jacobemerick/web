@@ -1,8 +1,6 @@
 <?
 
-Loader::load('collector', array(
-	'blog/PostCollector',
-	'comment/CommentCollector'));
+Loader::load('collector', 'comment/CommentCollector');
 
 Loader::load('controller', '/PageController');
 Loader::load('utility', 'Content');
@@ -69,29 +67,29 @@ abstract class DefaultPageController extends PageController
 	{
 		$post_object = new stdclass();
 		
-		$post_object->title = $post->title;
-		$post_object->path = "/{$post->category}/{$post->path}/";
-		$post_object->category = ucwords(str_replace('-', ' ', $post->category));
-		$post_object->category_link = "/{$post->category}/";
+		$post_object->title = $post['title'];
+		$post_object->path = "/{$post['category']}/{$post['path']}/";
+		$post_object->category = ucwords(str_replace('-', ' ', $post['category']));
+		$post_object->category_link = "/{$post['category']}/";
 		$post_object->comment_count = $this->get_comments_for_post($post);
 		$post_object->tags = $this->get_tags_for_post($post);
-		$post_object->image = Content::instance('FetchFirstPhoto', $post->body)->activate(false, 'small');
+		$post_object->image = Content::instance('FetchFirstPhoto', $post['body'])->activate(false, 'small');
 		$post_object->body = $this->get_body_for_post($post, $trim);
-		$post_object->date = $this->get_parsed_date($post->date);
-		
+		$post_object->date = $this->get_parsed_date($post['date']);
+
 		return $post_object;
 	}
 
 	final private function get_comments_for_post($post)
 	{
-		return CommentCollector::getCommentCountForURL(self::$BLOG_SITE_ID, $post->path);
+		return CommentCollector::getCommentCountForURL(self::$BLOG_SITE_ID, $post['path']);
 	}
 
 	final private function get_tags_for_post($post)
 	{
         global $container;
         $repository = new Jacobemerick\Web\Domain\Blog\Tag\MysqlTagRepository($container['db_connection_locator']);
-        $tag_result = $repository->getTagsForPost($post->id);
+        $tag_result = $repository->getTagsForPost($post['id']);
 
         $tag_array = array();
 		foreach($tag_result as $tag)
@@ -106,7 +104,7 @@ abstract class DefaultPageController extends PageController
 
 	final private function get_body_for_post($post, $trim)
 	{
-		$body = $post->body;
+		$body = $post['body'];
 		
 		if($trim)
 			$body = Content::instance('SmartTrim', $body)->activate(self::$LENGTH_OF_TRIMMED_POST);

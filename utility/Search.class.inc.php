@@ -43,7 +43,7 @@ final class Search
 		{
 			$weight = $this->get_search_weight($row);
 			if($weight > 0)
-				$weighted_array[$row->id] = $weight;
+				$weighted_array[$row['id']] = $weight;
 		}
 		arsort($weighted_array);
 		
@@ -52,7 +52,7 @@ final class Search
 		{
 			foreach($this->result as $row)
 			{
-				if($row->id == $id)
+				if($row['id'] == $id)
 					$final_array[] = $row;
 			}
 		}
@@ -64,7 +64,7 @@ final class Search
 		$weight = 0;
 		foreach($this->weight as $weight_array)
 		{
-			$text = $row->{$weight_array['field']};
+			$text = $row[$weight_array['field']];
 			$weight += $weight_array['weight'] * substr_count(strtolower($text), strtolower($this->query));
 		}
 		return $weight;
