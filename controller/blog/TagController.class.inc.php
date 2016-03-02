@@ -62,15 +62,16 @@ final class TagController extends DefaultListController
 		
 		if($this->page == 1)
 		{
-			Loader::load('collector', 'blog/IntroductionCollector');
-			$introduction_result = IntroductionCollector::getRow('tag', $this->tag->tag);
+        global $container;
+        $repository = new Jacobemerick\Web\Domain\Blog\Introduction\MysqlIntroductionRepository($container['db_connection_locator']);
+        $introduction_result = $repository->findByType('tag', $this->tag->tag);
 			
 			if($introduction_result !== null)
 			{
 				$introduction = array();
-				$introduction['title'] = $introduction_result->title;
-				$introduction['content'] = $introduction_result->content;
-				$introduction['image'] = $this->get_introduction_image($introduction_result->image);
+				$introduction['title'] = $introduction_result['title'];
+				$introduction['content'] = $introduction_result['content'];
+				$introduction['image'] = $this->get_introduction_image($introduction_result['image']);
 				
 				return $introduction;
 			}

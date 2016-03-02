@@ -33,15 +33,16 @@ final class AboutController extends DefaultPageController
 
 	protected function get_introduction()
 	{
-		Loader::load('collector', 'blog/IntroductionCollector');
-		$introduction_result = IntroductionCollector::getRow('about');
+        global $container;
+        $repository = new Jacobemerick\Web\Domain\Blog\Introduction\MysqlIntroductionRepository($container['db_connection_locator']);
+        $introduction_result = $repository->findByType('about');
 		
 		if($introduction_result !== null)
 		{
 			$introduction = array();
-			$introduction['title'] = $introduction_result->title;
-			$introduction['content'] = $introduction_result->content;
-			$introduction['image'] = $this->get_introduction_image($introduction_result->image);
+			$introduction['title'] = $introduction_result['title'];
+			$introduction['content'] = $introduction_result['content'];
+			$introduction['image'] = $this->get_introduction_image($introduction_result['image']);
 			
 			return $introduction;
 		}
