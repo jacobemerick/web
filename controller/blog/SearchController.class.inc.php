@@ -18,7 +18,6 @@ final class SearchController extends DefaultListController
 		'blog',
 		'Jacob Emerick');
 
-	private static $MAXIMUM_SEARCH_POSTS = 500;
 	private static $LIST_DESCRIPTION = 'Viewing %d - %d of %d posts containing the phrase %s.';
 	private static $SEARCH_WEIGHTS = array(
 		array(

@@ -34,7 +34,7 @@ final class FixInternalLinkContent extends Content
 			case 'blog' :
         global $container;
         $repository = new Jacobemerick\Web\Domain\Blog\Post\MysqlPostRepository($container['db_connection_locator']);
-        $post = $repository->findPostByPath($post_uri);
+        $post = $repository->findPostByPath($uri);
 
 				if($post === NULL)
 					return;
