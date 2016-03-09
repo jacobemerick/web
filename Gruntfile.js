@@ -60,10 +60,6 @@ module.exports = function(grunt) {
       app: {
         files: {
           'public/js/build/imagelightbox.min.js': 'public/js/imagelightbox.js',
-          'public/js/build/portfolio.min.js': [
-            'public/js/portfolio.js',
-            'public/js/imageloader.js'
-          ],
           'public/js/build/waterfalls.min.js': [
             'public/js/waterfall-overlay.js',
             'public/js/waterfall-map.js'

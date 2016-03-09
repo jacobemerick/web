@@ -11,8 +11,6 @@ abstract class DefaultPageController extends PageController
 
         $this->add_css('reset');
         $this->add_css('portfolio');
-        $this->add_js('jquery');
-        $this->add_js('portfolio');
     }
 
     protected function get_menu()
