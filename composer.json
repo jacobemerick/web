@@ -18,8 +18,6 @@
     "monolog/monolog": "^1.17",
     "particletree/pqp": "^1.1",
     "pimple/pimple": "^3.0",
-    "suin/php-rss-writer": "^1.3",
-    "thepixeldeveloper/sitemap": "^4.0",
     "jacobemerick/archangel": "^2.1"
   },
   "require-dev": {

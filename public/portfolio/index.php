@@ -1,7 +1,7 @@
 <?php
 
 $namespace = 'portfolio';
-require_once __DIR__ . '/../index.php';
+require_once __DIR__ . '/../../bootstrap.php';
 
 // route
 Loader::loadInstance('router', 'Router');

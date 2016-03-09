@@ -1,5 +1,10 @@
 <?php
 
+$startTime = microtime(true);
+$startMemory = memory_get_usage();
+ini_set('display_errors', 0);
+
+
 require_once __DIR__ . '/vendor/autoload.php';
 
 $container = new Pimple\Container();
@@ -21,7 +26,6 @@ if ($last_json_error !== JSON_ERROR_NONE) {
     throw new RuntimeException("Could not parse config - JSON error detected");
 }
 $container['config'] = $config;
-
 
 // timezones are fun
 date_default_timezone_set('America/Phoenix'); // todo - belongs in configuration
@@ -87,3 +91,48 @@ $container['setup_logger'] = $container->protect(function ($name) use ($containe
 });
 
 
+// adds profiler
+$console = new Particletree\Pqp\Console();
+$profiler = new Particletree\Pqp\PhpQuickProfiler($startTime);
+$profiler->setConsole($console);
+$container['console'] = $console;
+$container['profiler'] = $profiler;
+$container['console']->logMemory($startMemory, 'PHP - Pre-bootstrap memory', true);
+
+
+// sets up logger, modifes with profiler handler
+$pqpHandler = new Jacobemerick\MonologPqp\PqpHandler($container['console']);
+$container['setup_logger']($namespace);
+$container['logger']->pushHandler($pqpHandler);
+
+
+// sets up shutdown function to display profiler
+register_shutdown_function(function () use ($container) {
+    if (
+        !isset($_COOKIE['debugger']) ||
+        $_COOKIE['debugger'] != 'display'
+    ) {
+        return;
+    }
+
+    $dbProfiles = $container['db_connection_locator']
+        ->getRead()
+        ->getProfiler()
+        ->getProfiles();
+    $dbProfiles = array_filter($dbProfiles, function ($profile) {
+        return $profile['function'] == 'perform';
+    });
+    $dbProfiles = array_map(function ($profile) {
+        return [
+            'sql' => trim(preg_replace('/\s+/', ' ', $profile['statement'])),
+            'parameters' => $profile['bind_values'],
+            'time' => $profile['duration'],
+        ];
+    }, $dbProfiles);
+    $container['profiler']->setProfiledQueries($dbProfiles);
+    $container['profiler']->setDisplay(new Particletree\Pqp\Display());
+    $container['profiler']->display($container['db_connection_locator']->getRead());
+});
+
+$container['console']->logMemory(null, 'PHP - Post-boostrap memory');
+$container['console']->logSpeed('Post-bootstrap time');
