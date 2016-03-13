@@ -1,134 +1,82 @@
 <div id="content">
-	<h2>My resume</h2>
-	<div class="hresume resume">
-		
-		<div>
-			<h3>Contact</h3>
-			
-			<div class="contact vcard" id="jacob-contact">
-				<div>
-					<span class="fn n">
-						<span class="given-name">Jacob</span>
-						<span class="family-name">Emerick</span>
-					</span>
-					<br />
-					<span>
-						<span class="title">Software Engineer</span>
-						at
-						<span class="org">Shutterstock</span>
-				</div>
-				<div>
-					<a class="email" href="mailto:jpemeric@gmail.com">jpemeric@gmail.com</a>
-				</div>
-				<div>
-					<a class="url" href="https://home.jacobemerick.com/">https://home.jacobemerick.com/</a>
-				</div>
-			</div>
-		</div>
-		
-		<div>
-			<h3>Objective</h3>
-			<div class="summary">
-				<p>To obtain an exciting position within a web development team that utilizes and challenges my web development skills.</p>
-			</div>
-		</div>
-		
-		<div>
-			<h3>Work Experience</h3>
-			<div class="vcalendar">
-				<div class="experience vevent vcard">
-					<div class="htitle">
-						<a href="#jacob-contact" class="include" title="Jacob Emerick"></a>
-						<span class="title">Director of Production/Web Developer</span>
-						<span class="org">DealerFire</span>
-						<span class="location">Oshkosh, WI</span>
-					</div>
-					<div class="date_duration">
-						<abbr class="dtstart" title="2010-06-28">June '10</abbr> - 
-						<abbr class="dtend" title="2012-10-03">Oct '12</abbr>
-					</div>
-					<div class="summary">I coordinated and integrated a high volume of car dealer websites within a custom Zend Framework. Working with a team of programmers and designers, I managed the site production process from contract to site launch. While my main responsiblity dealt with management and direct site integration, I also worked on building new modules and upgrading current ones that were used on multiple platforms.</div>
-				</div>
-				<div class="experience vevent vcard">
-					<div class="htitle">
-						<a href="#jacob-contact" class="include" title="Jacob Emerick"></a>
-						<span class="title">PHP Programmer</span>
-						<span class="org">SparkNET, Interactive</span>
-						<span class="location">De Pere, WI</span>
-					</div>
-					<div class="date_duration">
-						<abbr class="dtstart" title="2009-08-26">August '09</abbr> - 
-						<abbr class="dtend" title="2010-06-06">June '10</abbr>
-					</div>
-					<div class="summary">Using object-orientated PHP within a custom MVC framework, I worked on the business logic for their administrative and editorial interfaces. This included a cache-enabled reporting site and traffic analytics system. I also spent time on the front end and members interface of <a href="http://ezinearticles.com" target="_blank">EzineArticles.com</a>, rewriting existing functionality and adding new features on a regular basis.</div>
-				</div>
-				<div class="experience vevent vcard">
-					<div class="htitle">
-						<a href="#jacob-contact" class="include" title="Jacob Emerick"></a>
-						<span class="title">Web Application Developer</span>
-						<span class="org">Michigan Technological University</span>
-						<span class="location">Houghton, MI</span>
-					</div>
-					<div class="date_duration">
-						<abbr class="dtstart" title="2008-05-05">May '08</abbr> - 
-						<abbr class="dtend" title="2009-03-16">March '09</abbr>
-					</div>
-					<div class="summary">I was the primary website support for Auxiliary Services at Michigan Tech. This allowed me to both update existing website content and create new web applications. By connecting to the primary data engine and adding payment gateways, I helped advance these departments forward with better data and program management.</div>
-				</div>
-			</div>
-		</div>
-		
-		<div>
-			<h3>Programming Langugages</h3>
-			<div class="tags">
-				<ul>
-					<li class="skill">
-						<a rel="tag" href="http://en.wikipedia.org/wiki/Php">PHP</a>
-					</li>
-					<li class="skill">
-						<a rel="tag" href="http://en.wikipedia.org/wiki/Sql">SQL</a>
-					</li>
-					<li class="skill">
-						<a rel="tag" href="http://en.wikipedia.org/wiki/Xhtml">xHTML/HTML</a>
-					</li>
-					<li class="skill">
-						<a rel="tag" href="http://en.wikipedia.org/wiki/Css">CSS</a>
-					</li>
-					<li class="skill">
-						<a rel="tag" href="http://en.wikipedia.org/wiki/Xml">XML</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-		
-		<div>
-			<h3>Achievements</h3>
-			<div class="achievements">
-				<ul>
-					<li class="achievement">Created a personal MVC framework with data abstraction, custom error reporting, and internal asset/image cache handling.</li>
-					<li class="achievement">Developed and maintained an abstracted reporting system with run caching and flexible view logic.</li>
-					<li class="achievement">Revamped a residential recontracting system for a university with multiple special cases and an Oracle database backend.</li>
-					<li class="achievement">Developed a youth programs web application with online billing system, application handling and a custom CMS backend.</li>
-				</ul>
-			</div>
-		</div>
-		
-		<div>
-			<h3>Education</h3>
-			<div class="vcalendar">
-				<div class="education vevent vcard">
-					<div class="htitle">
-						<a href="#jacob-contact" class="include" title="Jacob Emerick"></a>
-						<span class="summary">B.S. of Applied Mathematics</span>
-						<span class="org">Michigan Technological University</span>
-					</div>
-					<div class="date_duration">
-						<abbr class="dtstart" title="2003-08-25">August '03</abbr> - 
-						<abbr class="dtend" title="2008-05-04">May '08</abbr>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-	</div>
+  <div class="hresume resume">
+    <div class="contact vcard" id="jacob-contact">
+      <img src="<?= $data['basics']['picture'] ?>" alt="<?= $data['basics']['name'] ?>" />
+      <h2 class="fn n"><?= $data['basics']['name'] ?></h2>
+      <h3 class="title"><?= $data['basics']['label'] ?></h3>
+      <hr />
+      <ul>
+        <li><?= $data['basics']['location']['city'] ?>, <?= $data['basics']['location']['region'] ?></li>
+        <li><a class="email" href="mailto:<?= $data['basics']['email'] ?>"><?= $data['basics']['email'] ?></a></li>
+        <li><a class="url" href="<?= $data['basics']['website'] ?>"><?= $data['basics']['website'] ?></a></li>
+      </ul>
+      <hr />
+      <ul>
+        <?php foreach ($data['basics']['profiles'] as $profile) : ?>
+        <li><a href="<?= $profile['url'] ?>"><?= $profile['network'] ?></a></li>
+        <?php endforeach ?>
+      </ul>
+    </div>
+    
+    <div class="main">
+      <h4>About</h4>
+      <p class="summary"><?= $data['basics']['summary'] ?></p>
+      <h4>Work Experience</h4>
+      <div class="vcalendar">
+        <?php foreach ($data['work'] as $work) : ?>
+        <div class="experience vevent vcard">
+          <div class="htitle">
+            <a href="#jacob-contact" class="include" title="Jacob Emerick"></a>
+            <span class="title"><?= $work['position'] ?></span>
+            <span class="org"><a href="<?= $work['website'] ?>"><?= $work['company'] ?></a></span>
+          </div>
+          <div class="date_duration">
+            <abbr class="dtstart" title="<?= $work['startDate'] ?>"><?= $work['startDate'] ?></abbr> - 
+            <abbr class="dtend" title="<?= $work['endDate'] ?>"><?= $work['endDate'] ?></abbr>
+          </div>
+          <p class="summary"><?= $work['summary'] ?></p>
+          <ul class="highlights">
+            <?php foreach ($work['highlights'] as $highlight) : ?>
+            <li><?= $highlight ?></li>
+            <?php endforeach ?>
+          </ul>
+        </div>
+        <?php endforeach ?>
+      </div>
+      <h4>Skills</h4>
+      <ul class="tags">
+        <?php foreach ($data['skills'] as $skill) : ?>
+        <li class="skill"><?= $skill ?></li>
+        <?php endforeach ?>
+      </div>
+      <h4>Education</h4>
+      <div class="vcalendar">
+        <?php foreach ($data['education'] as $education) : ?>
+        <div class="education vevent vcard">
+          <div class="htitle">
+            <a href="#jacob-contact" class="include" title="Jacob Emerick"></a>
+            <span class="summary"><?= $education['area'] ?>, <?= $education['studyType'] ?></span>
+            <span class="org"><?= $education['institution'] ?></span>
+          </div>
+          <div class="date_duration">
+            <abbr class="dtstart" title="<?= $education['startDate'] ?>"><?= $education['startDate'] ?></abbr> - 
+            <abbr class="dtend" title="<?= $education['endDate'] ?>"><?= $education['endDate'] ?></abbr>
+          </div>
+        </div>
+        <?php endforeach ?>
+      </div>
+      <h4>Awards</h4>
+      <ul>
+        <?php foreach ($data['awards'] as $award) : ?>
+        <li><?= $award['title'] ?>
+        <?php endforeach ?>
+      </ul>
+      <h4>Interests</h4>
+      <ul>
+        <?php foreach ($data['interests'] as $interest) : ?>
+        <li><?= $interest ?></li>
+        <?php endforeach ?>
+      </ul>
+    </div>
+  </div>
 </div>
