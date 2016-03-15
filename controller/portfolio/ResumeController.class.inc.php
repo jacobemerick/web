@@ -21,7 +21,7 @@ class ResumeController extends DefaultPageController
         ]);
 
         $this->set_body('body_view', 'Resume');
-        $this->set_body('left_side_data', [
+        $this->set_body('header_data', [
             'title' => "Resume | Jacob Emerick's Portfolio",
             'menu' => $this->get_menu(),
             'home_link' => Loader::getRootURL(),

@@ -19,7 +19,7 @@ class ContactController extends DefaultPageController
         ]);
 
         $this->set_body('body_view', 'Contact');
-        $this->set_body('left_side_data', [
+        $this->set_body('header_data', [
             'title' => "Contact | Jacob Emerick's Portfolio",
             'menu' => $this->get_menu(),
             'home_link' => Loader::getRootURL(),

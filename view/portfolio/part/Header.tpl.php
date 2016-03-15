@@ -1,5 +1,4 @@
-<div id="left-side">
-	<h1 class="hidden"><?= $title ?></h1>
+<div id="header">
 	<h3>
 		<a href="<?= $home_link ?>">Jacob Emerick's Portfolio</a>
 	</h3>
