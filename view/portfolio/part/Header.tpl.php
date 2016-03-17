@@ -1,4 +1,4 @@
-<div id="header">
+<div class="header">
 	<h3>
 		<a href="<?= $home_link ?>">Jacob Emerick's Portfolio</a>
 	</h3>
