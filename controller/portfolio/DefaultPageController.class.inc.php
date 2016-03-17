@@ -36,7 +36,7 @@ abstract class DefaultPageController extends PageController
                 'link' => Loader::getRootURL() . 'projects/',
             ],
             [
-                'name' => 'Resume',
+                'name' => 'Résumé',
                 'link' => Loader::getRootURL() . 'resume/',
             ],
             [
