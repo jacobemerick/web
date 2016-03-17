@@ -5,7 +5,7 @@ Loader::load('controller', 'portfolio/DefaultPageController');
 class ContactController extends DefaultPageController
 {
 
-    protected function set_data()
+    protected function set_head_data()
     {
         $this->set_title("Contact Page | Jacob Emerick's Portfolio");
         $this->set_description("Contact page for Jacob Emerick's Portfolio");
@@ -17,13 +17,11 @@ class ContactController extends DefaultPageController
             'information',
             'freelance',
         ]);
+    }
 
+    protected function set_body_data()
+    {
         $this->set_body('body_view', 'Contact');
-        $this->set_body('header_data', [
-            'title' => "Contact | Jacob Emerick's Portfolio",
-            'menu' => $this->get_menu(),
-            'home_link' => Loader::getRootURL(),
-        ]);
 
         $form_results = [];
         if (!empty($_POST)) {
@@ -32,6 +30,8 @@ class ContactController extends DefaultPageController
         $this->set_body('body_data', $form_results);
 
         $this->set_body_view('Page');
+
+        parent::set_body_data();
     }
 
     private function process_form_data()

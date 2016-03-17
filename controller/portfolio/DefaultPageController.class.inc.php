@@ -13,6 +13,14 @@ abstract class DefaultPageController extends PageController
         $this->add_css('portfolio');
     }
 
+    protected function set_body_data()
+    {
+        $this->set_body('header_data', [
+            'menu' => $this->get_menu(),
+            'home_link' => Loader::getRootURL(),
+        ]);
+    }
+
     protected function get_menu()
     {
         $menu = [
