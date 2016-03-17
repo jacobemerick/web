@@ -15,7 +15,7 @@ body {
   width: 850px;}
 
 .portfolio-container .header {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #14414f;
   padding: 30px 5px 5px;}
 .portfolio-container .header h3 {
   float: left;
@@ -116,9 +116,55 @@ body {
   font-size: .8em;
   font-style: italic;}
 
+.bottom {
+  border-top: 1px solid #14414f;
+	font-size: .7em;
+	margin-top: 80px;
+	padding: 20px 0 30px;}
+.bottom #site-links {
+	float: left;
+	width: 45%;}
+.bottom #activity-feed {
+	margin-left: 55%;}
+.bottom #site-links h4,
+.bottom #activity-feed h4 {
+	font-size: 1.6em;
+	font-weight: normal;
+	margin: 0 0 10px;}
+.bottom #site-links ul,
+.bottom #activity-feed ul {
+  list-style: inherit;
+	padding-left: 20px;}
+.bottom #site-links ul {
+	font-size: 1.2em;}
+.bottom #activity-feed ul {
+	padding-right: 5px;}
+.bottom #site-links li,
+.bottom #activity-feed li {
+	margin-bottom: 6px;}
+.bottom #site-links a {
+	border-bottom-style: none;}
+.bottom #site-links a:hover {
+	border-bottom-style: solid;}
+.bottom #site-links a .title {
+	border-bottom: 1px dotted;}
+.bottom #site-links a:hover .title {
+	border-bottom-style: none;}
+.bottom #site-links a .description {
+	font-size: .9em;
+	font-style: italic;
+	padding-left: 3px;}
+.bottom #activity-feed .meta {
+	display: block;
+	font-style: italic;
+	margin-right: 10px;
+	text-align: right;}
+.bottom #activity-feed .read-more {
+	float: right;}
+
 #footer {
   color: #1f1b29;
-  margin: 50px 0 100px;
+  margin: 20px 0 200px;
   padding-left: 200px;
   text-align: center;
   width: 650px;}

@@ -19,6 +19,7 @@ abstract class DefaultPageController extends PageController
             'menu' => $this->get_menu(),
             'home_link' => Loader::getRootURL(),
         ]);
+        $this->set_body('activity_array', $this->get_recent_activity());
     }
 
     protected function get_menu()
