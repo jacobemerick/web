@@ -23,11 +23,12 @@ class ContactController extends DefaultPageController
     {
         $this->set_body('body_view', 'Contact');
 
-        $form_results = [];
+        $body_data = [];
         if (!empty($_POST)) {
-            $form_results = $this->process_form_data();
+            $body_data = $this->process_form_data();
         }
-        $this->set_body('body_data', $form_results);
+        $body_data['domain_container'] = $this->get_domain_container();
+        $this->set_body('body_data', $body_data);
 
         $this->set_body_view('Page');
 

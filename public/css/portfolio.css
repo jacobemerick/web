@@ -73,9 +73,9 @@ body {
   border: 1px #9abca4 solid;
   font-size: 1.2em;
   padding: 2px 2px 0;}
-.portfolio-container .contact input:focus,
-.portfolio-container .contact textarea:focus {
-  border-color: #7b9465;}
+.portfolio-container .contact .error input,
+.portfolio-container .contact .error textarea {
+  border-color: #c22e54;}
 .portfolio-container .contact input {
   width: 250px;}
 .portfolio-container .contact textarea {
@@ -94,7 +94,9 @@ body {
   margin-bottom: 20px;
   padding: 2px 5px;}
 .portfolio-container .contact .error-message {
+  color: #c22e54;
   float: right;
+  font-size: .9em;
   text-align: right;}
 
 .portfolio-container .sidebar {

@@ -1,16 +1,16 @@
 <div class="contact">
   <h1>Contact Jacob</h1>
-<?php if ($success) : ?>
+<?php if ($data['success']) : ?>
   <p>Thanks for reaching out to me! I'll get back to you as soon as possible. In the meantime, you should totally check out <a href="<?= $domain_container->blog ?>" title="Jacob's blog about hiking and web development">my blog</a>.</p>
 <?php else : ?>
   <p>Please feel free to reach out to me if you think we'd be a good match on a project or future opportunity. Or just to drop a line and start a conversation.</p>
   <form method="post" action="<?= $domain_container->portfolio ?>contact/">
     <ul>
-      <li<?= (isset($errors['name'])) ? ' class="error"' : '' ?>>
+      <li<?= (isset($data['errors']['name'])) ? ' class="error"' : '' ?>>
         <label for="input-name">Your name</label>
         <input type="text" name="name" id="input-name" value="<?= (isset($values['name'])) ? $values['name'] : '' ?>" />
-        <? if(isset($errors['name'])) : ?>
-          <span class="error-message"><?= $errors['name'] ?></span>
+        <? if(isset($data['errors']['name'])) : ?>
+          <span class="error-message"><?= $data['errors']['name'] ?></span>
         <? endif ?>
       </li>
       <li<?= (isset($errors['email'])) ? ' class="error"' : '' ?>>
