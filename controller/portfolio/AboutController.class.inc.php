@@ -2,7 +2,7 @@
 
 Loader::load('controller', 'portfolio/DefaultPageController');
 
-class HomeController extends DefaultPageController
+class AboutController extends DefaultPageController
 {
 
     protected function set_data()

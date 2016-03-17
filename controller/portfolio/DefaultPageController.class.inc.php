@@ -20,6 +20,8 @@ abstract class DefaultPageController extends PageController
             'home_link' => Loader::getRootURL(),
         ]);
         $this->set_body('activity_array', $this->get_recent_activity());
+
+        $this->set_body_view('Page');
     }
 
     protected function get_menu()

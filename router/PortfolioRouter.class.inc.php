@@ -14,15 +14,15 @@ class PortfolioRouter extends Router
             ],
             [
                 'pattern' => '@^/print(/?)$@',
-                'replace' => '/',
+                'replace' => '/projects/',
             ],
             [
                 'pattern' => '@^/web(/?)$@',
-                'replace' => '/',
+                'replace' => '/projects/',
             ],
             [
                 'pattern' => '@^/(web|print)/([a-z0-9-]+)(/?)$@',
-                'replace' => '/',
+                'replace' => '/projects/',
             ],
         ];
 
@@ -36,11 +36,15 @@ class PortfolioRouter extends Router
         $paths = [
             [
                 'match' => '/',
-                'controller' => 'HomeController',
+                'controller' => 'AboutController',
             ],
             [
                 'match' => '/contact/',
                 'controller' => 'ContactController',
+            ],
+            [
+                'match' => '/projects/',
+                'controller' => 'ProjectsController',
             ],
             [
                 'match' => '/resume/',

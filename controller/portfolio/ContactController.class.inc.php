@@ -30,8 +30,6 @@ class ContactController extends DefaultPageController
         $body_data['domain_container'] = $this->get_domain_container();
         $this->set_body('body_data', $body_data);
 
-        $this->set_body_view('Page');
-
         parent::set_body_data();
     }
 
