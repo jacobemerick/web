@@ -5,7 +5,7 @@ Loader::load('controller', 'portfolio/DefaultPageController');
 class ResumeController extends DefaultPageController
 {
 
-    protected $resume = 'resume-20160312.json';
+    protected $resume = 'resume-20160318.json';
 
     protected function set_data()
     {
