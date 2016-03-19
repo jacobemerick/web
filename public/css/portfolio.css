@@ -51,14 +51,23 @@ body {
   font-size: 3.7em;
   font-weight: normal;
   line-height: .8em;
-  margin: 0;
+  margin: 0 0 20px;
   padding: 0;}
+
+.portfolio-container #jake-picture {
+  border: 1px solid #14414f;
+  float: right;}
+.portfolio-container .introduction {
+  margin-right: 200px;}
+.portfolio-container .introduction p {
+  margin-bottom: 15px;}
+.portfolio-container .introduction ul {
+  list-style: inherit;
+  padding-left: 30px;}
 
 .portfolio-container .contact {
   float: left;
   width: 500px;}
-.portfolio-container .contact p {
-  margin-top: 20px;}
 .portfolio-container .contact form {
   margin: 20px 5px 0;}
 .portfolio-container .contact li {
