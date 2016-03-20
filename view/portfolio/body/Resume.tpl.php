@@ -1,10 +1,10 @@
 <div class="resume h-resume">
   <div class="contact-card h-card p-contact" id="jacob-contact">
-    <img class="u-photo" src="<?= $data['basics']['picture'] ?>" alt="<?= $data['basics']['name'] ?>" />
+    <img class="u-photo" src="/image/jacob-emerick.jpg" alt="<?= $data['basics']['name'] ?>" />
     <h2 class="p-name"><?= $data['basics']['name'] ?></h2>
     <h3 class="p-job-title"><?= $data['basics']['label'] ?></h3>
     <hr />
-    <ul>
+    <ul class="contact-methods">
       <li>
         <span class="p-locality"><?= $data['basics']['location']['city'] ?></span>,
         <span class="p-region"><?= $data['basics']['location']['region'] ?></span>
@@ -13,7 +13,7 @@
       <li><a class="u-url" href="<?= $data['basics']['website'] ?>"><?= $data['basics']['website'] ?></a></li>
     </ul>
     <hr />
-    <ul>
+      <ul class="profiles">
       <?php foreach ($data['basics']['profiles'] as $profile) : ?>
       <li><a href="<?= $profile['url'] ?>"><?= $profile['network'] ?></a></li>
       <?php endforeach ?>
@@ -32,7 +32,7 @@
       <div class="p-experience h-event h-card">
         <div class="role p-name">
           <a href="#jacob-contact" class="include" title="Jacob Emerick"></a>
-          <span class="p-job-title"><?= $work['position'] ?></span>
+          <span class="job-title p-job-title"><?= $work['position'] ?></span>,
           <span class="u-org"><a href="<?= $work['website'] ?>"><?= $work['company'] ?></a></span>
         </div>
         <div class="duration">
@@ -43,7 +43,7 @@
           Present
           <?php endif ?>
         </div>
-        <p class="p-summary"><?= $work['summary'] ?></p>
+        <p class="summary p-summary"><?= $work['summary'] ?></p>
         <ul class="highlights p-description">
           <?php foreach ($work['highlights'] as $highlight) : ?>
           <li><?= $highlight ?></li>
@@ -76,7 +76,7 @@
       <div class="p-education h-event h-card">
         <div class="role p-name">
           <a href="#jacob-contact" class="include" title="Jacob Emerick"></a>
-          <span class="p-role"><?= $education['area'] ?>, <?= $education['studyType'] ?></span>
+          <span class="degree p-role"><?= $education['area'] ?>, <?= $education['studyType'] ?></span>
           <span class="u-org"><?= $education['institution'] ?></span>
         </div>
         <div class="duration">
@@ -101,7 +101,7 @@
         <?php endforeach ?>
       </dl>
     </div>
-    <div class="interest-block">
+    <div class="interests-block">
       <h2>Interests</h2>
       <dl>
         <?php foreach ($data['interests'] as $interest) : ?>

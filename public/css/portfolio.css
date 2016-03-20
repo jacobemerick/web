@@ -41,7 +41,7 @@ body {
 
 .portfolio-container .window {
   line-height: 1.5em;
-  padding-top: 80px;}
+  padding-top: 50px;}
 .portfolio-container .window::after {
   clear: both;
   content: ' ';
@@ -64,6 +64,98 @@ body {
 .portfolio-container .introduction ul {
   list-style: inherit;
   padding-left: 30px;}
+
+.portfolio-container .resume hr {
+  border: solid #f0f0f0;
+  border-width: 1px 0 0;}
+.portfolio-container .resume .contact-card {
+  background: white;
+  border 1px solid #f0f0f0;
+  float: left;
+  margin: 0 5px;
+  padding: 7px 7px 10px;
+  width: 250px;}
+.portfolio-container .resume .contact-card img {
+  border: 1px solid #f0f0f0;}
+.portfolio-container .resume .contact-card h2,
+.portfolio-container .resume .contact-card h3 {
+  text-align: center;}
+.portfolio-container .resume .contact-card h2 {
+  font-size: 1.7em;
+  font-weight: bold;
+  margin-top: 15px;}
+.portfolio-container .resume .contact-card h3 {
+  margin-top: 9px;}
+.portfolio-container .resume .contact-card ul {
+  font-size: .8em;}
+.portfolio-container .resume .contact-card ul.contact-methods {
+  list-style: inherit;
+  padding-left: 25px;}
+.portfolio-container .resume .contact-card ul.profiles {
+  text-align: center;}
+.portfolio-container .resume .contact-card ul.profiles li {
+  display: inline;
+  padding: 0 5px;}
+.portfolio-container .resume .main-pane {
+  background: white;
+  border: 1px solid #f0f0f0;
+  font-size: .9em;
+  line-height: 1.7em;
+  margin-left: 270px;
+  padding: 15px 10px 5px;}
+.portfolio-container .resume .main-pane h1 {
+  font-size: 2.4em;
+  margin-bottom: 0;}
+.portfolio-container .resume .main-pane > div {
+  border-top: 1px solid #f0f0f0;
+  margin-top: 10px;
+  padding: 20px 0 15px;}
+.portfolio-container .resume .main-pane h2 {
+  color: #14414f;
+  font-size: 1.2em;
+  margin-bottom: 5px;}
+.portfolio-container .resume .work-block > div {
+  margin-bottom: 15px;}
+.portfolio-container .resume .work-block > div:last-child {
+  margin-bottom: 0;}
+.portfolio-container .resume .work-block .role {
+  font-size: 1.1em;}
+.portfolio-container .resume .work-block .job-title {
+  font-weight: bold;}
+.portfolio-container .resume .work-block .summary {
+  margin-top: 5px;}
+.portfolio-container .resume .work-block ul.highlights {
+  font-size: .9em;
+  list-style: inherit;
+  margin-top: 5px;
+  padding-left: 15px;}
+.portfolio-container .resume .skills-block .skill-level {
+  font-size: .9em;
+  font-style: italic;}
+.portfolio-container .resume .skills-block dd {
+  font-size: .9em;
+  margin-bottom: 5px;}
+.portfolio-container .resume .skills-block dd:last-child {
+  margin-bottom: 0;}
+.portfolio-container .resume .skills-block dd li {
+  display: inline;
+  padding: 0 4px;}
+.portfolio-container .resume .education-block .role .degree {
+  display: block;
+  font-weight: bold;}
+.portfolio-container .resume .awards-block .awards-title {
+  display: block;
+  font-weight: bold;}
+.portfolio-container .resume .awards-block .summary {
+  display: block;}
+.portfolio-container .resume .interests-block dd {
+  font-size: .9em;
+  margin-bottom: 5px;}
+.portfolio-container .resume .interests-block dd:last-child {
+  margin-bottom: 0;}
+.portfolio-container .resume .interests-block dd li {
+  display: inline;
+  padding: 0 4px;}
 
 .portfolio-container .contact {
   float: left;
