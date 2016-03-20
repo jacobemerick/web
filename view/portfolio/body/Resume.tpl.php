@@ -19,9 +19,10 @@
     </div>
     
     <div class="main">
-      <h4>About</h4>
+      <h1>Resume</h1>
+      <h2>About</h2>
       <p class="summary"><?= $data['basics']['summary'] ?></p>
-      <h4>Work Experience</h4>
+      <h2>Work Experience</h2>
       <div class="vcalendar">
         <?php foreach ($data['work'] as $work) : ?>
         <div class="experience vevent vcard">
@@ -32,7 +33,11 @@
           </div>
           <div class="date_duration">
             <abbr class="dtstart" title="<?= $work['startDate'] ?>"><?= $work['startDate'] ?></abbr> - 
+            <?php if (isset($work['endDate'])) : ?>
             <abbr class="dtend" title="<?= $work['endDate'] ?>"><?= $work['endDate'] ?></abbr>
+            <?php else : ?>
+            Present
+            <?php endif ?>
           </div>
           <p class="summary"><?= $work['summary'] ?></p>
           <ul class="highlights">
@@ -44,11 +49,18 @@
         <?php endforeach ?>
       </div>
       <h4>Skills</h4>
-      <ul class="tags">
+      <dl class="tags">
         <?php foreach ($data['skills'] as $skill) : ?>
-        <li class="skill"><?= $skill ?></li>
+        <dt class="skill"><?= $skill['name'] ?> (<?= $skill['level'] ?>)</dt>
+        <dd>
+          <ul>
+            <?php foreach ($skill['keywords'] as $keyword) : ?>
+            <li><?= $keyword ?></li>
+            <?php endforeach ?>
+          </ul>
+        </dd>
         <?php endforeach ?>
-      </div>
+      </dl>
       <h4>Education</h4>
       <div class="vcalendar">
         <?php foreach ($data['education'] as $education) : ?>
@@ -68,13 +80,18 @@
       <h4>Awards</h4>
       <ul>
         <?php foreach ($data['awards'] as $award) : ?>
-        <li><?= $award['title'] ?>
+        <li><?= $award['title'] ?> <?= $award['awarder'] ?></li>
+        <li><?= $award['date'] ?></li>
+        <li><?= $award['summary'] ?></li>
         <?php endforeach ?>
       </ul>
       <h4>Interests</h4>
       <ul>
         <?php foreach ($data['interests'] as $interest) : ?>
-        <li><?= $interest ?></li>
+        <li><?= $interest['name'] ?></li>
+        <li>
+        <?php foreach ($interest['keywords'] as $keyword) : ?><?= $keyword ?> <?php endforeach ?>
+        </li>
         <?php endforeach ?>
       </ul>
     </div>
