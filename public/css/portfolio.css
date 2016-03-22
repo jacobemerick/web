@@ -1,203 +1,285 @@
 body {
-	background: #d4d0df url('/image/portfolio-bg.jpg') fixed;
-	color: #4b4b4b;
-	font-family: Molengo, 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
-	font-size: 15px;}
-a, .faux_link {
-	color: #8579a4;
-	text-decoration: none;}
-a:hover, .faux_link:hover {
-	border-bottom: 1px solid;
-	color: #6c5f8c;}
-.hidden {
-	display: none;}
+  background: url("/image/cream-dust.png") #fafafa;
+  color: #081118;
+  font-family: Molengo, 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+  font-size: 15px;}
+.portfolio-container a {
+  color: #7b9465;
+  text-decoration: none;}
+.portfolio-container a:hover {
+  border-bottom: 1px solid;
+  color: #9abca4;}
 
-#container {
-	background: url('/image/portfolio-glow.png') top center no-repeat fixed;
-	margin: 0 auto;
-	width: 850px;}
+.portfolio-container {
+  margin: 0 auto;
+  width: 850px;}
 
-#login {
-	padding: 5px;}
+.portfolio-container .header {
+  border-bottom: 1px solid #14414f;
+  padding: 30px 5px 5px;}
+.portfolio-container .header h3 {
+  float: left;
+  font-size: 1.5em;
+  font-weight: normal;
+  margin: 0;}
+.portfolio-container .header h3 a {
+  color: inherit;}
+.portfolio-container .header h3 a:hover {
+  border-bottom: none;
+  color: inherit;}
+.portfolio-container .header ul {
+  float: right;
+  margin: 0;
+  padding: 7px 0 0;}
+.portfolio-container .header li {
+  display: inline;
+  padding: 0 0 0 10px;}
+.portfolio-container .header::after {
+  clear: both;
+  content: " ";
+  display: block;}
 
-#left-side {
-	float: left;
-	padding: 20px 30px 0 10px;
-	position: fixed;
-	width: 160px;}
-#left-side a {
-	color: #4b4b4b;
-	text-shadow: 1px 1px 3px #fff;}
-#left-side a:hover {
-	border: none;
-	color: #696969;
-	text-shadow: 2px 2px 4px #fff;}
-#left-side h3 {
-	border-bottom: 1px solid #4b4b4b;
-	font-size: 2em;
-	font-weight: normal;
-	padding-bottom: 10px;}
-#left-side ul {
-	padding: 30px 0 0 17px;}
-#left-side li {
-	padding: 10px 0;
-	font-size: 1.3em;}
-#left-side li.active a:before {
-	content: '~ ';
-	margin-left: -17px;}
-
-#content {
-	line-height: 1.5em;
-	padding: 87px 20px 5px 200px;}
-#content h2 {
-	border-bottom: 1px solid;
-	font-size: 3.7em;
-	font-weight: normal;
+.portfolio-container .window {
+  line-height: 1.5em;
+  padding-top: 50px;}
+.portfolio-container .window::after {
+  clear: both;
+  content: ' ';
+  display: block;}
+.portfolio-container .window h1 {
+  color: #14414f;
+  font-size: 3.7em;
+  font-weight: normal;
   line-height: .8em;
-	margin-bottom: 20px;
-	padding-bottom: 5px;
-	*padding: 5px 0 12px;
-	text-shadow: 2px 2px 3px #fff;}
-#content #jake-picture {
-	background-color: #d8cbdc;
-	border-radius: 3px;
-	float: right;
-	margin-left: 20px;
-	padding: 4px;}
-#content .resume {
-	padding-left: 5px;}
-#content .resume h3 {
-	font-size: 2em;
-	font-weight: normal;
-	margin: 1em 0 .3em -5px;
-	text-shadow: 1px 1px 2px #fff;}
-#content .resume .contact {
-	display: inline-block;}
-#content .resume .contact div {
+  margin: 0 0 20px;
+  padding: 0;}
+
+.portfolio-container #jake-picture {
+  border: 1px solid #14414f;
+  float: right;}
+.portfolio-container .introduction {
+  margin-right: 200px;}
+.portfolio-container .introduction p {
+  margin-bottom: 15px;}
+.portfolio-container .introduction ul {
+  list-style: inherit;
+  padding-left: 30px;}
+
+.portfolio-container .projects h2 {
+  font-size: 1.5em;
+  margin: 30px 0 5px;}
+.portfolio-container .projects p {
+  margin-bottom: 10px;}
+
+.portfolio-container .resume hr {
+  border: solid #f0f0f0;
+  border-width: 1px 0 0;}
+.portfolio-container .resume .contact-card {
+  background: white;
+  border 1px solid #f0f0f0;
+  float: left;
+  margin: 0 5px;
+  padding: 7px 7px 10px;
+  width: 250px;}
+.portfolio-container .resume .contact-card img {
+  border: 1px solid #f0f0f0;}
+.portfolio-container .resume .contact-card h2,
+.portfolio-container .resume .contact-card h3 {
+  text-align: center;}
+.portfolio-container .resume .contact-card h2 {
+  font-size: 1.7em;
+  font-weight: bold;
+  margin-top: 15px;}
+.portfolio-container .resume .contact-card h3 {
+  margin-top: 9px;}
+.portfolio-container .resume .contact-card ul {
+  font-size: .8em;}
+.portfolio-container .resume .contact-card ul.contact-methods {
+  list-style: inherit;
+  padding-left: 25px;}
+.portfolio-container .resume .contact-card ul.profiles {
+  text-align: center;}
+.portfolio-container .resume .contact-card ul.profiles li {
+  display: inline;
+  padding: 0 5px;}
+.portfolio-container .resume .main-pane {
+  background: white;
+  border: 1px solid #f0f0f0;
+  font-size: .9em;
+  line-height: 1.7em;
+  margin-left: 270px;
+  padding: 15px 10px 5px;}
+.portfolio-container .resume .main-pane h1 {
+  font-size: 2.4em;
+  margin-bottom: 0;}
+.portfolio-container .resume .main-pane > div {
+  border-top: 1px solid #f0f0f0;
+  margin-top: 10px;
+  padding: 20px 0 15px;}
+.portfolio-container .resume .main-pane h2 {
+  color: #14414f;
+  font-size: 1.2em;
+  margin-bottom: 5px;}
+.portfolio-container .resume .work-block > div {
+  margin-bottom: 15px;}
+.portfolio-container .resume .work-block > div:last-child {
+  margin-bottom: 0;}
+.portfolio-container .resume .work-block .role {
+  font-size: 1.1em;}
+.portfolio-container .resume .work-block .job-title {
+  font-weight: bold;}
+.portfolio-container .resume .work-block .summary {
+  margin-top: 5px;}
+.portfolio-container .resume .work-block ul.highlights {
+  font-size: .9em;
+  list-style: inherit;
+  margin-top: 5px;
+  padding-left: 15px;}
+.portfolio-container .resume .skills-block .skill-level {
+  font-size: .9em;
+  font-style: italic;}
+.portfolio-container .resume .skills-block dd {
+  font-size: .9em;
+  margin-bottom: 5px;}
+.portfolio-container .resume .skills-block dd:last-child {
+  margin-bottom: 0;}
+.portfolio-container .resume .skills-block dd li {
+  display: inline;
+  padding: 0 4px;}
+.portfolio-container .resume .education-block .role .degree {
+  display: block;
+  font-weight: bold;}
+.portfolio-container .resume .awards-block .awards-title {
+  display: block;
+  font-weight: bold;}
+.portfolio-container .resume .awards-block .summary {
+  display: block;}
+.portfolio-container .resume .interests-block dd {
+  font-size: .9em;
+  margin-bottom: 5px;}
+.portfolio-container .resume .interests-block dd:last-child {
+  margin-bottom: 0;}
+.portfolio-container .resume .interests-block dd li {
+  display: inline;
+  padding: 0 4px;}
+
+.portfolio-container .contact {
+  float: left;
+  width: 500px;}
+.portfolio-container .contact form {
+  margin: 20px 5px 0;}
+.portfolio-container .contact li {
+  margin-top: 15px;}
+.portfolio-container .contact li:first-child {
+  margin-top: 0;}
+.portfolio-container .contact label {
+  display: block;
+  width: 250px;}
+.portfolio-container .contact input,
+.portfolio-container .contact textarea {
+  border: 1px #9abca4 solid;
+  font-size: 1.2em;
+  padding: 2px 2px 0;}
+.portfolio-container .contact .error input,
+.portfolio-container .contact .error textarea {
+  border-color: #c22e54;}
+.portfolio-container .contact input {
+  width: 250px;}
+.portfolio-container .contact textarea {
+  height: 80px;
+  width: 400px;}
+.portfolio-container .contact input[type="submit"] {
+  background-color: #9abca4;
+  color: white;
+  font-size: 1.5em;
+  padding: 10px 60px;
+  width: auto;}
+.portfolio-container .contact input[type="submit"]:hover {
+  background-color: #7b9465;}
+.portfolio-container .contact .success-message {
+  font-size: 1.1em;
+  margin-bottom: 20px;
+  padding: 2px 5px;}
+.portfolio-container .contact .error-message {
+  color: #c22e54;
+  float: right;
+  font-size: .9em;
+  text-align: right;}
+
+.portfolio-container .sidebar {
+  background: #e0e0e0;
+  margin: 50px 0 0 550px;
+  padding: 30px 20px 10px}
+.portfolio-container .sidebar h3 {
+  font-size: 1.5em;}
+.portfolio-container .sidebar p {
+  font-size: .9em;
+  margin-top: 15px;}
+.portfolio-container .sidebar ul {
+  list-style: inherit;
+  margin: 10px 5px;
+  padding-left: 15px;}
+.portfolio-container .sidebar a .description {
+  font-size: .8em;
+  font-style: italic;}
+
+.bottom {
+  border-top: 1px solid #14414f;
+	font-size: .7em;
+	margin-top: 80px;
+	padding: 20px 0 30px;}
+.bottom #site-links {
 	float: left;
-	width: 215px;}
-#content .resume .experience {
-	padding-bottom: 1em;}
-#content .resume .experience span {
-	padding-right: 1em;}
-#content .resume .experience .title {
+	width: 45%;}
+.bottom #activity-feed {
+	margin-left: 55%;}
+.bottom #site-links h4,
+.bottom #activity-feed h4 {
+	font-size: 1.6em;
+	font-weight: normal;
+	margin: 0 0 10px;}
+.bottom #site-links ul,
+.bottom #activity-feed ul {
+  list-style: inherit;
+	padding-left: 20px;}
+.bottom #site-links ul {
 	font-size: 1.2em;}
-#content .resume .experience .org, #content .resume .experience .location {
-	font-style: italic;}
-#content .resume .experience .date_duration {
-	padding-left: 1em;}
-#content .resume .tags .skill {
-	display: inline-block;
-	*display: inline;
-	width: 200px;}
-#content .resume .achievements .achievement {
-	padding-bottom: 1em;}
-#content .resume .education {
-	padding-bottom: 1em;}
-#content .resume .education span {
-	padding-right: 1em;}
-#content .resume .education .title {
-	font-size: 1.2em;}
-#content .resume .education .org, #content .resume .education .location {
-	font-style: italic;}
-#content .resume .education .date_duration {
-	padding-left: 1em;}
-#content .resume .contact .fn {
-	width: 150px;}
-#content .piece-link {
-	-webkit-box-shadow: 0 0 8px rgba(0, 0, 0, .3);
-	background-color: #d0cbdc;
-	border-radius: 5px;
-	display: inline-block;
-	margin: 5px 0 30px;
-	width: 490px;}
-#content .piece-link:hover {
-	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .4);}
-#content .piece-link .piece-title {
+.bottom #activity-feed ul {
+	padding-right: 5px;}
+.bottom #site-links li,
+.bottom #activity-feed li {
+	margin-bottom: 6px;}
+.bottom #site-links a {
+	border-bottom-style: none;}
+.bottom #site-links a:hover {
+	border-bottom-style: solid;}
+.bottom #site-links a .title {
+	border-bottom: 1px dotted;}
+.bottom #site-links a:hover .title {
+	border-bottom-style: none;}
+.bottom #site-links a .description {
+	font-size: .9em;
+	font-style: italic;
+	padding-left: 3px;}
+.bottom #activity-feed .meta {
 	display: block;
-	margin-bottom: 5px;
-	text-align: center;}
-#content .piece-link a {
-	border-bottom: none;}
-#content .piece-link .outer-clip {
-	display: inline-block;
-	padding: 5px;}
-#content .piece-link .inner-clip {
-	display: inline-block;
-	height: 105px;
-	overflow: hidden;}
-#content .piece-link img {
-	margin-top: -105px;}
-#content .loading {
-	background: url('/image/loading.gif') no-repeat center center;}
-#content #piece-image {
-	-moz-border-radius: 5px;
-	background-color: #d0cbdc;
-	border-radius: 5px;
-	display: block;
-	padding: 5px;}
-#content #thumb-list {
-	margin: 8px 18px 25px;
-	text-align: center;}
-#content #thumb-list li {
-	-moz-border-radius: 5px;
-	-moz-box-shadow: 0 0 8px rgba(0, 0, 0, .3);
-	-webkit-box-shadow: 0 0 8px rgba(0, 0, 0, .3);
-	background-color: #d0cbdc;
-	border-radius: 5px;
-	cursor: pointer;
-	display: inline-block;
-	*display: inline;
-	margin: 8px 5px 0;
-	padding: 5px;}
-#content #thumb-list li:hover, #content #thumb-list li.active {
-	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .4);}
-#content .piece-description {
-	font-size: .9em;}
-#content form li {
-	margin-bottom: 5px;
-	padding: 2px 5px;}
-#content label {
-	display: block;
-	width: 250px;}
-#content input, #content textarea {
-	border: 1px d0cbdc;
-	font-size: 1.2em;
-	margin-bottom: 15px;
-	padding: 2px;
-	width: 250px;}
-#content textarea {
-	height: 80px;
-	width: 400px;}
-#content #input-submit {
-	-webkit-box-shadow: 0 0 8px rgba(0, 0, 0, .3);
-	background-color: #d0cbdc;
-	border: none;
-	border-radius: 2px;
-	color: #8579a4;
-	cursor: pointer;
-	width: 100px;}
-#content #input-submit:hover {
-	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .4);}
-#content .success-message {
-	font-size: 1.1em;
-	margin-bottom: 20px;
-	padding: 2px 5px;}
-#content .error-message {
-	float: right;
+	font-style: italic;
+	margin-right: 10px;
 	text-align: right;}
+.bottom #activity-feed .read-more {
+	float: right;}
 
 #footer {
-	color: #1f1b29;
-	margin: 50px 0 100px;
-	padding-left: 200px;
-	text-align: center;
-	width: 650px;}
+  color: #1f1b29;
+  margin: 20px 0 200px;
+  padding-left: 200px;
+  text-align: center;
+  width: 650px;}
 #footer p {
-	border-top: 1px solid;
-	padding-top: 10px;}
+  border-top: 1px solid;
+  padding-top: 10px;}
 #footer ul {
-	margin-top: 8px;}
+  margin-top: 8px;}
 #footer li {
-	display: inline-block;
-	margin: 0 10px;}
+  display: inline-block;
+  margin: 0 10px;}

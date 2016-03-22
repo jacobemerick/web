@@ -36,7 +36,7 @@ class URLDecode
     $base = '';
     $base .= (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
     $base .= '://';
-    $base .= (!Loader::isLive()) ? 'dev' : '';
+    $base .= (!Loader::isLive()) ? 'dev.' : '';
     $base .= $host;
     $base .= '/';
 

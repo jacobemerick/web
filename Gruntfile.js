@@ -5,6 +5,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
   grunt.initConfig({
     bowercopy: {
@@ -60,10 +61,6 @@ module.exports = function(grunt) {
       app: {
         files: {
           'public/js/build/imagelightbox.min.js': 'public/js/imagelightbox.js',
-          'public/js/build/portfolio.min.js': [
-            'public/js/portfolio.js',
-            'public/js/imageloader.js'
-          ],
           'public/js/build/waterfalls.min.js': [
             'public/js/waterfall-overlay.js',
             'public/js/waterfall-map.js'
@@ -78,6 +75,17 @@ module.exports = function(grunt) {
           'public/js/build/jquery.min.js': 'build/temp/jquery.js',
           'public/js/build/js.cookie.min.js': 'build/temp/js.cookie.js',
         }
+      }
+    },
+    watch: {
+      app: {
+        files: [
+          'public/css/*.css',
+          'public/js/*.js'
+        ],
+        tasks: [
+          'default'
+        ]
       }
     }
   });

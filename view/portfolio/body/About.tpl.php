@@ -1,12 +1,16 @@
-<div id="content">
-	<h2>Hello!</h2>
-	<img id="jake-picture" src="/image/jacob-emerick.jpg" height="180" width="180" alt="Jacob Emerick" />
-	<p>This is the online portfolio of Jacob Emerick, a web developer currently living in Phoenix, Arizona. I specialize in PHP programming and have plenty of CSS, HTML, and Javascript skills as well.</p>
-	<p>When I'm not designing and coding I enjoy hiking, backpacking, and reading Frank Herbert. But I do spend most of my time coding either for business or pleasure. My current programming interests include...</p>
-	<ul class="bullet-list">
-		<li>HTML5 and CSS3 emerging technologies</li>
-		<li>Following design and data management trends</li>
-		<li>Google APIs, specifically Map and Analytics</li>
-		<li>Learning/playing with new programming languages</li>
-	</ul>
+<div class="about">
+  <h1>Jacob does code and stuff</h1>
+  <img id="jake-picture" src="/image/jacob-emerick.jpg" height="180" width="180" alt="Jacob Emerick" />
+  <div class="introduction">
+    <p>Howdy! You've found my online portfolio. My name is Jacob Emerick and I am a software engineer who works remotely for Shutterstock. I specialize in backend application architecture and development, though I also have frontend, management, and data science skills as well.</p>
+    <p>When I'm not programming, I enjoy backpacking, hiking, reading, and rough-housing with my two sons. I do spend a lot of time coding, though, for both work and open source. My current areas of focus are&hellip;</p>
+    <ul>
+      <li>Service-Orientated Architecture patterns</li>
+      <li>APIs, particularly with spec design</li>
+      <li>Backend Javascript development</li>
+      <li>Continuous Integration workflows</li>
+      <li>Modernizing PHP applications</li>
+      <li>Machine learning</li>
+    </ul>
+  </div>
 </div>

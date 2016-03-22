@@ -1,0 +1,99 @@
+{
+  "basics": {
+    "name": "Jacob Emerick",
+    "label": "Software Engineer",
+    "picture": "",
+    "email": "jpemeric@gmail.com",
+    "phone": "(920) 750-2256",
+    "website": "https://home.jacobemerick.com",
+    "summary": "",
+    "location": {
+      "city": "Gilbert",
+      "countryCode": "US",
+      "region": "Arizona"
+    },
+    "profiles": [
+      {
+        "network": "Github",
+        "username": "jacobemerick",
+        "url": "https://github.com/jacobemerick"
+      },
+      {
+        "network": "Twitter",
+        "username": "jpemeric",
+        "url": "https://twitter.com/jpemeric"
+      },
+      {
+        "network": "Facebook",
+        "username": "jacobemerick",
+        "url": "https://www.facebook.com/jacobemerick"
+      }
+    ]
+  },
+  "work": [
+    {
+      "company": "Shutterstock",
+      "position": "Software Engineer",
+      "website": "http://www.shutterstock.com/",
+      "startDate": "2014-01-06",
+      "endDate": "",
+      "summary": "",
+      "highlights": []
+    },
+    {
+      "company": "Blue Door Consulting",
+      "position": "Programming Poet",
+      "website": "http://www.bluedoorconsulting.com/",
+      "startDate": "2012-10-08",
+      "endDate": "2014-01-03",
+      "summary": "",
+      "hightlights": []
+    },
+    {
+      "company": "DealerFire",
+      "position": "Director of Product Development",
+      "website": "http://www.dealerfire.com/",
+      "startDate": "2010-06-22",
+      "endDate": "2012-10-05",
+      "summary": "",
+      "hightlights": []
+    },
+    {
+      "company": "SparkNet",
+      "position": "Web Programmer",
+      "website": "http://sparknet.net/",
+      "startDate": "2009-08-27",
+      "endDate": "2010-06-04",
+      "summary": "",
+      "hightlights": []
+    },
+    {
+      "company": "Michigan Technological University",
+      "position": "Web Application Developer",
+      "website": "http://www.mtu.edu/",
+      "startDate": "2008-05-05",
+      "endDate": "2009-03-16",
+      "summary": "",
+      "hightlights": []
+    }
+  ],
+  "education": [
+    {
+      "institution": "Michigan Technological University",
+      "area": "Applied/Computational Mathematics",
+      "studyType": "Bachelor of Science",
+      "startDate": "2003-09-02",
+      "endDate": "2008-05-02"
+    }
+  ],
+  "awards": [
+    {
+      "title": "Exceptional Leadership in Student Governance",
+      "date": "2007-04-29",
+      "awarder": "Michigan Technological University",
+      "summary": ""
+    }
+  ],
+  "skills": [],
+  "interests": []
+}

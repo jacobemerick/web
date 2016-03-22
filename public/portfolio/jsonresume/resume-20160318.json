@@ -1,0 +1,208 @@
+{
+  "basics": {
+    "name": "Jacob Emerick",
+    "label": "Software Engineer",
+    "email": "jpemeric@gmail.com",
+    "phone": "(920) 750-2256",
+    "website": "https://home.jacobemerick.com",
+    "summary": "Jacob is a software engineer who focuses on practical and responsible implementation. He works remotely on the API team at Shutterstock, building awesome backend interfaces with Javascript for internal and external consumers. Before working at Shutterstock, Jacob managed product development at an international automotive web development company. He lives in Gilbert, AZ, with his wife and two kids and goes running, hiking, and backpacking as often as possible.",
+    "location": {
+      "address": "Seville Community",
+      "city": "Gilbert",
+      "countryCode": "US",
+      "region": "Arizona"
+    },
+    "profiles": [
+      {
+        "network": "Github",
+        "username": "jacobemerick",
+        "url": "https://github.com/jacobemerick"
+      },
+      {
+        "network": "Twitter",
+        "username": "jpemeric",
+        "url": "https://twitter.com/jpemeric"
+      },
+      {
+        "network": "Facebook",
+        "username": "jacobemerick",
+        "url": "https://www.facebook.com/jacobemerick"
+      }
+    ]
+  },
+  "work": [
+    {
+      "company": "Shutterstock",
+      "position": "Software Engineer",
+      "website": "http://www.shutterstock.com/",
+      "startDate": "2014-01-06",
+      "summary": "Started as a member of the Bigstock team, maintaining a legacy monolith while developing new features for customers and employees. Personally led several key business strategies while paying down some serious tech debt. Refactored core areas of the application to improve product flexibility. Moved to the API team in early 2016 to support both external and internal partners and is building out service orchestration layers for cross-application use.",
+      "highlights":
+      [
+        "Refactored Bigstock API onto the Slim Framework, removing it from legacy codebase",
+        "Added footage to a previously image-only marketplace",
+        "Optimized content flow, removing cruft and speeding up publish turnaround",
+        "Rewrote data retrieval and dropped an entire database of unnecessary cache layers",
+        "One of the architects for a new orchestration and internal service-bus API"
+      ]
+    },
+    {
+      "company": "Blue Door Consulting",
+      "position": "Programming Poet",
+      "website": "http://www.bluedoorconsulting.com/",
+      "startDate": "2012-10-08",
+      "endDate": "2014-01-03",
+      "summary": "Programmer for an innovative marketing and design agency. Used a multitude of different tools and platforms to regularly exceed client desires. Built workflows and patterns for responsive web design and started the data science side of the business. Handled keyword analysis and was primary source for both SEO and SEM knowledge across the company.",
+      "highlights":
+      [
+        "Created a versioned budget system with expense and claim workflows",
+        "Built out data mining / analysis processes and handled initial clients",
+        "Primary architect behind a Silex application that handled educational metrics and grant money"
+      ]
+    },
+    {
+      "company": "DealerFire",
+      "position": "Director of Product Development",
+      "website": "http://www.dealerfire.com/",
+      "startDate": "2010-06-22",
+      "endDate": "2012-10-05",
+      "summary": "Started as a member of the Production team, promoted to Director of Production within six months. As director, led a team of developers to handle all incoming projects, from website builds to mobile interfaces to professional services. Promoted to Director of Product Development in early 2012 and managed an off-site team of programmers on product direction and priorities. Attended industry conferences and was the technical face of DealerFire for company highlights.",
+      "highlights":
+      [
+        "Led a team of developers on building out hundreds of web-based products a year",
+        "Direct contact for high-profile clients and specialty services",
+        "Identified, researched, and laid groundwork for the future of DealerFire product",
+        "Introduced new standards for all outbound work"
+      ]
+    },
+    {
+      "company": "SparkNet",
+      "position": "Web Programmer",
+      "website": "http://sparknet.net/",
+      "startDate": "2009-08-27",
+      "endDate": "2010-06-04",
+      "summary": "Supported a legacy codebase that powered EzineArticles.com, a leading article marketing directory. Member of an agile team that handled refactoring of core backend areas and building out new features. Worked with object-orientated PHP5 within a custom framework and experimented with different data solutions to support high traffic volume. Personally managed several key projects with direct business impact.",
+      "highlights":
+      [
+        "Led initiative on a contributor suggestion engine for content",
+        "Migrated admin reporting functionality off of legacy codebase",
+        "Built out multiple tools for internal employee usage"
+      ]
+    },
+    {
+      "company": "Michigan Technological University",
+      "position": "Web Application Developer",
+      "website": "http://www.mtu.edu/",
+      "startDate": "2008-05-05",
+      "endDate": "2009-03-16",
+      "summary": "Maintained numerous legacy web services for the Auxiliary Departments at Michigan Tech, including payment gateways, contracting systems, and maintenance request platforms. Organized stakeholder meetings and planned implementation for all incoming development requests. Rebuilt application front ends to modern web standards, with a strong focus on optimization of resources and dynamic content.",
+      "highlights":
+      [
+        "Complete refactor of the residential housing contracting platform",
+        "Updated multiple legacy systems to pull from central Banner data source",
+        "Created an early-warning system for a Public Safety hot-line",
+        "Moved old payment gateways over to a PCI-Compliant platform"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Michigan Technological University",
+      "area": "Applied/Computational Mathematics",
+      "studyType": "Bachelor of Science",
+      "startDate": "2003-09-02",
+      "endDate": "2008-05-02"
+    }
+  ],
+  "awards": [
+    {
+      "title": "Exceptional Leadership in Student Governance",
+      "date": "2007-04-29",
+      "awarder": "Michigan Technological University",
+      "summary": "Awarded to Jacob for his work as president of the Inter-Residence Hall Council, specifically around the elimination of smoking from the residence halls. He led the initial research, polling of students, open-floor sessions, and eventual proposal to the staff leadership at the university that changed resident policy for future residents."
+    }
+  ],
+  "skills": [
+    {
+      "name": "Application Programming",
+      "level": "Senior",
+      "keywords":
+      [
+        "API Design",
+        "Javascript",
+        "PHP",
+        "Test-Driven Development"
+      ]
+    },
+    {
+      "name": "Data Science",
+      "level": "Beginner",
+      "keywords":
+      [
+        "Data Analysis",
+        "Machine Learning",
+        "Regression Models"
+      ]
+    },
+    {
+      "name": "Software Architecture",
+      "level": "Seasoned",
+      "keywords":
+      [
+        "Design Patterns",
+        "Monolith Refactoring",
+        "SOA Design"
+      ]
+    },
+    {
+      "name": "Web Development",
+      "level": "Senior",
+      "keywords":
+      [
+        "CSS",
+        "HTML",
+        "Javascript",
+        "Responsive Design",
+        "Semantic Web"
+      ]
+    }
+  ],
+  "interests": [
+    {
+      "name": "Backpacking",
+      "keywords":
+      [
+        "Leave No Trace",
+        "Thru-Hiking",
+        "Ultralight"
+      ]
+    },
+    {
+      "name": "Hiking",
+      "keywords":
+      [
+        "Bushwhacking",
+        "Peak Bagging",
+        "Wilderness"
+      ]
+    },
+    {
+      "name": "Programming",
+      "keywords":
+      [
+        "Data Analysis",
+        "Open Source",
+        "Software Development"
+      ]
+    },
+    {
+      "name": "Running",
+      "keywords":
+      [
+        "5k",
+        "Exercise",
+        "Long-Distance Running"
+      ]
+    }
+  ]
+}
