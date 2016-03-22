@@ -22,6 +22,7 @@ class ProjectsController extends DefaultPageController
     protected function set_body_data()
     {
         $this->set_body('body_view', 'Projects');
+        $this->set_body('body_data', []);
 
         parent::set_body_data();
     }
