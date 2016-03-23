@@ -283,3 +283,72 @@ body {
 #footer li {
   display: inline-block;
   margin: 0 10px;}
+
+@media all and (max-width: 860px) {
+.portfolio-container {
+  margin: 0 10px;
+  width: auto;}
+
+.portfolio-container .window h1 {
+  font-size: 3em;}
+.portfolio-container .introduction {
+  margin-right: 0;}
+.portfolio-container #jake-picture {
+  margin: 0 0 5px 10px;}
+
+#footer {
+  margin: 20px auto 150px;
+  padding-left: 0;
+  width: auto;}
+}
+
+@media all and (max-width: 700px) {
+.portfolio-container {
+  font-size: .9em;}
+
+.portfolio-container .header {
+  padding-top: 20px;}
+
+.portfolio-container .window {
+  padding-top: 40px;}
+.portfolio-container .window h1 {
+  font-size: 2.5em;}
+.portfolio-container #jake-picture {
+  height: auto;
+  max-width: 150px;}
+
+.bottom {
+  margin-top: 50px;}
+.bottom #site-links {
+	float: none;
+	width: auto;}
+.bottom #activity-feed {
+	margin: 30px 0 0 0;}
+
+#footer {
+  margin: 20px auto 150px;
+  padding-left: 0;
+  width: auto;}
+}
+
+@media all and (max-width: 525px) {
+.portfolio-container .header {
+  padding-top: 15px;}
+.portfolio-container .header h3 {
+  float: none;}
+.portfolio-container .header ul {
+  float: none;}
+.portfolio-container .header li {
+  padding: 0 10px 0 0;}
+
+.portfolio-container .window {
+  padding-top: 30px;}
+.portfolio-container .window h1 {
+  font-size: 1.7em;
+  margin-bottom: 10px;}
+.portfolio-container #jake-picture {
+  height: auto;
+  max-width: 100px;}
+.portfolio-container .introduction {
+  margin-right: 0;}
+}
