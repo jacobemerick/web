@@ -296,6 +296,21 @@ body {
 .portfolio-container #jake-picture {
   margin: 0 0 5px 10px;}
 
+.portfolio-container .resume .contact-card {
+  width: 225px;}
+.portfolio-container .resume .main-pane {
+  margin-left: 240px;}
+.portfolio-container .resume .contact-card ul.contact-methods {
+  padding-left: 20px;}
+
+.portfolio-container .contact {
+  width: 55%;}
+.portfolio-container .contact textarea {
+  max-width: 400px;
+  width: 100%;}
+.portfolio-container .sidebar {
+  margin-left: 60%;}
+
 #footer {
   margin: 20px auto 150px;
   padding-left: 0;
@@ -313,9 +328,37 @@ body {
   padding-top: 40px;}
 .portfolio-container .window h1 {
   font-size: 2.5em;}
+.portfolio-container .window h2 {
+  font-size: 1.2em;}
 .portfolio-container #jake-picture {
   height: auto;
   max-width: 150px;}
+
+.portfolio-container .resume .contact-card {
+  border: 1px solid #f0f0f0;
+  float: none;
+  margin: 0 0 10px;
+  width: auto;}
+.portfolio-container .resume .contact-card img {
+  float: left;
+  width: 200px;}
+.portfolio-container .resume .contact-card .contact-content {
+  margin-left: 210px;}
+.portfolio-container .resume .main-pane {
+  margin-left: 0;}
+
+.portfolio-container .contact {
+  float: none;
+  width: auto;}
+.portfolio-container .contact input[type=submit] {
+  font-size: 1.2em;
+  padding: 8px 40px;}
+
+.portfolio-container .sidebar {
+  margin-left: 0;
+  padding-top: 20px;}
+.portfolio-container .sidebar h3 {
+  font-size: 1.2em;}
 
 .bottom {
   margin-top: 50px;}
@@ -351,4 +394,12 @@ body {
   max-width: 100px;}
 .portfolio-container .introduction {
   margin-right: 0;}
+
+.portfolio-container .resume .main-pane h1 {
+  font-size: 1.6em;}
+.portfolio-container .resume .contact-card img {
+  float: left;
+  width: 140px;}
+.portfolio-container .resume .contact-card .contact-content {
+  margin-left: 150px;}
 }

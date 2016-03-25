@@ -1,23 +1,25 @@
 <div class="resume h-resume">
   <div class="contact-card h-card p-contact" id="jacob-contact">
     <img class="u-photo" src="/image/jacob-emerick.jpg" alt="<?= $data['basics']['name'] ?>" />
-    <h2 class="p-name"><?= $data['basics']['name'] ?></h2>
-    <h3 class="p-job-title"><?= $data['basics']['label'] ?></h3>
-    <hr />
-    <ul class="contact-methods">
-      <li>
-        <span class="p-locality"><?= $data['basics']['location']['city'] ?></span>,
-        <span class="p-region"><?= $data['basics']['location']['region'] ?></span>
-      </li>
-      <li><a class="u-email" href="mailto:<?= $data['basics']['email'] ?>"><?= $data['basics']['email'] ?></a></li>
-      <li><a class="u-url" href="<?= $data['basics']['website'] ?>"><?= $data['basics']['website'] ?></a></li>
-    </ul>
-    <hr />
-      <ul class="profiles">
-      <?php foreach ($data['basics']['profiles'] as $profile) : ?>
-      <li><a href="<?= $profile['url'] ?>"><?= $profile['network'] ?></a></li>
-      <?php endforeach ?>
-    </ul>
+    <div class="contact-content">
+      <h2 class="p-name"><?= $data['basics']['name'] ?></h2>
+      <h3 class="p-job-title"><?= $data['basics']['label'] ?></h3>
+      <hr />
+      <ul class="contact-methods">
+        <li>
+          <span class="p-locality"><?= $data['basics']['location']['city'] ?></span>,
+          <span class="p-region"><?= $data['basics']['location']['region'] ?></span>
+        </li>
+        <li><a class="u-email" href="mailto:<?= $data['basics']['email'] ?>"><?= $data['basics']['email'] ?></a></li>
+        <li><a class="u-url" href="<?= $data['basics']['website'] ?>"><?= $data['basics']['website'] ?></a></li>
+      </ul>
+      <hr />
+        <ul class="profiles">
+        <?php foreach ($data['basics']['profiles'] as $profile) : ?>
+        <li><a href="<?= $profile['url'] ?>"><?= $profile['network'] ?></a></li>
+        <?php endforeach ?>
+      </ul>
+    </div>
   </div>
 
   <div class="main-pane">
