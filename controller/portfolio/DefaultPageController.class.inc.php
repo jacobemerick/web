@@ -10,7 +10,7 @@ abstract class DefaultPageController extends PageController
         parent::__construct();
 
         $this->add_css('reset');
-        $this->add_css('portfolio', 2);
+        $this->add_css('portfolio', 3);
     }
 
     protected function set_body_data()
