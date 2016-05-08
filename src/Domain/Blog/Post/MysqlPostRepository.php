@@ -86,7 +86,8 @@ class MysqlPostRepository implements PostRepositoryInterface
             FROM `jpemeric_blog`.`post`
             INNER JOIN `jpemeric_blog`.`ptlink` ON `ptlink`.`post_id` = `post`.`id` AND
                                                    `ptlink`.`tag_id` = :tag_id
-            WHERE `display` = :is_active";
+            WHERE `display` = :is_active
+            ORDER BY `date` DESC";
         if ($limit != null) {
             $query .= "
             LIMIT {$offset}, {$limit}";
@@ -127,7 +128,8 @@ class MysqlPostRepository implements PostRepositoryInterface
         $query = "
             SELECT `id`, `title`, `path`, `date`, `body`, `category`
             FROM `jpemeric_blog`.`post`
-            WHERE `category` = :category AND `display` = :is_active";
+            WHERE `category` = :category AND `display` = :is_active
+            ORDER BY `date` DESC";
         if ($limit != null) {
             $query .= "
             LIMIT {$offset}, {$limit}";
