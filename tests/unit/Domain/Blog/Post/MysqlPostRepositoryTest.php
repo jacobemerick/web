@@ -415,6 +415,11 @@ class MysqlPostRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertNotFalse($data);
         $this->assertInternalType('array', $data);
         $this->assertCount(count($testPostData), $data);
+
+        usort($testPostData, function ($rowA, $rowB) {
+            return ((new DateTime($rowA['date'])) < (new DateTime($rowB['date'])));
+        });
+
         foreach ($testPostData as $key => $testPostRow) {
             $this->assertArrayHasKey('id', $data[$key]);
             $this->assertEquals($testPostRow['id'], $data[$key]['id']);
@@ -724,6 +729,11 @@ class MysqlPostRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertNotFalse($data);
         $this->assertInternalType('array', $data);
         $this->assertCount(count($testData), $data);
+
+        usort($testData, function ($rowA, $rowB) {
+            return ((new DateTime($rowA['date'])) < (new DateTime($rowB['date'])));
+        });
+
         foreach ($testData as $key => $testDataRow) {
             $this->assertArrayHasKey('id', $data[$key]);
             $this->assertEquals($testDataRow['id'], $data[$key]['id']);
