@@ -5,7 +5,7 @@ body {
   font-size: 15px;}
 .stripes {
   background: #de7a22 repeating-linear-gradient(
-    -45deg,
+    45deg,
     #de7a22 -20px,
     #de7a22 110px,
     #20948b 110px,
