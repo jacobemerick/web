@@ -1,10 +1,10 @@
 body {
-  background: repeating-linear-gradient(
-    45deg,
-    #5d9634 -20px,
-    #5d9634 110px,
-    #538c2b 110px,
-    #538c2b 260px
+  background: #de7a22 repeating-linear-gradient(
+    -45deg,
+    #de7a22 -20px,
+    #de7a22 110px,
+    #20948b 110px,
+    #20948b 260px
   );
   color: #081118;
   font-family: Molengo, 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
