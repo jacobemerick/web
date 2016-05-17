@@ -1,14 +1,16 @@
 body {
+  background: #fafafa;
+  color: #081118;
+  font-family: Molengo, 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+  font-size: 15px;}
+.stripes {
   background: #de7a22 repeating-linear-gradient(
     -45deg,
     #de7a22 -20px,
     #de7a22 110px,
     #20948b 110px,
     #20948b 260px
-  );
-  color: #081118;
-  font-family: Molengo, 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
-  font-size: 15px;}
+  );}
 .bow-tie-container {
   background: url('/image/bow-tie-cutout.png');
   height: 100%;
