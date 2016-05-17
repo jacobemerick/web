@@ -1,8 +1,18 @@
 body {
-  background: url("/image/cream-dust.png") #fafafa;
+  background: repeating-linear-gradient(
+    45deg,
+    #5d9634,
+    #5d9634 50px,
+    #538c2b 50px,
+    #538c2b 100px
+  );
   color: #081118;
   font-family: Molengo, 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
   font-size: 15px;}
+.bow-tie-container {
+  background: url('/image/bow-tie-cutout.png');
+  height: 100%;
+  width: 100%;}
 .portfolio-container a {
   color: #7b9465;
   text-decoration: none;}
