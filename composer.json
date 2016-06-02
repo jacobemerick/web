@@ -18,8 +18,15 @@
     "monolog/monolog": "^1.17",
     "particletree/pqp": "^1.1",
     "pimple/pimple": "^3.0",
-    "jacobemerick/archangel": "^2.1"
+    "jacobemerick/archangel": "^2.1",
+    "swagger/swagger-client": "dev-master as 0.1.0"
   },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/jacobemerick/comment-service-client"
+    }
+  ],
   "require-dev": {
     "codeclimate/php-test-reporter": "dev-master",
     "phpunit/phpunit": "^4.8"
