@@ -42,6 +42,7 @@ final class CommentSubmitModule
 		$comment_id = $this->save_comment();
 		
 		$comment_meta_id = $this->save_comment_meta($commenter_id, $comment_id, $page_id);
+    $comment_service_id = $this->save_to_comment_service(Request::getPost());
 		
 		$this->send_notifications($page_id);
 		$this->redirect_to_comment($comment_meta_id);
@@ -200,4 +201,41 @@ final class CommentSubmitModule
 		exit;
 	}
 
+    private function save_to_comment_service(array $data)
+    {
+        $path = $_SERVER['REQUEST_URI'];
+        $path = explode('/', $path);
+        $path = array_filter($path);
+        $path = array_slice($path, 0, 2);
+        $path = implode('/', $path);
+
+        $body = [
+            'commenter' => [
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'website' => $data['website'],
+            ],
+            'body' => $data['comment'],
+            'should_notify' => (isset($data['notify']) && $data['notify'] == 'check'),
+            'should_display' => true,
+            'domain' => (URLDecode::getSite() == 'blog' ? 'blog.jacobemerick.com' : 'waterfallsofthekeweenaw.com'),
+            'path' => $path,
+            'url' => $this->full_path,
+            'thread' => 'comments',
+            'ip_address' => $_SERVER['REMOTE_ADDR'],
+            'user_agent' => $_SERVER['HTTP_USER_AGENT'],
+            'referrer' => $_SERVER['HTTP_REFERER'],
+        ];
+
+        global $config;
+        $configuration = new Swagger\Client\Configuration();
+        $configuration->setUsername($config->comments->user);
+        $configuration->setPassword($config->comments->password);
+        $configuration->addDefaultHeader('Content-Type', 'application/json');
+        $configuration->setHost($config->comments->host);
+        $configuration->setCurlTimeout($config->comments->timeout);
+
+        $client = new Swagger\Client\ApiClient($configuration);
+        $response = $client->callApi('/comments', 'POST', '', $body, '');
+    }
 }
