@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a60b6b57b4641e6df4aecdcf780d6c47",
-    "content-hash": "5dd3e727059cae65355e13747bf2f191",
+    "hash": "d13f3e47d608c068c83e9675f2a5e709",
+    "content-hash": "12c87fa9e5e8c4dc9df6f0f8f4fa24ea",
     "packages": [
         {
             "name": "aura/sql",
@@ -105,6 +105,59 @@
             ],
             "description": "Another PHP mailing script, this time with method chaining",
             "time": "2016-02-07 22:13:10"
+        },
+        {
+            "name": "jacobemerick/comment-service-client",
+            "version": "0.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jacobemerick/comment-service-client.git",
+                "reference": "b28981b18944d1a4bf90056608eb47e43ce2e23b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jacobemerick/comment-service-client/zipball/b28981b18944d1a4bf90056608eb47e43ce2e23b",
+                "reference": "b28981b18944d1a4bf90056608eb47e43ce2e23b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0",
+                "satooshi/php-coveralls": "~0.6.1",
+                "squizlabs/php_codesniffer": "~2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Jacobemerick\\CommentService\\": "lib/"
+                }
+            },
+            "license": [
+                "Apache v2"
+            ],
+            "authors": [
+                {
+                    "name": "Swagger and contributors",
+                    "homepage": "https://github.com/swagger-api/swagger-codegen"
+                }
+            ],
+            "homepage": "http://swagger.io",
+            "keywords": [
+                "api",
+                "php",
+                "sdk",
+                "swagger"
+            ],
+            "support": {
+                "source": "https://github.com/jacobemerick/comment-service-client/tree/0.1.3",
+                "issues": "https://github.com/jacobemerick/comment-service-client/issues"
+            },
+            "time": "2016-06-04 12:22:59"
         },
         {
             "name": "jacobemerick/monolog-pqp",
@@ -353,59 +406,6 @@
                 "psr-3"
             ],
             "time": "2012-12-21 11:40:51"
-        },
-        {
-            "name": "swagger/swagger-client",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jacobemerick/comment-service-client.git",
-                "reference": "f4f7ec8338f527a6549cbdafb857b8a54866c314"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jacobemerick/comment-service-client/zipball/f4f7ec8338f527a6549cbdafb857b8a54866c314",
-                "reference": "f4f7ec8338f527a6549cbdafb857b8a54866c314",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "ext-json": "*",
-                "ext-mbstring": "*",
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.0",
-                "satooshi/php-coveralls": "~0.6.1",
-                "squizlabs/php_codesniffer": "~2.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Swagger\\Client\\": "lib/"
-                }
-            },
-            "license": [
-                "Apache v2"
-            ],
-            "authors": [
-                {
-                    "name": "Swagger and contributors",
-                    "homepage": "https://github.com/swagger-api/swagger-codegen"
-                }
-            ],
-            "homepage": "http://swagger.io",
-            "keywords": [
-                "api",
-                "php",
-                "sdk",
-                "swagger"
-            ],
-            "support": {
-                "source": "https://github.com/jacobemerick/comment-service-client/tree/master",
-                "issues": "https://github.com/jacobemerick/comment-service-client/issues"
-            },
-            "time": "2016-06-02 04:08:39"
         }
     ],
     "packages-dev": [
@@ -1907,17 +1907,9 @@
             "time": "2016-05-26 21:46:24"
         }
     ],
-    "aliases": [
-        {
-            "alias": "0.1.0",
-            "alias_normalized": "0.1.0.0",
-            "version": "9999999-dev",
-            "package": "swagger/swagger-client"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "swagger/swagger-client": 20,
         "codeclimate/php-test-reporter": 20
     },
     "prefer-stable": false,

@@ -228,14 +228,15 @@ final class CommentSubmitModule
         ];
 
         global $config;
-        $configuration = new Swagger\Client\Configuration();
+        $configuration = new Jacobemerick\CommentService\Configuration();
         $configuration->setUsername($config->comments->user);
         $configuration->setPassword($config->comments->password);
         $configuration->addDefaultHeader('Content-Type', 'application/json');
         $configuration->setHost($config->comments->host);
         $configuration->setCurlTimeout($config->comments->timeout);
 
-        $client = new Swagger\Client\ApiClient($configuration);
-        $response = $client->callApi('/comments', 'POST', '', $body, '');
+        $client = new Jacobemerick\CommentService\ApiClient($configuration);
+        $api = new Jacobemerick\CommentService\Api\DefaultApi($client);
+        $response = $api->createComment($body);
     }
 }
