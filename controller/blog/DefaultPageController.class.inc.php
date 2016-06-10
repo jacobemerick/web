@@ -175,7 +175,44 @@ abstract class DefaultPageController extends PageController
 			$comment_obj->link = Loader::getRootURL() . "{$comment->category}/{$comment->path}/#comment-{$comment->id}";
 			$array[] = $comment_obj;
 		}
+
+    $comment_service_array = $this->get_comments_from_service();
+    if ($comment_service_array !== $array) {
+      global $container;
+      $container['console']->log('Mismatch between comment service and legacy db');
+      $container['console']->log($comment_service_array[0]);
+      $container['console']->log($array[0]);
+    }
 		return $array;
 	}
+
+    final private function get_comments_from_service()
+    {
+        global $config;
+        $configuration = new Jacobemerick\CommentService\Configuration();
+        $configuration->setUsername($config->comments->user);
+        $configuration->setPassword($config->comments->password);
+        $configuration->addDefaultHeader('Content-Type', 'application/json');
+        $configuration->setHost($config->comments->host);
+        $configuration->setCurlTimeout($config->comments->timeout);
+
+        $client = new Jacobemerick\CommentService\ApiClient($configuration);
+        $api = new Jacobemerick\CommentService\Api\DefaultApi($client);
+        $comment_response = $api->getComments(1, self::$RECENT_COMMENT_COUNT);
+
+        $array = array();
+        foreach($comment_response as $comment)
+        {
+            $body = $comment->getBody();
+            $body = strip_tags($body);
+
+            $comment_obj = new stdclass();
+            $comment_obj->description = Content::instance('SmartTrim', $body)->activate(30);
+            $comment_obj->commenter = $comment->getCommenter()->getName();
+            $comment_obj->link = "{$comment->getUrl()}/#comment-{$comment->getId()}";
+            $array[] = $comment_obj;
+        }
+        return $array;
+    }
 
 }
