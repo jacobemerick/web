@@ -198,7 +198,7 @@ abstract class DefaultPageController extends PageController
 
         $client = new Jacobemerick\CommentService\ApiClient($configuration);
         $api = new Jacobemerick\CommentService\Api\DefaultApi($client);
-        $comment_response = $api->getComments(1, self::$RECENT_COMMENT_COUNT);
+        $comment_response = $api->getComments(1, self::$RECENT_COMMENT_COUNT, '-date', 'blog.jacobemerick.com');
 
         $array = array();
         foreach($comment_response as $comment)
