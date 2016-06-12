@@ -204,6 +204,7 @@ abstract class DefaultPageController extends PageController
         foreach($comment_response as $comment)
         {
             $body = $comment->getBody();
+            $body = Content::instance('CleanComment', $body)->activate();
             $body = strip_tags($body);
 
             $comment_obj = new stdclass();
