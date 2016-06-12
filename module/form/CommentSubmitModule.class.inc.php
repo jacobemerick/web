@@ -217,7 +217,6 @@ final class CommentSubmitModule
             ],
             'body' => $data['comment'],
             'should_notify' => (isset($data['notify']) && $data['notify'] == 'check'),
-            'should_display' => true,
             'domain' => (URLDecode::getSite() == 'blog' ? 'blog.jacobemerick.com' : 'waterfallsofthekeweenaw.com'),
             'path' => $path,
             'url' => $this->full_path,
