@@ -198,7 +198,12 @@ abstract class DefaultPageController extends PageController
 
         $client = new Jacobemerick\CommentService\ApiClient($configuration);
         $api = new Jacobemerick\CommentService\Api\DefaultApi($client);
+
+        $start = microtime(true);
         $comment_response = $api->getComments(1, self::$RECENT_COMMENT_COUNT, '-date', 'blog.jacobemerick.com');
+        $elapsed = microtime(true) - $start;
+        global $container;
+        $container['logger']->info("CommentService | Sidebar | {$elapsed}");
 
         $array = array();
         foreach($comment_response as $comment)
