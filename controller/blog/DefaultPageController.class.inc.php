@@ -82,8 +82,38 @@ abstract class DefaultPageController extends PageController
 
 	final private function get_comments_for_post($post)
 	{
-		return CommentCollector::getCommentCountForURL(self::$BLOG_SITE_ID, $post['path']);
+		$count = CommentCollector::getCommentCountForURL(self::$BLOG_SITE_ID, $post['path']);
+    $count_from_service = $this->get_comments_for_post_from_service($post);
+
+    if ($count != $count_from_service) {
+        global $container;
+        $container['console']->log('Mismatch between comment service and legacy db');
+        $container['console']->log("{$count}, {$count_from_service} in service");
+    }
+    return $count;
 	}
+
+    final private function get_comments_for_post_from_service($post)
+    {
+        global $config;
+        $configuration = new Jacobemerick\CommentService\Configuration();
+        $configuration->setUsername($config->comments->user);
+        $configuration->setPassword($config->comments->password);
+        $configuration->addDefaultHeader('Content-Type', 'application/json');
+        $configuration->setHost($config->comments->host);
+        $configuration->setCurlTimeout($config->comments->timeout);
+
+        $client = new Jacobemerick\CommentService\ApiClient($configuration);
+        $api = new Jacobemerick\CommentService\Api\DefaultApi($client);
+
+        $start = microtime(true);
+        $comment_response = $api->getComments(null, null, null, 'blog.jacobemerick.com', "{$post['category']}/{$post['path']}");
+        $elapsed = microtime(true) - $start;
+        global $container;
+        $container['logger']->info("CommentService | Comment Count | {$elapsed}");
+
+        return count($comment_response);
+    }
 
 	final private function get_tags_for_post($post)
 	{
