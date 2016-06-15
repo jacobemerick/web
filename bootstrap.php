@@ -79,7 +79,7 @@ $container['mail'] = $container->factory(function ($c) {
 $container['setup_logger'] = $container->protect(function ($name) use ($container) {
     $logger = new Monolog\Logger($name);
 
-    $logPath = __DIR__ . "/../logs/{$name}.log";
+    $logPath = __DIR__ . "/logs/{$name}.log";
     $streamHandler = new Monolog\Handler\StreamHandler($logPath, Monolog\Logger::INFO);
     $streamHandler->setFormatter(
         new Monolog\Formatter\LineFormatter("[%datetime%] %channel%.%level_name%: %message%\n")
