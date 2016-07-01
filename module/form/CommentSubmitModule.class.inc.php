@@ -4,7 +4,6 @@ Loader::load('collector', 'comment/CommentCollector');
 
 Loader::load('utility', array(
 	'Content',
-	'Cookie',
 	'Request',
 	'Validate'));
 
@@ -88,13 +87,9 @@ final class CommentSubmitModule
 		
 		if(Request::getPost('website') != '')
 			$cookie_value['website'] = Request::getPost('website');
-		
-		$cookie_value = json_encode($cookie_value);
-		
-		Cookie::instance('Commenter')
-			->setValue($cookie_value)
-			->save();
-		
+
+    setcookie('commenter', json_encode($cookie_value), time() + 31536000, '/', 'jacobemerick.com');
+
 		$commenter_result = CommentCollector::getCommenterByFields(Request::getPost('name'), Request::getPost('email'), Request::getPost('website'));
 		if($commenter_result !== null)
 			return $commenter_result->id;

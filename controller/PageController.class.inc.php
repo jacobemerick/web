@@ -288,21 +288,19 @@ abstract class PageController
 	private function get_commenter()
 	{
 		Loader::load('collector', 'comment/CommentCollector');
-		Loader::load('utility', 'Cookie');
-		
+
 		$commenter = new stdclass();
 		
 		$commenter->id = 0;
 		$commenter->name = '';
 		$commenter->email = '';
 		$commenter->website = '';
-		
-		$commenter_cookie = Cookie::instance('Commenter');
-		if(!$commenter_cookie->exists())
-			return $commenter;
-		
-		$commenter_cookie_value = $commenter_cookie->getValue();
-		$commenter_cookie_value = json_decode($commenter_cookie_value);
+
+    if (!isset($_COOKIE['commenter'])) {
+      return $commenter;
+    }
+
+		$commenter_cookie_value = json_decode($_COOKIE['commenter']);
 		
 		if($commenter_cookie_value === NULL)
 			return $commenter;
