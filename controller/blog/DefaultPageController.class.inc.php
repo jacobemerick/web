@@ -85,7 +85,7 @@ abstract class DefaultPageController extends PageController
 		$count = CommentCollector::getCommentCountForURL(self::$BLOG_SITE_ID, $post['path']);
     $count_from_service = $this->get_comments_for_post_from_service($post);
 
-    if ($count != $count_from_service) {
+    if ($count_from_service !== null && $count_from_service != $count) {
         global $container;
         $container['console']->log('Mismatch between comment service and legacy db');
         $container['console']->log("{$count}, {$count_from_service} in service");
@@ -107,7 +107,19 @@ abstract class DefaultPageController extends PageController
         $api = new Jacobemerick\CommentService\Api\DefaultApi($client);
 
         $start = microtime(true);
-        $comment_response = $api->getComments(null, null, null, 'blog.jacobemerick.com', "{$post['category']}/{$post['path']}");
+        try {
+            $comment_response = $api->getComments(
+                null,
+                null,
+                null,
+                'blog.jacobemerick.com',
+                "{$post['category']}/{$post['path']}"
+            );
+        } catch (Exception $e) {
+            global $container;
+            $container['logger']->warning("CommentService | Comment Count | {$e->getMessage()}");
+            return;
+        }
         $elapsed = microtime(true) - $start;
         global $container;
         $container['logger']->info("CommentService | Comment Count | {$elapsed}");
@@ -207,7 +219,7 @@ abstract class DefaultPageController extends PageController
 		}
 
     $comment_service_array = $this->get_comments_from_service();
-    if ($comment_service_array !== $array) {
+    if ($comment_service_array !== null && $comment_service_array !== $array) {
       global $container;
       $container['console']->log('Mismatch between comment service and legacy db');
       $container['console']->log($comment_service_array[0]);
@@ -230,7 +242,19 @@ abstract class DefaultPageController extends PageController
         $api = new Jacobemerick\CommentService\Api\DefaultApi($client);
 
         $start = microtime(true);
-        $comment_response = $api->getComments(1, self::$RECENT_COMMENT_COUNT, '-date', 'blog.jacobemerick.com');
+        try {
+            $comment_response = $api->getComments(
+                1,
+                self::$RECENT_COMMENT_COUNT,
+                '-date',
+                'blog.jacobemerick.com'
+            );
+        } catch (Exception $e) {
+            global $container;
+            $container['logger']->warning("CommentService | Sidebar | {$e->getMessage()}");
+            return;
+        }
+ 
         $elapsed = microtime(true) - $start;
         global $container;
         $container['logger']->info("CommentService | Sidebar | {$elapsed}");
