@@ -71,7 +71,7 @@ abstract class DefaultPageController extends PageController
 		$post_object->path = "/{$post['category']}/{$post['path']}/";
 		$post_object->category = ucwords(str_replace('-', ' ', $post['category']));
 		$post_object->category_link = "/{$post['category']}/";
-		$post_object->comment_count = $this->get_comments_for_post($post);
+		// $post_object->comment_count = $this->get_comments_for_post($post);
 		$post_object->tags = $this->get_tags_for_post($post);
 		$post_object->image = Content::instance('FetchFirstPhoto', $post['body'])->activate(false, 'small');
 		$post_object->body = $this->get_body_for_post($post, $trim);
