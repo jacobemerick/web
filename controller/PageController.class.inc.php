@@ -36,11 +36,6 @@ abstract class PageController
 			'link' => Loader::getRootUrl('site'),
 			'anchor' => 'jacobemerick.com',
 			'date' => date('Y')));
-
-// todo this belongs in db handler		
-//		Loader::loadInstance('utility', 'Database');
-//		if(Database::isConnected() === false)
-//			$this->unavailable();
 	}
 
 	protected function get_domain_container()
@@ -277,6 +272,8 @@ abstract class PageController
 		}
 		
 		$comment_count = CommentCollector::getCommentCountForURL($site, $path);
+
+    $this->get_comment_array_from_service($site, $path);
 		
 		return array(
 			'comments' => $comment_array,
@@ -320,5 +317,54 @@ abstract class PageController
 		
 		return $commenter;
 	}
+
+    protected function get_comment_array_from_service($site, $path)
+    {
+        global $config;
+        $configuration = new Jacobemerick\CommentService\Configuration();
+        $configuration->setUsername($config->comments->user);
+        $configuration->setPassword($config->comments->password);
+        $configuration->addDefaultHeader('Content-Type', 'application/json');
+        $configuration->setHost($config->comments->host);
+        $configuration->setCurlTimeout($config->comments->timeout);
+
+        $client = new Jacobemerick\CommentService\ApiClient($configuration);
+        $api = new Jacobemerick\CommentService\Api\DefaultApi($client);
+
+        $start = microtime(true);
+        try {
+            $comment_response = $api->getComments(
+                1,
+                null,
+                '-date',
+                'blog.jacobemerick.com',
+                $path // todo needs category
+            );
+        } catch (Exception $e) {
+            global $container;
+            $container['logger']->warning("CommentService | Path | {$e->getMessage()}");
+            return;
+        }
+ 
+        $elapsed = microtime(true) - $start;
+        global $container;
+        $container['logger']->info("CommentService | Path | {$elapsed}");
+
+        // todo this is for sidebar, not post
+        $array = array();
+        foreach($comment_response as $comment)
+        {
+            $body = $comment->getBody();
+            $body = Content::instance('CleanComment', $body)->activate();
+            $body = strip_tags($body);
+
+            $comment_obj = new stdclass();
+            $comment_obj->description = Content::instance('SmartTrim', $body)->activate(30);
+            $comment_obj->commenter = $comment->getCommenter()->getName();
+            $comment_obj->link = "{$comment->getUrl()}/#comment-{$comment->getId()}";
+            $array[] = $comment_obj;
+        }
+        return $array;
+    }
 
 }
