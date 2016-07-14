@@ -231,7 +231,7 @@ final class PostController extends DefaultPageController
             $comment_response = $api->getComments(
                 1,
                 null,
-                '-date',
+                'date',
                 'blog.jacobemerick.com',
                 $path
             );
@@ -254,9 +254,11 @@ final class PostController extends DefaultPageController
             $body = strip_tags($body);
 
             $comment_obj = new stdclass();
-            $comment_obj->description = Content::instance('SmartTrim', $body)->activate(30);
-            $comment_obj->commenter = $comment->getCommenter()->getName();
-            $comment_obj->link = "{$comment->getUrl()}/#comment-{$comment->getId()}";
+            $comment_obj->name = $comment->getCommenter()->getName();
+            $comment_obj->url = $comment->getCommenter()->getWebsite();
+            $comment_obj->trusted = true;
+            $comment_obj->date = $comment->getDate()->format('M j, \'y');
+            $comment_obj->body = $body;
             $array[] = $comment_obj;
         }
 
