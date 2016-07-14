@@ -245,7 +245,6 @@ final class PostController extends DefaultPageController
         global $container;
         $container['logger']->info("CommentService | Path | {$elapsed}");
 
-        // todo this is for sidebar, not post
         $array = array();
         foreach((array) $comment_response as $comment)
         {
@@ -254,14 +253,19 @@ final class PostController extends DefaultPageController
             $body = strip_tags($body);
 
             $comment_obj = new stdclass();
+            $comment_obj->id = $comment->getId();
             $comment_obj->name = $comment->getCommenter()->getName();
             $comment_obj->url = $comment->getCommenter()->getWebsite();
             $comment_obj->trusted = true;
             $comment_obj->date = $comment->getDate()->format('M j, \'y');
             $comment_obj->body = $body;
+
+            // todo figure out if reply
             $array[] = $comment_obj;
         }
 
+        // todo figure out commenter obj
+        // todo figure out how to handle errors or whatever
         return [
             'comments' => $array,
             'commenter' => [],
