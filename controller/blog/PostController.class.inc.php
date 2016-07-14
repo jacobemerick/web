@@ -78,7 +78,8 @@ final class PostController extends DefaultPageController
 			'related_posts' => $this->get_related_posts(),
 			'author' => self::$AUTHOR,
 			'author_url' => self::$AUTHOR_URL,
-			'comment_array' => $this->get_comment_array(self::$BLOG_SITE_ID, $this->post['path'])));
+			'comment_array' => $this->get_comment_array("{$this->post['category']}/{$this->post['path']}"),
+    ));
 	}
 
 	protected function get_post_description()
@@ -212,4 +213,58 @@ final class PostController extends DefaultPageController
 		return $post_array;
 	}
 
+    protected function get_comment_array($path)
+    {
+        global $config;
+        $configuration = new Jacobemerick\CommentService\Configuration();
+        $configuration->setUsername($config->comments->user);
+        $configuration->setPassword($config->comments->password);
+        $configuration->addDefaultHeader('Content-Type', 'application/json');
+        $configuration->setHost($config->comments->host);
+        $configuration->setCurlTimeout($config->comments->timeout);
+
+        $client = new Jacobemerick\CommentService\ApiClient($configuration);
+        $api = new Jacobemerick\CommentService\Api\DefaultApi($client);
+
+        $start = microtime(true);
+        try {
+            $comment_response = $api->getComments(
+                1,
+                null,
+                '-date',
+                'blog.jacobemerick.com',
+                $path
+            );
+        } catch (Exception $e) {
+            global $container;
+            $container['logger']->warning("CommentService | Path | {$e->getMessage()}");
+            return;
+        }
+ 
+        $elapsed = microtime(true) - $start;
+        global $container;
+        $container['logger']->info("CommentService | Path | {$elapsed}");
+
+        // todo this is for sidebar, not post
+        $array = array();
+        foreach((array) $comment_response as $comment)
+        {
+            $body = $comment->getBody();
+            $body = Content::instance('CleanComment', $body)->activate();
+            $body = strip_tags($body);
+
+            $comment_obj = new stdclass();
+            $comment_obj->description = Content::instance('SmartTrim', $body)->activate(30);
+            $comment_obj->commenter = $comment->getCommenter()->getName();
+            $comment_obj->link = "{$comment->getUrl()}/#comment-{$comment->getId()}";
+            $array[] = $comment_obj;
+        }
+
+        return [
+            'comments' => $array,
+            'commenter' => [],
+            'errors' => [],
+            'comment_count' => count($array),
+        ];
+    }
 }
