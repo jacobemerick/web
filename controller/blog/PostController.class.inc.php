@@ -215,6 +215,10 @@ final class PostController extends DefaultPageController
 
     protected function get_comment_array($path)
     {
+        $path = explode('/', $path);
+        $path = array_pop($path);
+        return parent::get_comment_array(self::$BLOG_SITE_ID, $path);
+
         global $config;
         $configuration = new Jacobemerick\CommentService\Configuration();
         $configuration->setUsername($config->comments->user);
