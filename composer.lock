@@ -108,16 +108,16 @@
         },
         {
             "name": "jacobemerick/comment-service-client",
-            "version": "0.2.1",
+            "version": "0.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jacobemerick/comment-service-client.git",
-                "reference": "4996efa8abfe7a92edbe65bceb3fc7fe4fc4bbb2"
+                "reference": "64bdb9e8c48fb80dedb8a64fe99c58eea507a8b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jacobemerick/comment-service-client/zipball/4996efa8abfe7a92edbe65bceb3fc7fe4fc4bbb2",
-                "reference": "4996efa8abfe7a92edbe65bceb3fc7fe4fc4bbb2",
+                "url": "https://api.github.com/repos/jacobemerick/comment-service-client/zipball/64bdb9e8c48fb80dedb8a64fe99c58eea507a8b8",
+                "reference": "64bdb9e8c48fb80dedb8a64fe99c58eea507a8b8",
                 "shasum": ""
             },
             "require": {
@@ -154,10 +154,10 @@
                 "swagger"
             ],
             "support": {
-                "source": "https://github.com/jacobemerick/comment-service-client/tree/0.2.1",
+                "source": "https://github.com/jacobemerick/comment-service-client/tree/0.2.2",
                 "issues": "https://github.com/jacobemerick/comment-service-client/issues"
             },
-            "time": "2016-06-13 03:14:38"
+            "time": "2016-07-15 19:58:54"
         },
         {
             "name": "jacobemerick/monolog-pqp",
@@ -614,6 +614,7 @@
                 "rest",
                 "web service"
             ],
+            "abandoned": "guzzlehttp/guzzle",
             "time": "2015-03-18 18:23:50"
         },
         {
