@@ -214,7 +214,7 @@ final class CommentSubmitModule
             'should_notify' => (isset($data['notify']) && $data['notify'] == 'check'),
             'domain' => (URLDecode::getSite() == 'blog' ? 'blog.jacobemerick.com' : 'waterfallsofthekeweenaw.com'),
             'path' => $path,
-            'url' => "{$this->full_path}/#comment-{{id}}",
+            'url' => "{$this->full_path}#comment-{{id}}",
             'thread' => 'comments',
             'reply_to' => ($data['type'] == 'new' ? 0 : $data['type']),
             'ip_address' => $_SERVER['REMOTE_ADDR'],
