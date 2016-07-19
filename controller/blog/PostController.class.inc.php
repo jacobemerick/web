@@ -215,10 +215,6 @@ final class PostController extends DefaultPageController
 
     protected function get_comment_array($path)
     {
-        $path = explode('/', $path);
-        $path = array_pop($path);
-        return parent::get_comment_array(self::$BLOG_SITE_ID, $path);
-
         global $config;
         $configuration = new Jacobemerick\CommentService\Configuration();
         $configuration->setUsername($config->comments->user);
@@ -264,8 +260,13 @@ final class PostController extends DefaultPageController
             $comment_obj->date = $comment->getDate()->format('M j, \'y');
             $comment_obj->body = $body;
 
-            // todo figure out if reply
-            $array[] = $comment_obj;
+            if ($comment->getReplyTo()) {
+                $array[$comment->getReplyTo()]->replies[$comment->getId()] = $comment_obj;
+                continue;
+            }
+
+            $comment_obj->replies = [];
+            $array[$comment->getId()] = $comment_obj;
         }
 
         // todo figure out commenter obj
@@ -274,7 +275,7 @@ final class PostController extends DefaultPageController
             'comments' => $array,
             'commenter' => [],
             'errors' => [],
-            'comment_count' => count($array),
+            'comment_count' => count($comment_response),
         ];
     }
 }
