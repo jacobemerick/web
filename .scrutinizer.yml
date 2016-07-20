@@ -1,0 +1,15 @@
+filter:
+  excluded_paths:
+    - '*.tpl.php'
+    - 'tests/'
+checks:
+  php: true
+coding_style:
+  php:
+    spaces:
+      general:
+        linefeed_character: return-newline
+    braces:
+      classes_functions:
+        class: new-line
+        function: end-of-line
