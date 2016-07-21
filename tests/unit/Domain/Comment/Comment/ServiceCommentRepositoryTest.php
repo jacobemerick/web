@@ -49,7 +49,8 @@ class ServiceCommentRepositoryTest extends PHPUnit_Framework_TestCase
 
     public function testIsInstanceOfServiceCommentRepository()
     {
-        $defaultApi = $this->createMock(DefaultApi::class);
+        $defaultApi = $this->getMockBuilder(DefaultApi::class)
+            ->getMock();
         $repository = new ServiceCommentRepository($defaultApi);
 
         $this->assertInstanceOf(ServiceCommentRepository::class, $repository);
@@ -57,7 +58,8 @@ class ServiceCommentRepositoryTest extends PHPUnit_Framework_TestCase
 
     public function testImplementsCommentRepositoryInterface()
     {
-        $defaultApi = $this->createMock(DefaultApi::class);
+        $defaultApi = $this->getMockBuilder(DefaultApi::class)
+            ->getMock();
         $repository = new ServiceCommentRepository($defaultApi);
 
         $this->assertInstanceOf(CommentRepositoryInterface::class, $repository);
@@ -65,7 +67,8 @@ class ServiceCommentRepositoryTest extends PHPUnit_Framework_TestCase
 
     public function testConstructSetsDefaultApi()
     {
-        $defaultApi = $this->createMock(DefaultApi::class);
+        $defaultApi = $this->getMockBuilder(DefaultApi::class)
+            ->getMock();
         $repository = new ServiceCommentRepository($defaultApi);
 
         $this->assertAttributeSame($defaultApi, 'api', $repository);
@@ -76,7 +79,8 @@ class ServiceCommentRepositoryTest extends PHPUnit_Framework_TestCase
         $commentData = reset(self::$testCommentList);
         $comment = $this->getCommentObject($commentData);
 
-        $defaultApi = $this->createMock(DefaultApi::class);
+        $defaultApi = $this->getMockBuilder(DefaultApi::class)
+            ->getMock();
         $defaultApi->method('createComment')
             ->with($this->equalTo($commentData))
             ->willReturn($comment);
@@ -94,7 +98,8 @@ class ServiceCommentRepositoryTest extends PHPUnit_Framework_TestCase
     {
         $apiException = new ApiException();
 
-        $defaultApi = $this->createMock(DefaultApi::class);
+        $defaultApi = $this->getMockBuilder(DefaultApi::class)
+            ->getMock();
         $defaultApi->method('createComment')
             ->will($this->throwException($apiException));
         $repository = new ServiceCommentRepository($defaultApi);
@@ -106,7 +111,8 @@ class ServiceCommentRepositoryTest extends PHPUnit_Framework_TestCase
         $commentData = reset(self::$testCommentList);
         $comment = $this->getCommentObject($commentData);
 
-        $defaultApi = $this->createMock(DefaultApi::class);
+        $defaultApi = $this->getMockBuilder(DefaultApi::class)
+            ->getMock();
         $defaultApi->method('getComment')
             ->with($this->equalTo($commentData['id']))
             ->willReturn($comment);
@@ -124,7 +130,8 @@ class ServiceCommentRepositoryTest extends PHPUnit_Framework_TestCase
     {
         $apiException = new ApiException();
 
-        $defaultApi = $this->createMock(DefaultApi::class);
+        $defaultApi = $this->getMockBuilder(DefaultApi::class)
+            ->getMock();
         $defaultApi->method('getComment')
             ->will($this->throwException($apiException));
         $repository = new ServiceCommentRepository($defaultApi);
@@ -136,7 +143,8 @@ class ServiceCommentRepositoryTest extends PHPUnit_Framework_TestCase
         $commentData = self::$testCommentList;
         $comments = array_map([$this, 'getCommentObject'], $commentData);
 
-        $defaultApi = $this->createMock(DefaultApi::class);
+        $defaultApi = $this->getMockBuilder(DefaultApi::class)
+            ->getMock();
         $defaultApi->method('getComments')
             ->with(
                 $this->equalTo(null),
@@ -158,7 +166,8 @@ class ServiceCommentRepositoryTest extends PHPUnit_Framework_TestCase
         $commentData = self::$testCommentList;
         $comments = array_map([$this, 'getCommentObject'], $commentData);
 
-        $defaultApi = $this->createMock(DefaultApi::class);
+        $defaultApi = $this->getMockBuilder(DefaultApi::class)
+            ->getMock();
         $defaultApi->method('getComments')
             ->with(
                 $this->equalTo(2),
@@ -182,7 +191,8 @@ class ServiceCommentRepositoryTest extends PHPUnit_Framework_TestCase
     {
         $apiException = new ApiException();
 
-        $defaultApi = $this->createMock(DefaultApi::class);
+        $defaultApi = $this->getMockBuilder(DefaultApi::class)
+            ->getMock();
         $defaultApi->method('getComments')
             ->will($this->throwException($apiException));
         $repository = new ServiceCommentRepository($defaultApi);
@@ -198,7 +208,8 @@ class ServiceCommentRepositoryTest extends PHPUnit_Framework_TestCase
         $reflectedDeserializerMethod = $reflectedRepository->getMethod('deserializeComment');
         $reflectedDeserializerMethod->setAccessible(true);
 
-        $defaultApi = $this->createMock(DefaultApi::class);
+        $defaultApi = $this->getMockBuilder(DefaultApi::class)
+            ->getMock();
         $repository = new ServiceCommentRepository($defaultApi);
         $commentResponse = $reflectedDeserializerMethod->invokeArgs($repository, [$comment]);
 
