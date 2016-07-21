@@ -2,9 +2,9 @@
 
 namespace Jacobemerick\Web\Domain\Comment\Comment;
 
-use ApiException;
-use Api\DefaultApi;
-use Model\Comment;
+use Jacobemerick\CommentService\ApiException;
+use Jacobemerick\CommentService\Api\DefaultApi;
+use Jacobemerick\CommentService\Model\Comment;
 
 class ServiceCommentRepository implements CommentRepositoryInterface
 {
