@@ -3,7 +3,7 @@
 namespace Jacobemerick\Web\Domain\Comment\Commenter;
 
 use Jacobemerick\CommentService\Api\DefaultApi;
-use Jacobemerick\CommentService\Model\Comment;
+use Jacobemerick\CommentService\Model\Commenter;
 
 class ServiceCommenterRepository implements CommenterRepositoryInterface
 {
@@ -52,7 +52,7 @@ class ServiceCommenterRepository implements CommenterRepositoryInterface
     public function getCommenters($page = null, $perPage = null)
     {
         $response = $this->api->getCommenters($page, $perPage);
-        return $this->deserializeCommenter($response);
+        return array_map([$this, 'deserializeCommenter'], $response);
     }
 
     /**

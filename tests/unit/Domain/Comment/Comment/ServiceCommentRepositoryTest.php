@@ -52,10 +52,7 @@ class ServiceCommentRepositoryTest extends PHPUnit_Framework_TestCase
         $defaultApi = $this->createMock(DefaultApi::class);
         $repository = new ServiceCommentRepository($defaultApi);
 
-        $this->assertInstanceOf(
-            'Jacobemerick\Web\Domain\Comment\Comment\ServiceCommentRepository',
-            $repository
-        );
+        $this->assertInstanceOf(ServiceCommentRepository::class, $repository);
     }
 
     public function testImplementsCommentRepositoryInterface()
@@ -63,10 +60,7 @@ class ServiceCommentRepositoryTest extends PHPUnit_Framework_TestCase
         $defaultApi = $this->createMock(DefaultApi::class);
         $repository = new ServiceCommentRepository($defaultApi);
 
-        $this->assertInstanceOf(
-            'Jacobemerick\Web\Domain\Comment\Comment\CommentRepositoryInterface',
-            $repository
-        );
+        $this->assertInstanceOf(CommentRepositoryInterface::class, $repository);
     }
 
     public function testConstructSetsDefaultApi()
