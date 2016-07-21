@@ -2,6 +2,7 @@
 
 namespace Jacobemerick\Web\Domain\Comment\Commenter;
 
+use Jacobemerick\CommentService\ApiException;
 use Jacobemerick\CommentService\Api\DefaultApi;
 use Jacobemerick\CommentService\Model\Commenter;
 
@@ -9,12 +10,12 @@ class ServiceCommenterRepository implements CommenterRepositoryInterface
 {
 
     /**
-     * @var Jacobemerick\CommentService\Api\DefaultApi
+     * @var DefaultApi
      */
     protected $api;
 
     /**
-     * @param Jacobemerick\CommentService\Api\DefaultApi $api
+     * @param DefaultApi $api
      */
     public function __construct(DefaultApi $api)
     {
@@ -24,7 +25,7 @@ class ServiceCommenterRepository implements CommenterRepositoryInterface
     /**
      * @param array $commenter
      * @return array
-     * @throws Jacobemerick\CommentService\ApiException
+     * @throws ApiException
      */
     public function createCommenter(array $commenter)
     {
@@ -35,7 +36,7 @@ class ServiceCommenterRepository implements CommenterRepositoryInterface
     /**
      * @param integer $commenterId
      * @return array
-     * @throws Jacobemerick\CommentService\ApiException
+     * @throws ApiException
      */
     public function getCommenter($commenterId)
     {
@@ -47,7 +48,7 @@ class ServiceCommenterRepository implements CommenterRepositoryInterface
      * @param integer $page
      * @param integer $perPage
      * @return array
-     * @throws Jacobemerick\CommentService\ApiException
+     * @throws ApiException
      */
     public function getCommenters($page = null, $perPage = null)
     {
@@ -56,7 +57,7 @@ class ServiceCommenterRepository implements CommenterRepositoryInterface
     }
 
     /**
-     * @param Jacobemerick\CommentService\Model\Commenter
+     * @param Commenter
      * @return array
      */
     protected function deserializeCommenter(Commenter $commenter)
