@@ -215,28 +215,18 @@ final class PostController extends DefaultPageController
 
     protected function get_comment_array($path)
     {
-        global $config;
-        $configuration = new Jacobemerick\CommentService\Configuration();
-        $configuration->setUsername($config->comments->user);
-        $configuration->setPassword($config->comments->password);
-        $configuration->addDefaultHeader('Content-Type', 'application/json');
-        $configuration->setHost($config->comments->host);
-        $configuration->setCurlTimeout($config->comments->timeout);
-
-        $client = new Jacobemerick\CommentService\ApiClient($configuration);
-        $api = new Jacobemerick\CommentService\Api\DefaultApi($client);
-
+        global $container;
+        $repository = new Jacobemerick\Web\Domain\Comment\Comment\ServiceCommentRepository($container['comment_service_api']);
         $start = microtime(true);
         try {
-            $comment_response = $api->getComments(
+            $comment_response = $repository->getComments(
+                'blog.jacobemerick.com',
+                $path,
                 1,
                 null,
-                'date',
-                'blog.jacobemerick.com',
-                $path
+                'date'
             );
         } catch (Exception $e) {
-            global $container;
             $container['logger']->warning("CommentService | Path | {$e->getMessage()}");
             return;
         }
@@ -248,25 +238,24 @@ final class PostController extends DefaultPageController
         $array = array();
         foreach((array) $comment_response as $comment)
         {
-            $body = $comment->getBody();
-            $body = Content::instance('CleanComment', $body)->activate();
+            $body = Content::instance('CleanComment', $comment['body'])->activate();
             $body = strip_tags($body);
 
             $comment_obj = new stdclass();
-            $comment_obj->id = $comment->getId();
-            $comment_obj->name = $comment->getCommenter()->getName();
-            $comment_obj->url = $comment->getCommenter()->getWebsite();
+            $comment_obj->id = $comment['id'];
+            $comment_obj->name = $comment['commenter']['name'];
+            $comment_obj->url = $comment['commenter']['website'];
             $comment_obj->trusted = true;
-            $comment_obj->date = $comment->getDate()->format('M j, \'y');
+            $comment_obj->date = $comment['date']->format('M j, \'y');
             $comment_obj->body = $body;
 
-            if ($comment->getReplyTo()) {
-                $array[$comment->getReplyTo()]->replies[$comment->getId()] = $comment_obj;
+            if ($comment['reply_to']) {
+                $array[$comment['reply_to']]->replies[$comment['id']] = $comment_obj;
                 continue;
             }
 
             $comment_obj->replies = [];
-            $array[$comment->getId()] = $comment_obj;
+            $array[$comment['id']] = $comment_obj;
         }
 
         // todo figure out commenter obj

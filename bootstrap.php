@@ -69,6 +69,20 @@ $db_connections->setRead('slave', function () use ($config) {
 $container['db_connection_locator'] = $db_connections;
 
 
+// configure the comment service connection
+$container['comment_service_api'] = function () use ($config) {
+    $configuration = (new Jacobemerick\CommentService\Configuration())
+        ->setUsername($config->comments->user)
+        ->setPassword($config->comments->password)
+        ->addDefaultHeader('Content-Type', 'application/json')
+        ->setHost($config->comments->host)
+        ->setCurlTimeout($config->comments->timeout);
+
+    $client = new Jacobemerick\CommentService\ApiClient($configuration);
+    return new Jacobemerick\CommentService\Api\DefaultApi($client);
+};
+
+
 // setup mail handler
 $container['mail'] = $container->factory(function ($c) {
     return (new Jacobemerick\Archangel\Archangel())->setLogger($c['logger']);

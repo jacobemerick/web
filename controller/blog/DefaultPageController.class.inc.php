@@ -230,27 +230,18 @@ abstract class DefaultPageController extends PageController
 
     final private function get_comments_from_service()
     {
-        global $config;
-        $configuration = new Jacobemerick\CommentService\Configuration();
-        $configuration->setUsername($config->comments->user);
-        $configuration->setPassword($config->comments->password);
-        $configuration->addDefaultHeader('Content-Type', 'application/json');
-        $configuration->setHost($config->comments->host);
-        $configuration->setCurlTimeout($config->comments->timeout);
-
-        $client = new Jacobemerick\CommentService\ApiClient($configuration);
-        $api = new Jacobemerick\CommentService\Api\DefaultApi($client);
-
+        global $container;
+        $repository = new Jacobemerick\Web\Domain\Comment\Comment\ServiceCommentRepository($container['comment_service_api']);
         $start = microtime(true);
         try {
-            $comment_response = $api->getComments(
+            $comment_response = $repository->getComments(
+                'blog.jacobemerick.com',
+                null,
                 1,
                 self::$RECENT_COMMENT_COUNT,
-                '-date',
-                'blog.jacobemerick.com'
+                '-date'
             );
         } catch (Exception $e) {
-            global $container;
             $container['logger']->warning("CommentService | Sidebar | {$e->getMessage()}");
             return;
         }
@@ -262,14 +253,13 @@ abstract class DefaultPageController extends PageController
         $array = array();
         foreach($comment_response as $comment)
         {
-            $body = $comment->getBody();
-            $body = Content::instance('CleanComment', $body)->activate();
+            $body = Content::instance('CleanComment', $comment['body'])->activate();
             $body = strip_tags($body);
 
             $comment_obj = new stdclass();
             $comment_obj->description = Content::instance('SmartTrim', $body)->activate(30);
-            $comment_obj->commenter = $comment->getCommenter()->getName();
-            $comment_obj->link = "{$comment->getUrl()}/#comment-{$comment->getId()}";
+            $comment_obj->commenter = $comment['commenter']['name'];
+            $comment_obj->link = $comment['url'];
             $array[] = $comment_obj;
         }
         return $array;

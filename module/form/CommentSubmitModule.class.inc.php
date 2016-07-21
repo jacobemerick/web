@@ -222,16 +222,12 @@ final class CommentSubmitModule
             'referrer' => $_SERVER['HTTP_REFERER'],
         ];
 
-        global $config;
-        $configuration = new Jacobemerick\CommentService\Configuration();
-        $configuration->setUsername($config->comments->user);
-        $configuration->setPassword($config->comments->password);
-        $configuration->addDefaultHeader('Content-Type', 'application/json');
-        $configuration->setHost($config->comments->host);
-        $configuration->setCurlTimeout($config->comments->timeout);
-
-        $client = new Jacobemerick\CommentService\ApiClient($configuration);
-        $api = new Jacobemerick\CommentService\Api\DefaultApi($client);
-        $response = $api->createComment($body);
+        global $container;
+        $repository = new Jacobemerick\Web\Domain\Comment\Comment\ServiceCommentRepository($container['comment_service_api']);
+        try {
+            $repository->createComment($body);
+        } catch (ApiException $e) {
+            $container['logger']->warning("CommentService | Create | {$e->getMessage()}");
+        }
     }
 }
