@@ -69,7 +69,7 @@ final class WaterfallCollector extends Collector
             WHERE
                 `waterfall`.`is_public` = '1'
             ORDER BY
-                `waterfall`.`name`";
+                LENGTH(`waterfall`.`name`)";
         
         return self::run_query($query);
     }
