@@ -1,7 +1,5 @@
 <?
 
-Loader::load('collector', 'comment/CommentCollector');
-
 Loader::load('controller', '/PageController');
 Loader::load('utility', 'Content');
 
@@ -71,7 +69,6 @@ abstract class DefaultPageController extends PageController
 		$post_object->path = "/{$post['category']}/{$post['path']}/";
 		$post_object->category = ucwords(str_replace('-', ' ', $post['category']));
 		$post_object->category_link = "/{$post['category']}/";
-		// $post_object->comment_count = $this->get_comments_for_post($post);
 		$post_object->tags = $this->get_tags_for_post($post);
 		$post_object->image = Content::instance('FetchFirstPhoto', $post['body'])->activate(false, 'small');
 		$post_object->body = $this->get_body_for_post($post, $trim);
@@ -79,53 +76,6 @@ abstract class DefaultPageController extends PageController
 
 		return $post_object;
 	}
-
-	final private function get_comments_for_post($post)
-	{
-		$count = CommentCollector::getCommentCountForURL(self::$BLOG_SITE_ID, $post['path']);
-    $count_from_service = $this->get_comments_for_post_from_service($post);
-
-    if ($count_from_service !== null && $count_from_service != $count) {
-        global $container;
-        $container['console']->log('Mismatch between comment service and legacy db');
-        $container['console']->log("{$count}, {$count_from_service} in service");
-    }
-    return $count;
-	}
-
-    final private function get_comments_for_post_from_service($post)
-    {
-        global $config;
-        $configuration = new Jacobemerick\CommentService\Configuration();
-        $configuration->setUsername($config->comments->user);
-        $configuration->setPassword($config->comments->password);
-        $configuration->addDefaultHeader('Content-Type', 'application/json');
-        $configuration->setHost($config->comments->host);
-        $configuration->setCurlTimeout($config->comments->timeout);
-
-        $client = new Jacobemerick\CommentService\ApiClient($configuration);
-        $api = new Jacobemerick\CommentService\Api\DefaultApi($client);
-
-        $start = microtime(true);
-        try {
-            $comment_response = $api->getComments(
-                null,
-                null,
-                null,
-                'blog.jacobemerick.com',
-                "{$post['category']}/{$post['path']}"
-            );
-        } catch (Exception $e) {
-            global $container;
-            $container['logger']->warning("CommentService | Comment Count | {$e->getMessage()}");
-            return;
-        }
-        $elapsed = microtime(true) - $start;
-        global $container;
-        $container['logger']->info("CommentService | Comment Count | {$elapsed}");
-
-        return count($comment_response);
-    }
 
 	final private function get_tags_for_post($post)
 	{
@@ -201,34 +151,7 @@ abstract class DefaultPageController extends PageController
 		return $maximum;
 	}
 
-	final private function get_comments()
-	{
-		$comment_array = CommentCollector::getRecentBlogComments(self::$RECENT_COMMENT_COUNT);
-		
-		$array = array();
-		foreach($comment_array as $comment)
-		{
-			$body = $comment->body;
-			$body = strip_tags($body);
-			
-			$comment_obj = new stdclass();
-			$comment_obj->description = Content::instance('SmartTrim', $body)->activate(30);
-			$comment_obj->commenter = $comment->name;
-			$comment_obj->link = Loader::getRootURL() . "{$comment->category}/{$comment->path}/#comment-{$comment->id}";
-			$array[] = $comment_obj;
-		}
-
-    $comment_service_array = $this->get_comments_from_service();
-    if ($comment_service_array !== null && $comment_service_array !== $array) {
-      global $container;
-      $container['console']->log('Mismatch between comment service and legacy db');
-      $container['console']->log($comment_service_array[0]);
-      $container['console']->log($array[0]);
-    }
-		return $array;
-	}
-
-    final private function get_comments_from_service()
+    final private function get_comments()
     {
         global $container;
         $repository = new Jacobemerick\Web\Domain\Comment\Comment\ServiceCommentRepository($container['comment_service_api']);

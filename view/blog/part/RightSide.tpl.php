@@ -12,6 +12,9 @@
 		<? endforeach ?>
 	</ul>
 	<h4>Recent Comments</h4>
+  <? if (empty($comments)) : ?>
+  <p>Could not load comments. Please try again later.</p>
+  <? else : ?>
 	<ul class="comment-list">
 		<? foreach($comments as $comment) : ?>
 		<li>
@@ -22,4 +25,5 @@
 		</li>
 		<? endforeach ?>
 	</ul>
+  <? endif ?>
 </div>
