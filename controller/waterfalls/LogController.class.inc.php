@@ -62,12 +62,19 @@ final class LogController extends DefaultPageController
         
         $this->set_body('view', 'Log');
 
-        $body_data = $this->get_formatted_log();
-        $body_data['comment_array'] = $this->get_comment_array(self::$WATERFALL_SITE_ID, $this->log->alias);
-        $body_data['sidebar'] = $this->get_sidebar();
-        $body_data['series'] = $this->get_series();
-        $body_data['album'] = $this->get_album();
-        
+        $body_data = array_merge(
+            $this->get_formatted_log(),
+            [
+                'comment_array' => $this->get_comment_array(
+                    'www.waterfallsofthekeweenaw.com',
+                    "journal/{$this->log->alias}"
+                ),
+                'sidebar' => $this->get_sidebar(),
+                'series' => $this->get_series(),
+                'album' => $this->get_album(),
+            ]
+        );
+
         $this->set_body('data', $body_data);
     }
 

@@ -78,7 +78,10 @@ final class PostController extends DefaultPageController
 			'related_posts' => $this->get_related_posts(),
 			'author' => self::$AUTHOR,
 			'author_url' => self::$AUTHOR_URL,
-			'comment_array' => $this->get_comment_array("{$this->post['category']}/{$this->post['path']}"),
+      'comment_array' => $this->get_comment_array(
+          'blog.jacobemerick.com',
+          "{$this->post['category']}/{$this->post['path']}"
+      ),
     ));
 	}
 
@@ -212,59 +215,4 @@ final class PostController extends DefaultPageController
 		
 		return $post_array;
 	}
-
-    protected function get_comment_array($path)
-    {
-        global $container;
-        $repository = new Jacobemerick\Web\Domain\Comment\Comment\ServiceCommentRepository($container['comment_service_api']);
-        $start = microtime(true);
-        try {
-            $comment_response = $repository->getComments(
-                'blog.jacobemerick.com',
-                $path,
-                1,
-                null,
-                'date'
-            );
-        } catch (Exception $e) {
-            $container['logger']->warning("CommentService | Path | {$e->getMessage()}");
-            return;
-        }
- 
-        $elapsed = microtime(true) - $start;
-        global $container;
-        $container['logger']->info("CommentService | Path | {$elapsed}");
-
-        $array = array();
-        foreach((array) $comment_response as $comment)
-        {
-            $body = Content::instance('CleanComment', $comment['body'])->activate();
-            $body = strip_tags($body);
-
-            $comment_obj = new stdclass();
-            $comment_obj->id = $comment['id'];
-            $comment_obj->name = $comment['commenter']['name'];
-            $comment_obj->url = $comment['commenter']['website'];
-            $comment_obj->trusted = true;
-            $comment_obj->date = $comment['date']->format('M j, \'y');
-            $comment_obj->body = $body;
-
-            if ($comment['reply_to']) {
-                $array[$comment['reply_to']]->replies[$comment['id']] = $comment_obj;
-                continue;
-            }
-
-            $comment_obj->replies = [];
-            $array[$comment['id']] = $comment_obj;
-        }
-
-        // todo figure out commenter obj
-        // todo figure out how to handle errors or whatever
-        return [
-            'comments' => $array,
-            'commenter' => [],
-            'errors' => [],
-            'comment_count' => count($comment_response),
-        ];
-    }
 }

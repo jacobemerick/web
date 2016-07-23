@@ -238,47 +238,61 @@ abstract class PageController
 		return;
 	}
 
-	protected function get_comment_array($site, $path)
-	{
-		Loader::load('collector', 'comment/CommentCollector');
-		
-		$commenter = $this->get_commenter();
-		
-		$comment_array = array();
-		$comment_result = CommentCollector::getCommentsForURL($site, $path, $commenter->id);
-		
-		foreach($comment_result as $comment)
-		{
-			$comment_object = new stdclass();
-			$comment_object->id = $comment->id;
-			$comment_object->body = $comment->body_format;
-			$comment_object->date = date("M j, 'y", strtotime($comment->date));
-			$comment_object->name = $comment->name;
-			$comment_object->url = $comment->url;
-			$comment_object->trusted = $comment->trusted;
-			
-			if($comment->reply == 0 && Request::getPost('type') == $comment->id)
-				$comment_object->errors = $this->comment_errors;
-			else
-				$comment_object->errors = array();
-			
-			if($comment->reply == 0)
-			{
-				$comment_object->replies = array();
-				$comment_array[$comment->id] = $comment_object;
-			}
-			else
-				$comment_array[$comment->reply]->replies[$comment->id] = $comment_object;
-		}
-		
-		$comment_count = CommentCollector::getCommentCountForURL($site, $path);
+    protected function get_comment_array($site, $path)
+    {
+        global $container;
+        $repository = new Jacobemerick\Web\Domain\Comment\Comment\ServiceCommentRepository($container['comment_service_api']);
+        $start = microtime(true);
+        try {
+            $comment_response = $repository->getComments(
+                $site,
+                $path,
+                1,
+                null,
+                'date'
+            );
+        } catch (Exception $e) {
+            $container['logger']->warning("CommentService | Path | {$e->getMessage()}");
+            return;
+        }
 
-		return array(
-			'comments' => $comment_array,
-			'commenter' => $commenter,
-			'errors' => $this->comment_errors,
-			'comment_count' => $comment_count);
-	}
+        $elapsed = microtime(true) - $start;
+        global $container;
+        $container['logger']->info("CommentService | Path | {$elapsed}");
+
+        $array = array();
+        foreach((array) $comment_response as $comment)
+        {
+            $body = Content::instance('CleanComment', $comment['body'])->activate();
+            $body = strip_tags($body);
+
+            $comment_obj = new stdclass();
+            $comment_obj->id = $comment['id'];
+            $comment_obj->name = $comment['commenter']['name'];
+            $comment_obj->url = $comment['commenter']['website'];
+            $comment_obj->trusted = true;
+            $comment_obj->date = $comment['date']->format('M j, \'y');
+            $comment_obj->body = $body;
+
+            if ($comment['reply_to']) {
+                $array[$comment['reply_to']]->replies[$comment['id']] = $comment_obj;
+                continue;
+            }
+
+            $comment_obj->replies = [];
+            $array[$comment['id']] = $comment_obj;
+        }
+
+        // todo figure out commenter obj
+        // todo figure out how to handle errors or whatever
+        // todo why is this even doing all this
+        return [
+            'comments' => $array,
+            'commenter' => [],
+            'errors' => [],
+            'comment_count' => count($comment_response),
+        ];
+    }
 
 	private function get_commenter()
 	{

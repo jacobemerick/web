@@ -52,11 +52,17 @@ final class WaterfallController extends DefaultPageController
     {
         parent::set_body_data($page_type);
 
-        $body_data = $this->format_waterfall_data($this->waterfall);
-        $body_data['comment_array'] = $this->get_comment_array(self::$WATERFALL_SITE_ID, "{$this->waterfall->watercourse_alias}/{$this->waterfall->alias}");
+        $body_data = array_merge(
+            $this->format_waterfall_data($this->waterfall),
+            [
+                'comment_array' => $this->get_comment_array(
+                    'www.waterfallsofthekeweenaw.com',
+                    "{$this->waterfall->watercourse_alias}/{$this->waterfall->alias}",
+                ),
+            ]
+        );
 
         $this->set_body('data', $body_data);
-
         $this->set_body('view', 'Fall');
     }
 
