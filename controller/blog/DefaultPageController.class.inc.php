@@ -187,5 +187,4 @@ abstract class DefaultPageController extends PageController
         }
         return $array;
     }
-
 }

@@ -293,41 +293,4 @@ abstract class PageController
             'comment_count' => count($comment_response),
         ];
     }
-
-	private function get_commenter()
-	{
-		Loader::load('collector', 'comment/CommentCollector');
-
-		$commenter = new stdclass();
-		
-		$commenter->id = 0;
-		$commenter->name = '';
-		$commenter->email = '';
-		$commenter->website = '';
-
-    if (!isset($_COOKIE['commenter'])) {
-      return $commenter;
-    }
-
-		$commenter_cookie_value = json_decode($_COOKIE['commenter']);
-		
-		if($commenter_cookie_value === NULL)
-			return $commenter;
-		
-		if(!isset($commenter_cookie_value->name) || !isset($commenter_cookie_value->email))
-			return $commenter;
-		
-		$commenter_object = CommentCollector::getCommenterByFields($commenter_cookie_value->name, $commenter_cookie_value->email, (isset($commenter_cookie_value->website) ? $commenter_cookie_value->website : ''));
-		
-		if($commenter_object === NULL)
-			return $commenter;
-		
-		$commenter->id = $commenter_object->id;
-		$commenter->name = $commenter_object->name;
-		$commenter->email = $commenter_object->email;
-		$commenter->website = $commenter_object->url;
-		
-		return $commenter;
-	}
-
 }

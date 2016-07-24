@@ -1,7 +1,6 @@
 <?
 
 Loader::load('collector', array(
-	'comment/CommentCollector',
 	'waterfall/CompanionCollector',
 	'waterfall/LogCollector',
 	'waterfall/PeriodCollector'));
@@ -31,7 +30,7 @@ abstract class DefaultLogListController extends DefaultListController
 		$item_array['waterfall_list'] = LogCollector::getWaterfallListForLog($item->id);
 		$item_array['introduction'] = $item->introduction;
 		$item_array['path'] = "/journal/{$item->alias}/";
-		$item_array['comment_count'] = CommentCollector::getCommentCountForURL(self::$WATERFALL_SITE_ID, $item->alias);
+		$item_array['comment_count'] = 0; // todo - this
 		$item_array['date'] = $this->get_parsed_date($item->date);
 		
 		return $item_array;

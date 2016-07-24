@@ -1,7 +1,6 @@
 <?
 
 Loader::load('collector', array(
-	'comment/CommentCollector',
 	'waterfall/CountyCollector',
 	'waterfall/WatercourseCollector',
 	'waterfall/WaterfallCollector'));
@@ -31,7 +30,7 @@ abstract class DefaultWaterfallListController extends DefaultListController
 		$item_array['county'] = $item->county;
 		$item_array['image'] = $this->get_image_element($item->photo_category, $item->photo, $item->photo_description, 'medium');
 		$item_array['path'] = "/{$item->watercourse_alias}/{$item->waterfall_alias}/";
-		$item_array['comment_count'] = CommentCollector::getCommentCountForURL(self::$WATERFALL_SITE_ID, "/{$item->watercourse_alias}/{$item->waterfall_alias}/");
+		$item_array['comment_count'] = 0; // todo this
 		
 		return $item_array;
 	}

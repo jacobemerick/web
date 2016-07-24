@@ -1,7 +1,6 @@
 <?
 
 Loader::load('collector', array(
-    'comment/CommentCollector',
     'image/PhotoCollector',
     'waterfall/LogCollector',
 ));
@@ -55,30 +54,45 @@ final class HomeController extends DefaultPageController
             );
         }
         $this->set_body('logs', $recent_log_container);
-        
-        $recent_comments = CommentCollector::getRecentWaterfallComments();
-        
-        $recent_comment_container = array();
-        foreach($recent_comments as $comment) {
-            $body = $comment->body;
-            $body = strip_tags($body);
-            
-            $comment_obj = new stdclass();
-            $comment_obj->description = Content::instance('SmartTrim', $body)->activate(50);
-            $comment_obj->commenter = $comment->name;
-            if (!empty($comment->log_path)) {
-                $comment_obj->link = Loader::getRootURL() . "{$comment->log_path}/#comment-{$comment->id}";
-                $comment_obj->location = $comment->log_title;
-            } else {
-                $comment_obj->link = Loader::getRootURL() . "{$comment->waterfall_path}/#comment-{$comment->id}";
-                $comment_obj->location = $comment->waterfall_title;
-            }
-            
-            $recent_comment_container[] = $comment_obj;
-        }
-        $this->set_body('comments', $recent_comment_container);
+        $this->set_body('comments', $this->get_comments());
         
         $this->set_body('view', 'Home');
     }
 
+    protected function get_comments()
+    {
+        global $container;
+        $repository = new Jacobemerick\Web\Domain\Comment\Comment\ServiceCommentRepository($container['comment_service_api']);
+        $start = microtime(true);
+        try {
+            $comment_response = $repository->getComments(
+                'www.waterfallsofthekeweenaw.com',
+                null,
+                1,
+                5,
+                '-date'
+            );
+        } catch (Exception $e) {
+            $container['logger']->warning("CommentService | Sidebar | {$e->getMessage()}");
+            return;
+        }
+ 
+        $elapsed = microtime(true) - $start;
+        global $container;
+        $container['logger']->info("CommentService | Sidebar | {$elapsed}");
+
+        $array = array();
+        foreach($comment_response as $comment)
+        {
+            $body = Content::instance('CleanComment', $comment['body'])->activate();
+            $body = strip_tags($body);
+
+            $comment_obj = new stdclass();
+            $comment_obj->description = Content::instance('SmartTrim', $body)->activate(50);
+            $comment_obj->commenter = $comment['commenter']['name'];
+            $comment_obj->link = $comment['url'];
+            $array[] = $comment_obj;
+        }
+        return $array;
+    }
 }
