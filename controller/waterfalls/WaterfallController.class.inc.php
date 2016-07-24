@@ -56,8 +56,8 @@ final class WaterfallController extends DefaultPageController
             $this->format_waterfall_data($this->waterfall),
             [
                 'comment_array' => $this->get_comment_array(
-                    'www.waterfallsofthekeweenaw.com',
-                    "{$this->waterfall->watercourse_alias}/{$this->waterfall->alias}",
+                    'waterfallsofthekeweenaw.com',
+                    "{$this->waterfall->watercourse_alias}/{$this->waterfall->alias}"
                 ),
             ]
         );

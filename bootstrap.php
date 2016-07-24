@@ -95,9 +95,10 @@ $container['setup_logger'] = $container->protect(function ($name) use ($containe
 
     $logPath = __DIR__ . "/logs/{$name}.log";
     $streamHandler = new Monolog\Handler\StreamHandler($logPath, Monolog\Logger::INFO);
-    $streamHandler->setFormatter(
-        new Monolog\Formatter\LineFormatter("[%datetime%] %channel%.%level_name%: %message%\n")
-    );
+    // todo - make this more useful
+    // $streamHandler->setFormatter(
+    //     new Monolog\Formatter\LineFormatter("[%datetime%] %channel%.%level_name%: %message%\n")
+    // );
     $logger->pushHandler($streamHandler);
 
     Monolog\ErrorHandler::register($logger);

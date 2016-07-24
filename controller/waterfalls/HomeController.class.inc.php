@@ -66,7 +66,7 @@ final class HomeController extends DefaultPageController
         $start = microtime(true);
         try {
             $comment_response = $repository->getComments(
-                'www.waterfallsofthekeweenaw.com',
+                'waterfallsofthekeweenaw.com',
                 null,
                 1,
                 5,

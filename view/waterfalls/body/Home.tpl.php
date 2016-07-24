@@ -18,7 +18,7 @@
             <li>
                 <a href="<?= $comment->link ?>">
                     <?= $comment->description ?>
-                    <span class="comment-meta">posted on <span class="link"><?= $comment->location ?></span> by <?= $comment->commenter ?></span>
+                    <span class="comment-meta">posted by <?= $comment->commenter ?></span>
                 </a>
             </li>
 <? endforeach ?>

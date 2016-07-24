@@ -66,7 +66,7 @@ final class LogController extends DefaultPageController
             $this->get_formatted_log(),
             [
                 'comment_array' => $this->get_comment_array(
-                    'www.waterfallsofthekeweenaw.com',
+                    'waterfallsofthekeweenaw.com',
                     "journal/{$this->log->alias}"
                 ),
                 'sidebar' => $this->get_sidebar(),
