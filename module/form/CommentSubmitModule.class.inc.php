@@ -30,7 +30,7 @@ class CommentSubmitModule
         if (!Request::getPost('submit') == 'Submit Comment') {
             return false;
         }
-        if (!Request::getPost('catch') !== '') {
+        if (Request::getPost('catch') !== '') {
             return false;
         }
 
@@ -101,9 +101,10 @@ class CommentSubmitModule
             $response = $repository->createComment($body);
         } catch (Exception $e) {
             $container['logger']->warning("CommentService | Create | {$e->getMessage()}");
+            return null;
         }
 
-        return $response->getId();
+        return $response['id'];
     }
 
     private function redirectToComment($commentId)
