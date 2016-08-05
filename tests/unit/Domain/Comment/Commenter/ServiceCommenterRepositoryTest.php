@@ -56,38 +56,6 @@ class ServiceCommenterRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertAttributeSame($defaultApi, 'api', $repository);
     }
 
-    public function testCreateCommenter()
-    {
-        $commenterData = reset(self::$testCommenterList);
-        $commenter = new Commenter($commenterData);
-
-        $defaultApi = $this->getMockBuilder(DefaultApi::class)
-            ->getMock();
-        $defaultApi->method('createCommenter')
-            ->with($this->equalTo($commenterData))
-            ->willReturn($commenter);
-        $repository = new ServiceCommenterRepository($defaultApi);
-        $commenterResponse = $repository->createCommenter($commenterData);
-
-        $this->assertInternalType('array', $commenterResponse);
-        $this->assertEquals($commenterData, $commenterResponse);
-    }
-
-    /**
-     * @expectedException Jacobemerick\CommentService\ApiException
-     */
-    public function testCreateCommenterFailure()
-    {
-        $apiException = new ApiException();
-
-        $defaultApi = $this->getMockBuilder(DefaultApi::class)
-            ->getMock();
-        $defaultApi->method('createCommenter')
-            ->will($this->throwException($apiException));
-        $repository = new ServiceCommenterRepository($defaultApi);
-        $repository->createCommenter([]);
-    }
-
     public function testGetCommenter()
     {
         $commenterData = reset(self::$testCommenterList);
