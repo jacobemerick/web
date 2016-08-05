@@ -19,7 +19,7 @@
     "particletree/pqp": "^1.1",
     "pimple/pimple": "^3.0",
     "jacobemerick/archangel": "^2.1",
-    "jacobemerick/comment-service-client": "^0.2.0"
+    "jacobemerick/comment-service-client": "^0.3.0"
   },
   "repositories": [
     {

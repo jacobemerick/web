@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8c6cedfc5567869a180180621b3c67d6",
-    "content-hash": "af91b41ffa4c97457d509b804f923e36",
+    "hash": "84f491b55b615674fa190bb8a3c0229e",
+    "content-hash": "ff71a768e98d6d7b02a2dc4b29738dc1",
     "packages": [
         {
             "name": "aura/sql",
@@ -108,16 +108,16 @@
         },
         {
             "name": "jacobemerick/comment-service-client",
-            "version": "0.2.2",
+            "version": "0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jacobemerick/comment-service-client.git",
-                "reference": "64bdb9e8c48fb80dedb8a64fe99c58eea507a8b8"
+                "reference": "d7f88d5cc4a6d15b728859774dfe120e77d87ba1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jacobemerick/comment-service-client/zipball/64bdb9e8c48fb80dedb8a64fe99c58eea507a8b8",
-                "reference": "64bdb9e8c48fb80dedb8a64fe99c58eea507a8b8",
+                "url": "https://api.github.com/repos/jacobemerick/comment-service-client/zipball/d7f88d5cc4a6d15b728859774dfe120e77d87ba1",
+                "reference": "d7f88d5cc4a6d15b728859774dfe120e77d87ba1",
                 "shasum": ""
             },
             "require": {
@@ -154,10 +154,10 @@
                 "swagger"
             ],
             "support": {
-                "source": "https://github.com/jacobemerick/comment-service-client/tree/0.2.2",
+                "source": "https://github.com/jacobemerick/comment-service-client/tree/0.3.0",
                 "issues": "https://github.com/jacobemerick/comment-service-client/issues"
             },
-            "time": "2016-07-15 19:58:54"
+            "time": "2016-08-05 20:04:02"
         },
         {
             "name": "jacobemerick/monolog-pqp",
