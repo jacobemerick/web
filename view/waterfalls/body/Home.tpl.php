@@ -23,12 +23,6 @@
             </li>
 <? endforeach ?>
         </ul>
-        <h2>Version 2.0</h2>
-        <p>This website is a refactor of the initial waterfall project. I'm still in the process of porting over content and functionality. Listed below are some of the most recent updates to this side.</p>
-        <dl>
-            <dt>July 11</dt>
-            <dd>Added 40 new waterfalls to the site</dd>
-        </dl>
     </div>
     <div class="log-updates home-column">
         <h2>Recent Logs</h2>
