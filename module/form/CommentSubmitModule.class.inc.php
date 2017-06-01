@@ -89,7 +89,7 @@ class CommentSubmitModule
             'path' => $path,
             'url' => "{$this->fullPath}#comment-{{id}}",
             'thread' => 'comments',
-            'reply_to' => ($data['type'] == 'new' ? 0 : $data['type']),
+            'reply_to' => (string) ($data['type'] == 'new' ? 0 : $data['type']),
             'ip_address' => $_SERVER['REMOTE_ADDR'],
             'user_agent' => $_SERVER['HTTP_USER_AGENT'],
             'referrer' => $_SERVER['HTTP_REFERER'],
