@@ -55,7 +55,7 @@ class ServiceCommentRepository implements CommentRepositoryInterface
      */
     public function getComments($domain = null, $path = null, $page = null, $perPage = null, $order = null)
     {
-        $response = $this->api->getComments($page, $perPage, $order, $domain, $path);
+        $response = (array) $this->api->getComments($page, $perPage, $order, $domain, $path);
         return array_map([$this, 'deserializeComment'], $response);
     }
 
