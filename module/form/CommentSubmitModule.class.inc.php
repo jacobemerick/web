@@ -40,6 +40,12 @@ class CommentSubmitModule
         }
 
         $commentId = $this->save(Request::getPost());
+        if (!$commentId) {
+            return [
+                'service' => 'There was a problem saving your comment. Please try again.',
+            ];
+        }
+
         // todo broken notifications
         $this->redirectToComment($commentId);
     }
@@ -97,6 +103,9 @@ class CommentSubmitModule
 
         global $container;
         $repository = new ServiceCommentRepository($container['comment_service_api']);
+
+        $container['logger']->notice("CommentService | Create", $body);
+
         try {
             $response = $repository->createComment($body);
         } catch (Exception $e) {

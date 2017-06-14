@@ -289,7 +289,7 @@ abstract class PageController
         return [
             'comments' => $array,
             'commenter' => [],
-            'errors' => [],
+            'errors' => $this->comment_errors,
             'comment_count' => count($comment_response),
         ];
     }
