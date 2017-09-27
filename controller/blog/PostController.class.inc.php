@@ -136,7 +136,8 @@ final class PostController extends DefaultPageController
         strpos($post_row['title'], 'Mazatzal Peak Loop') === 0 ||
         strpos($post_row['title'], 'Dripping Springs Loop') === 0 ||
         strpos($post_row['title'], 'The Park of Mazatzals') === 0 ||
-        strpos($post_row['title'], 'Copper Camp Loop') === 0
+        strpos($post_row['title'], 'Copper Camp Loop') === 0 ||
+        strpos($post_row['title'], 'Across the Mazatzals') === 0
       ) {
         $title = $post_row['title'];
         $title = explode(':', $title);
