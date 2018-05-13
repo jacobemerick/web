@@ -68,6 +68,9 @@ class WaterfallRouter extends Router
 			(object) array(
 				'pattern' => '@^/west-branch-yellow-dog-river/west-branch-yellow-dog-falls/?@',
 				'replace' => '/west-branch-yellow-dog-river/west-branch-falls/'),
+			(object) array(
+				'pattern' => '@^/baltimore-river/peanut-butter-falls/?@',
+				'replace' => '/baltimore-river/konteko-falls/'),
 		);
 	}
 
