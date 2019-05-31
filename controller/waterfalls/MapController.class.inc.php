@@ -10,6 +10,8 @@ final class MapController extends DefaultPageController
     private static $DESCRIPTION = '';
     private static $KEYWORD_ARRAY = array();
 
+    private static $API_KEY = 'AIzaSyA3eWALjUTSIa44KsbOUYRpG0oMd3aNo00';
+
     private static $HIDE_ON_INITIAL_LOAD_LIST = array(
         'Lower Tahquamenon Falls',
         'Rainbow Falls',
@@ -21,7 +23,7 @@ final class MapController extends DefaultPageController
     {
         parent::__construct();
 
-        $this->add_js('https://maps.googleapis.com/maps/api/js?sensor=false');
+        $this->add_js("https://maps.googleapis.com/maps/api/js?key={$API_KEY}&sensor=false");
         $this->add_waterfall_js();
     }
 
