@@ -23,7 +23,7 @@ final class MapController extends DefaultPageController
     {
         parent::__construct();
 
-        $this->add_js('https://maps.googleapis.com/maps/api/js?key=' . self::$API_KEY . '&sensor=false');
+        $this->add_js('https://maps.googleapis.com/maps/api/js?key=' . self::$API_KEY);
         $this->add_waterfall_js();
     }
 
