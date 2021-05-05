@@ -22,14 +22,14 @@ final class PostController extends DefaultPageController
 	public function __construct()
 	{
 		parent::__construct();
-		
+
         global $container;
         $repository = new Jacobemerick\Web\Domain\Blog\Post\MysqlPostRepository($container['db_connection_locator']);
         $this->post = $repository->findPostByPath(URLDecode::getPiece(2));
 
 		if($this->post == null)
 			$this->eject();
-		
+
 		$this->handle_comment_submit(
 			self::$BLOG_SITE_ID,
 			$this->post['path'],
@@ -44,7 +44,7 @@ final class PostController extends DefaultPageController
 	protected function set_head_data()
 	{
 		parent::set_head_data();
-		
+
 		$this->set_title(sprintf(self::$TITLE, $this->post['title']));
 		$this->set_description($this->get_post_description());
 		$this->set_keywords($this->get_post_keywords());
@@ -69,7 +69,7 @@ final class PostController extends DefaultPageController
 	protected function set_body_data()
 	{
 		parent::set_body_data();
-		
+
 		$this->set_body('title', $this->post['title']);
 		$this->set_body('view', 'Post');
 		$this->set_body('data', array(
@@ -90,7 +90,7 @@ final class PostController extends DefaultPageController
 		$description = $this->post['body'];
 		$description = strip_tags($description);
 		$description = Content::instance('SmartTrim', $description)->activate(self::$PAGE_DESCRIPTION_LIMIT);
-		
+
 		return $description;
 	}
 
@@ -98,15 +98,15 @@ final class PostController extends DefaultPageController
 	{
 		$keyword_array = array();
 		$keywords = $this->tags;
-		
+
 		foreach($keywords as $keyword)
 		{
 			$keyword_array[] = $keyword['tag'];
 		}
-		
+
 		$keyword_array[] = 'blog';
 		$keyword_array[] = 'Jacob Emerick';
-		
+
 		return $keyword_array;
 	}
 
@@ -115,10 +115,10 @@ final class PostController extends DefaultPageController
 		$series_posts = $this->fetch_series_posts();
 		if(count($series_posts) < 1)
 			return array();
-		
+
 		$previous_post = new stdclass();
 		$next_post = new stdclass();
-		
+
 		$found_current_post = false;
 		foreach($series_posts as $post_row)
 		{
@@ -127,7 +127,7 @@ final class PostController extends DefaultPageController
 				$found_current_post = true;
 				continue;
 			}
-			
+
 			$post = new stdclass();
 
       if (
@@ -139,7 +139,8 @@ final class PostController extends DefaultPageController
         strpos($post_row['title'], 'Copper Camp Loop') === 0 ||
         strpos($post_row['title'], 'Across the Mazatzals') === 0 ||
         strpos($post_row['title'], 'Upper Mazzie Loop') === 0 ||
-        strpos($post_row['title'], 'Moody-Coon Loop') === 0
+        strpos($post_row['title'], 'Moody-Coon Loop') === 0 ||
+        strpos($post_row['title'], 'Intro to Blue Range') === 0
       ) {
         $title = $post_row['title'];
         $title = explode(':', $title);
@@ -157,7 +158,7 @@ final class PostController extends DefaultPageController
 			}
 
 			$post->url = Loader::getRootUrl('blog') . "{$post_row['category']}/{$post_row['path']}/";
-			
+
 			if(!$found_current_post)
 				$previous_post = $post;
 			else
@@ -166,7 +167,7 @@ final class PostController extends DefaultPageController
 				break;
 			}
 		}
-		
+
 		return array(
 			'title' => $post_row['series_title'],
 			'description' => Content::instance('FixInternalLink', $post_row['series_description'])->activate(),
@@ -192,7 +193,7 @@ final class PostController extends DefaultPageController
 		{
 			$tag_array[] = $tag['id'];
 		}
-		
+
 		$series_posts = $this->fetch_series_posts();
 		$exclude_post_array = array();
 		foreach($series_posts as $series_post)
@@ -205,7 +206,7 @@ final class PostController extends DefaultPageController
         $post_result = $repository->getActivePostsByRelatedTags($this->post['id']);
 
         $post_array = array();
-		
+
 		foreach($post_result as $post_row)
 		{
 			$post = new stdclass();
@@ -214,10 +215,10 @@ final class PostController extends DefaultPageController
 			$post->category = ucwords(str_replace('-', ' ', $post_row['category']));
 			$post->thumb = Content::instance('FetchFirstPhoto', $post_row['body'])->activate();
 			$post->body = Content::instance('SmartTrim', $post_row['body'])->activate(($post->thumb !== '') ? self::$POST_LENGTH_SHORT : self::$POST_LENGTH_LONG);
-			
+
 			$post_array[] = $post;
 		}
-		
+
 		return $post_array;
 	}
 }
