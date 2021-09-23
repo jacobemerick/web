@@ -6,7 +6,7 @@ abstract class PageController
 {
 
 	private static $TRACKING_CODE = 'UA-11745070-1';
-	
+
 	protected static $DEPRECATED_BLOGS = array(
 		10 => 63,
 		55 => 67,
@@ -27,10 +27,10 @@ abstract class PageController
 	public function __construct()
 	{
 		$this->set_header_method('sendHTML');
-		
+
 		$this->set_head('google_verification', 'sgAISiuoWfK54KXnOfm2oU4vQdad8eyNCQX7LkZ1OxM');
 		$this->set_head('bing_verification', 'AF1A4CEA30A7589590E9294C4B512607');
-		
+
 		$this->set_body('domain_container', $this->get_domain_container());
 		$this->set_body('footer', array(
 			'link' => Loader::getRootUrl('site'),
@@ -41,14 +41,14 @@ abstract class PageController
 	protected function get_domain_container()
 	{
 		$domain_container = new stdclass();
-		
+
 		$domain_container->blog = Loader::getRootUrl('blog');
 		$domain_container->home = Loader::getRootUrl('home');
 		$domain_container->lifestream = Loader::getRootUrl('lifestream');
 		$domain_container->map = Loader::getRootUrl('map');
 		$domain_container->portfolio = Loader::getRootUrl('portfolio');
 		$domain_container->waterfalls = Loader::getRootUrl('waterfalls');
-		
+
 		return $domain_container;
 	}
 
@@ -89,9 +89,9 @@ abstract class PageController
 		$this->set_head_data();
 		$this->set_body_data();
 		$this->set_data();
-		
+
 		$this->load_assets();
-		
+
 		$headers = $this->headers;
 		Header::$headers();
 		Loader::load('view', '/Head', $this->data_array['head']);
@@ -102,13 +102,13 @@ abstract class PageController
 			else
 				Loader::load('view', URLDecode::getSite() . '/' . $view, $this->data_array['body']);
 		}
-        
+
         if (URLDecode::getSite() == 'waterfalls') {
             Loader::load('view', '/WaterfallFoot');
         } else {
             Loader::load('view', '/Foot', array('tracking_code' => self::$TRACKING_CODE));
         }
-		
+
 		if($view == '/404' || $view == '/503')
 			exit;
 	}
@@ -137,7 +137,7 @@ abstract class PageController
 	{
 		$this->set_head('keywords', implode(', ', $array));
 	}
-	
+
 	protected function set_canonical($url)
 	{
 		$this->set_head('canonical', $url);
@@ -178,7 +178,7 @@ abstract class PageController
       }
       return "/js/{$script}.min.js";
     }, $this->js_array);
-		
+
 		$this->set_head('css_link_array', $css_array);
 		$this->set_head('js_link_array', $js_array);
 	}
@@ -218,15 +218,15 @@ abstract class PageController
 	final protected function get_parsed_date($date)
 	{
 		$parsed_date = new stdclass();
-		
+
 		$parsed_date->stamp = date('c', strtotime($date));
 		$parsed_date->friendly = date('F j, Y', strtotime($date));
 		$parsed_date->elapsed = Content::instance('ElapsedTime', $date)->activate();
-		
+
 		return $parsed_date;
 	}
 
-	private $comment_errors;
+	private $comment_errors = array();
 	protected function handle_comment_submit($site_id, $path, $redirect_url, $page_title)
 	{
 		if(Request::hasPost() && Request::getPost('submit') == 'Submit Comment')
@@ -234,7 +234,7 @@ abstract class PageController
 			$parameters = array($site_id, $path, $redirect_url, $page_title);
 			$this->comment_errors = Loader::loadNew('module', 'form/CommentSubmitModule', $parameters)->activate();
 		}
-		
+
 		return;
 	}
 
