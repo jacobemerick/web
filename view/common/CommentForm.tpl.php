@@ -21,7 +21,7 @@
 			</li>
 			<li>
 				<input type="hidden" name="type" value="<?= (isset($comment)) ? $comment->id : 'new' ?>" />
-				<input type="submit" name="submit" value="Submit Comment" /> or 
+				<input type="submit" name="submit" value="Submit Comment" /> or
 				<input type="reset" name="reset" value="Discard" onclick="document.getElementById('<?= (isset($comment)) ? "comment-form-{$comment->id}" : 'comment-form-new' ?>').style.display = 'none'; return true;" />
 			</li>
 		</ul>
