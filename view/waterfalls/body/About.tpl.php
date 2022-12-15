@@ -10,7 +10,6 @@
 <div class="sidebar">
 	<h4>Contact Jacob</h4>
 	<ul>
-		<li><a href="/contact/">Contact Form</a></li>
 		<li><a href="https://twitter.com/jpemeric">Twitter</a></li>
 		<li><a href="https://www.facebook.com/jacobemerick">Facebook</a></li>
 	</ul>

@@ -14,10 +14,7 @@ abstract class DefaultPageController extends PageController
 			'uri' => 'terms'),
 		array(
 			'name' => 'Change Log',
-			'uri' => 'change-log'),
-		array(
-			'name' => 'Contact',
-			'uri' => 'contact'));
+			'uri' => 'change-log'));
 
 	protected function set_head_data()
 	{

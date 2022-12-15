@@ -39,10 +39,6 @@ abstract class DefaultPageController extends PageController
                 'name' => 'Résumé',
                 'link' => Loader::getRootURL() . 'resume/',
             ],
-            [
-                'name' => 'Contact',
-                'link' => Loader::getRootURL() . 'contact/',
-            ],
         ];
 
         if (!URLDecode::getPiece(1)) {
