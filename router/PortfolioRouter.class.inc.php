@@ -39,10 +39,6 @@ class PortfolioRouter extends Router
                 'controller' => 'AboutController',
             ],
             [
-                'match' => '/contact/',
-                'controller' => 'ContactController',
-            ],
-            [
                 'match' => '/projects/',
                 'controller' => 'ProjectsController',
             ],
