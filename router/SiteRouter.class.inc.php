@@ -25,9 +25,7 @@ class SiteRouter extends Router
 			(object) array(
 				'match' => '/change-log/',
 				'controller' => 'ChangelogController'),
-			(object) array(
-				'match' => '/contact/',
-				'controller' => 'ContactController'));
+		);
 	}
 
 }

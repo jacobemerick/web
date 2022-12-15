@@ -199,10 +199,7 @@ class WaterfallRouter extends Router
 				'controller' => 'LogTagListController'),
 			(object) array(
 				'match' => '/about/',
-				'controller' => 'AboutController'),
-			(object) array(
-				'match' => '/contact/',
-				'controller' => 'ContactController'));
+				'controller' => 'AboutController'));
 	}
 
 }
